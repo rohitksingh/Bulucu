@@ -21,7 +21,6 @@ import com.freewifi.rohksin.freewifi.Adapters.WifiListAdapter;
 public class OpenWifiListFragment extends WifiFragment {
 
 
-
     @Override
     public View provideYourView(LayoutInflater inflater , ViewGroup parent ,Bundle savedInstanceState) {
 

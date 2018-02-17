@@ -18,10 +18,8 @@
 
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
-
+            android:name=".Activities.WifiDetailActivity"
+            android:label="Detail">
         </activity>
         <activity android:name=".Activities.WifiPagerActivity">
             <intent-filter>
@@ -29,8 +27,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+        <service android:name=".WifiSignalService"/>
     </application>
 
 </manifest>

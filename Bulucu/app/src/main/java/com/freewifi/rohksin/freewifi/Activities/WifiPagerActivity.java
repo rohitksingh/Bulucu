@@ -15,12 +15,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.freewifi.rohksin.freewifi.Fragments.AllWifiListFragment;
 import com.freewifi.rohksin.freewifi.Fragments.OpenWifiListFragment;
-import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Fragments.WifiFragment;
+import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Adapters.WifiPagerAdapter;
 
 import java.util.ArrayList;
@@ -31,11 +30,11 @@ import java.util.List;
  */
 public class WifiPagerActivity extends AppCompatActivity {
 
-    private WifiPagerAdapter adapter;
-    private ViewPager pager;
-    private FragmentManager manager;
     private TabLayout tabLayout;
+    private ViewPager pager;
+    private WifiPagerAdapter adapter;
 
+    private FragmentManager manager;
     public static List<ScanResult> openNetwork;
     public static List<ScanResult> scanResults;
 
@@ -48,36 +47,15 @@ public class WifiPagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wifi_pager_activity);
 
-        pager = (ViewPager)findViewById(R.id.wifiViewPager);
-
-        wifimanager = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        manager = getSupportFragmentManager();
-
-        registerReceiver(new WifiList(),new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        wifimanager.startScan();
-
-        WifiFragment protectedNetworkFragment = new AllWifiListFragment().newInstance();
-
-        WifiFragment openNetworkFragment = new OpenWifiListFragment().newInstance();
-
-
-        List<Fragment> fragments = new ArrayList<Fragment>();
-
-        // if(openNetwork!=null)
-
-
-        fragments.add(openNetworkFragment);
-        fragments.add(protectedNetworkFragment);
-
-
-
-        adapter = new WifiPagerAdapter(manager,WifiPagerActivity.this,fragments);
-        pager.setAdapter(adapter);
-        tabLayout = (TabLayout)findViewById(R.id.swipeTabs);
-        tabLayout.setupWithViewPager(pager);
+        registerWifiObserver();
+        setUpTabs();
 
     }
 
+
+    //***************************************************************************************//
+    //               Run time permission (Needed for Android.M and Above)                    //
+    //***************************************************************************************//
 
     @Override
     public void onResume()
@@ -91,72 +69,79 @@ public class WifiPagerActivity extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 87);
             }
         }
+    }
 
+    //******************************************************************************************//
+    //                        Private Helper Methods                                            //
+    //******************************************************************************************//
+
+    private void registerWifiObserver()
+    {
+        wifimanager = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);   // After Android.N should be called with Application Context to avoid memory leak
+        wifimanager.startScan();
+        registerReceiver(new WifiList(),new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
     }
 
 
-    public class WifiList extends BroadcastReceiver {
+    private void setUpTabs()
+    {
+        manager = getSupportFragmentManager();
+        adapter = new WifiPagerAdapter(manager,WifiPagerActivity.this,getTabFragments());
+        pager = (ViewPager)findViewById(R.id.wifiViewPager);
+        pager.setAdapter(adapter);
+        tabLayout = (TabLayout)findViewById(R.id.swipeTabs);
+        tabLayout.setupWithViewPager(pager);
+    }
+
+    private List<Fragment> getTabFragments()
+    {
+        WifiFragment protectedNetworkFragment = new AllWifiListFragment().newInstance();
+        WifiFragment openNetworkFragment = new OpenWifiListFragment().newInstance();
+        List<Fragment> fragments = new ArrayList<Fragment>();
+        fragments.add(openNetworkFragment);
+        fragments.add(protectedNetworkFragment);
+        return fragments;
+    }
 
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //check intent
-            //Do work
-            Log.d("rohit", "Inside");
+    private void getScanResults()
+    {
+        scanResults = wifimanager.getScanResults();
+        openNetwork= new ArrayList<ScanResult>();
 
-            if(intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
+        for(ScanResult result : scanResults)
+        {
+            if(!isProtectedNetwork(result.capabilities))
             {
-
-                Log.d("rohit", "Inside method");
-
-
-                scanResults = wifimanager.getScanResults();
-
-                Log.d("rohit", scanResults.size()+"Sizeofresults");
-
-
-                openNetwork= new ArrayList<ScanResult>();
-
-                for(ScanResult result : scanResults)
-                {
-
-                    if(!isProtectedNetwork(result.capabilities))
-                    {
-                        openNetwork.add(result);
-                    }
-
-                }
-
-
-                WifiFragment protectedNetworkFragment = new AllWifiListFragment().newInstance();
-
-                WifiFragment openNetworkFragment = new OpenWifiListFragment().newInstance();
-
-
-                List<Fragment> fragments = new ArrayList<Fragment>();
-
-               // if(openNetwork!=null)
-
-
-                fragments.add(openNetworkFragment);
-                fragments.add(protectedNetworkFragment);
-
-
-
-                adapter = new WifiPagerAdapter(manager,WifiPagerActivity.this,fragments);
-                pager.setAdapter(adapter);
-                tabLayout = (TabLayout)findViewById(R.id.swipeTabs);
-                tabLayout.setupWithViewPager(pager);
-
-
+                openNetwork.add(result);
             }
-
         }
     }
 
-    public boolean isProtectedNetwork(String capability)
+    private boolean isProtectedNetwork(String capability)
     {
         return (capability.contains("WPA") || capability.contains("WEP") || capability.contains("WPS"));
+    }
+
+
+    //************************************************************************************//
+    //               BroadCastReceiver                                                    //
+    //************************************************************************************//
+
+    public class WifiList extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if(intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
+            {
+                getScanResults();
+
+                adapter.notifyDataSetChanged();
+                pager.setAdapter(adapter);
+            }
+
+        }
     }
 
 }

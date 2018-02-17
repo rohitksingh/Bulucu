@@ -11,18 +11,13 @@ import android.view.ViewGroup;
  */
 public abstract class WifiFragment extends Fragment {
 
-
-
     public WifiFragment newInstance()
     {
         Bundle bundle = new Bundle();
-
         WifiFragment fragment = provideYourFragment();
-
         fragment.setArguments(bundle);
 
         return fragment;
-
     }
 
     public void onCreate(Bundle savedInstanceState)
@@ -30,9 +25,9 @@ public abstract class WifiFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    public View onCreateView(LayoutInflater inflater,ViewGroup parent,Bundle savedxInstanceState)
+    public View onCreateView(LayoutInflater inflater,ViewGroup parent,Bundle savedInstanceState)
     {
-        View view = provideYourView(inflater,parent,savedxInstanceState);
+        View view = provideYourView(inflater,parent,savedInstanceState);
         return view;
     }
 

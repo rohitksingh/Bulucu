@@ -20,7 +20,6 @@ import com.freewifi.rohksin.freewifi.Adapters.WifiListAdapter;
 public class AllWifiListFragment extends WifiFragment {
 
 
-
     @Override
     public View provideYourView(LayoutInflater inflater , ViewGroup parent ,Bundle savedInstanceState) {
 
@@ -29,12 +28,10 @@ public class AllWifiListFragment extends WifiFragment {
         RelativeLayout layout = (RelativeLayout)view;
         RecyclerView recyclerView = (RecyclerView)layout.findViewById(R.id.rv);
 
-        Log.d("rohit", "inProvideYourView " + WifiPagerActivity.scanResults);
 
         if(WifiPagerActivity.scanResults!=null)
         {
             WifiListAdapter adapter = new WifiListAdapter(getContext(),WifiPagerActivity.scanResults);
-            // WifiListAdapter adapter = new WifiListAdapter(getContext(),DataProvider.getOpenData());
             LinearLayoutManager llm = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(llm);
             recyclerView.setAdapter(adapter);
@@ -46,7 +43,6 @@ public class AllWifiListFragment extends WifiFragment {
 
     @Override
     public WifiFragment provideYourFragment() {
-        Log.d("rohit", "inProvideYourFragment");
 
         return new AllWifiListFragment();
     }

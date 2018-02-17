@@ -1,16 +1,17 @@
 package com.freewifi.rohksin.freewifi.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.freewifi.rohksin.freewifi.Connect;
+import com.freewifi.rohksin.freewifi.Activities.WifiDetailActivity;
+import com.freewifi.rohksin.freewifi.WifiUtility;
 import com.freewifi.rohksin.freewifi.R;
 
 import java.util.List;
@@ -23,45 +24,40 @@ public class WifiListAdapter extends RecyclerView.Adapter<WifiListAdapter.WifiVi
     private List<ScanResult> wifiList;
     private Context context;
 
-    private List<String> testData;
-
     public WifiListAdapter(Context context,List<ScanResult> wifiList)
     {
         this.context = context;
-        //this.wifiList = wifiList;
-        Log.d("Rohit", "Inside list Adapter checklist"+(wifiList==null));
-        //testData = wifiList;
         this.wifiList = wifiList;
-        //Log.d("Rohit", "wifilist null"+(wifiList==null));
-/*        if(wifiList.size()>0)
-        {
-            Vibrator vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
-            vibrator.vibrate(1000);
-        }
-     */
     }
 
     @Override
     public WifiViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_wifi_layout,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.wifi_item,parent,false);
         return new WifiViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(WifiViewHolder holder, int position) {
-       final ScanResult wifi = wifiList.get(position);
-        //final String data = testData.get(position);
-        holder.wifiName.setText(wifi.SSID);
-       // holder.wifiSecurity.setText(wifi.capabilities);
 
-        holder.view.setOnClickListener(new View.OnClickListener() {
+        final ScanResult wifi = wifiList.get(position);
+        holder.wifiName.setText(wifi.SSID);
+
+        holder.connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(context,wifi.SSID,Toast.LENGTH_LONG).show();
 
-                new Connect(context,wifi);
+                WifiUtility.connect(context, wifi);
+            }
+        });
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent openWifiDetailIntent = new Intent(context, WifiDetailActivity.class);
+                WifiUtility.setInspectWifi(wifi);
+                context.startActivity(openWifiDetailIntent);
             }
         });
 
@@ -74,22 +70,15 @@ public class WifiListAdapter extends RecyclerView.Adapter<WifiListAdapter.WifiVi
 
     public class WifiViewHolder extends RecyclerView.ViewHolder{
 
-        private ImageView image;
         private TextView wifiName;
-        private TextView wifiSecurity;
-        private View view;
+        private Button connect;
 
         public WifiViewHolder(View view)
         {
             super(view);
-            this.view = view;
-            image = (ImageView)view.findViewById(R.id.image);
+
             wifiName = (TextView)view.findViewById(R.id.wifiName);
-            wifiSecurity = (TextView)view.findViewById(R.id.wifiType);
-
+            connect = (Button) view.findViewById(R.id.connect);
         }
-
-
-
     }
 }
