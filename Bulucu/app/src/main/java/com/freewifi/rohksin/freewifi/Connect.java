@@ -26,9 +26,7 @@ public class Connect {
             manager.setWifiEnabled(true);
 
         manager.disconnect();
-
         manager.enableNetwork(networkId,true);
-
         manager.reconnect();
 
 

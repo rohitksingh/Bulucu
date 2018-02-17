@@ -1,11 +1,14 @@
-package com.freewifi.rohksin.freewifi;
+package com.freewifi.rohksin.freewifi.Activities;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,6 +16,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import com.freewifi.rohksin.freewifi.Fragments.AllWifiListFragment;
+import com.freewifi.rohksin.freewifi.Fragments.OpenWifiListFragment;
+import com.freewifi.rohksin.freewifi.R;
+import com.freewifi.rohksin.freewifi.Fragments.WifiFragment;
+import com.freewifi.rohksin.freewifi.Adapters.WifiPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +36,10 @@ public class WifiPagerActivity extends AppCompatActivity {
     private FragmentManager manager;
     private TabLayout tabLayout;
 
-    static List<ScanResult> openNetwork;
-    static List<ScanResult> scanResults;
+    public static List<ScanResult> openNetwork;
+    public static List<ScanResult> scanResults;
 
-    private WifiManager wifimanager;
+    public  WifiManager wifimanager;
 
 
     @Override
@@ -70,6 +79,22 @@ public class WifiPagerActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            if(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 87);
+            }
+        }
+
+    }
+
+
     public class WifiList extends BroadcastReceiver {
 
 
@@ -84,20 +109,17 @@ public class WifiPagerActivity extends AppCompatActivity {
 
                 Log.d("rohit", "Inside method");
 
-                //openNetwork =  new ArrayList<ScanResult>();
 
                 scanResults = wifimanager.getScanResults();
 
-
-               // Log.d("rohit", "ScanResult empty?"+(scanResults==null));
+                Log.d("rohit", scanResults.size()+"Sizeofresults");
 
 
                 openNetwork= new ArrayList<ScanResult>();
 
                 for(ScanResult result : scanResults)
                 {
-                    //ScanResult wifi = new Wifi();
-                    //String capability = result.capabilities;
+
                     if(!isProtectedNetwork(result.capabilities))
                     {
                         openNetwork.add(result);

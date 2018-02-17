@@ -1,6 +1,8 @@
-package com.freewifi.rohksin.freewifi;
+package com.freewifi.rohksin.freewifi.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,11 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.freewifi.rohksin.freewifi.Activities.WifiPagerActivity;
+import com.freewifi.rohksin.freewifi.R;
+import com.freewifi.rohksin.freewifi.Adapters.WifiListAdapter;
+
 /**
  * Created by Illuminati on 5/7/2017.
  */
-
-public class AllWifiListFragment extends WifiFragment {
+public class OpenWifiListFragment extends WifiFragment {
 
 
 
@@ -27,9 +32,14 @@ public class AllWifiListFragment extends WifiFragment {
 
         Log.d("rohit", "inProvideYourView " + WifiPagerActivity.scanResults);
 
-        if(WifiPagerActivity.scanResults!=null)
+
+        if( WifiPagerActivity.openNetwork != null && WifiPagerActivity.openNetwork.size()>0)
         {
-            WifiListAdapter adapter = new WifiListAdapter(getContext(),WifiPagerActivity.scanResults);
+
+
+            Vibrator vibrator = (Vibrator)getContext().getSystemService(Context.VIBRATOR_SERVICE);
+            vibrator.vibrate(500);
+            WifiListAdapter adapter = new WifiListAdapter(getContext(),WifiPagerActivity.openNetwork);
             // WifiListAdapter adapter = new WifiListAdapter(getContext(),DataProvider.getOpenData());
             LinearLayoutManager llm = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(llm);
@@ -44,7 +54,7 @@ public class AllWifiListFragment extends WifiFragment {
     public WifiFragment provideYourFragment() {
         Log.d("rohit", "inProvideYourFragment");
 
-        return new AllWifiListFragment();
+        return new OpenWifiListFragment();
     }
 
 }
