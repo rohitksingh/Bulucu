@@ -5,6 +5,8 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 
+import java.util.List;
+
 /**
  * Created by Illuminati on 5/6/2017.
  */
@@ -13,6 +15,10 @@ public class WifiUtility {
     private static WifiManager manager;
     private static WifiConfiguration configuration;
     private static ScanResult inspectWifi;
+    private static WifiManager singletonWifiManager;
+
+
+    private static List<ScanResult> scanResults;
 
 
     public static void connect(Context context, ScanResult scanResult)
@@ -65,6 +71,17 @@ public class WifiUtility {
     }
 
 
+    public static WifiManager getSingletonWifiManager(Context context)
+    {
+        if(singletonWifiManager !=null)
+        {
+            return singletonWifiManager;
+        }
+        else {
+            singletonWifiManager = (WifiManager)context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            return singletonWifiManager;
+        }
+    }
 
 
 

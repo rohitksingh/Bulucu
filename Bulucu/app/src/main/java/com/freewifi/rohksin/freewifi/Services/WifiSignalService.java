@@ -1,4 +1,4 @@
-package com.freewifi.rohksin.freewifi;
+package com.freewifi.rohksin.freewifi.Services;
 
 import android.app.IntentService;
 import android.content.Context;

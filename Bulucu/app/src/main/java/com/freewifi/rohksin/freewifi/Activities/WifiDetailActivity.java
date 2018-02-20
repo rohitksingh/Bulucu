@@ -3,7 +3,6 @@ package com.freewifi.rohksin.freewifi.Activities;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,8 +10,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.R;
-import com.freewifi.rohksin.freewifi.WifiSignalService;
-import com.freewifi.rohksin.freewifi.WifiUtility;
+import com.freewifi.rohksin.freewifi.Services.WifiSignalService;
 
 /**
  * Created by Illuminati on 2/17/2018.
@@ -51,7 +49,7 @@ public class WifiDetailActivity extends AppCompatActivity {
        // registerReceiver(new WifiSignalReceiver(), new IntentFilter("HI"));
        // startService(new Intent(this, WifiSignalService.class));
 
-        
+
 
 
     }

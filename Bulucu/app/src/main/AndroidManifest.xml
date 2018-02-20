@@ -22,13 +22,20 @@
             android:label="Detail">
         </activity>
         <activity android:name=".Activities.WifiPagerActivity">
+
+        </activity>
+        <activity android:name=".Activities.ScanSurrounding">
+
+        </activity>
+        <activity android:name=".Activities.WifiMainActiity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".WifiSignalService"/>
+        <service android:name=".Services.WifiSignalService"/>
+        <service android:name=".Services.ScanWifiService"/>
     </application>
 
 </manifest>
