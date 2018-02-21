@@ -13,15 +13,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.freewifi.rohksin.freewifi.Adapters.StringAdapter;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Services.ScanWifiService;
 import com.freewifi.rohksin.freewifi.WifiUtility;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -55,6 +59,11 @@ public class ScanSurrounding extends AppCompatActivity {
     private List<String> scanResults;
 
     private Button scanButton;
+
+
+    private Menu menu;
+
+    MenuItem item;
 
 
 
@@ -100,7 +109,7 @@ public class ScanSurrounding extends AppCompatActivity {
                     scanButton.setText("STOP");
                 }
                 else {
-                    task.cancel(true);
+                    task.cancel(false);
                     SCAN_RUNNING = false;
                     scanButton.setText("START");
                 }
@@ -112,14 +121,47 @@ public class ScanSurrounding extends AppCompatActivity {
 
 
 
-
-       // task.cancel(true);
-
-
-
-
-
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.scan_surrounding_menu,menu);
+        this.menu = menu;
+        item = menu.findItem(R.id.numOfWifi);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+
+        int id = item.getItemId();
+
+        switch (id)
+        {
+            case R.id.numOfWifi:
+            {
+                Toast.makeText(this, "Num Of Wifi", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.addToDataBase:
+            {
+                Toast.makeText(this, "save", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            default:
+                Toast.makeText(this, "Default", Toast.LENGTH_SHORT).show();
+
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
 
 
 
@@ -159,8 +201,8 @@ public class ScanSurrounding extends AppCompatActivity {
                 scanResults = new ArrayList<String>(uniqueScanResult);
 
                 ////
-
-                Collections.sort(scanResults);
+                // Sorting disabled
+               // Collections.sort(scanResults);
                 publishProgress("");
             }
 
@@ -172,7 +214,7 @@ public class ScanSurrounding extends AppCompatActivity {
 
         public void onProgressUpdate(String ... param)
         {
-            //textView.setText(param[0]+"");
+
 
 
             Log.d("Log", scanResults.size()+"");
@@ -181,6 +223,8 @@ public class ScanSurrounding extends AppCompatActivity {
 
             // TEMP
 
+            item.setTitle(scanResults.size()+"");
+            
             adapter = new StringAdapter(ScanSurrounding.this, scanResults);
             rv.setAdapter(adapter);
 
