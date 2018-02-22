@@ -224,7 +224,7 @@ public class ScanSurrounding extends AppCompatActivity {
             // TEMP
 
             item.setTitle(scanResults.size()+"");
-            
+
             adapter = new StringAdapter(ScanSurrounding.this, scanResults);
             rv.setAdapter(adapter);
 

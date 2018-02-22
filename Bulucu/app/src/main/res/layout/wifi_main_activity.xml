@@ -2,12 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:id="@+id/parentPanel"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bulucuBlack"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="60dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,21 +20,22 @@
             >
             <ImageView
                 android:id="@+id/openNetwork"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:drawable/ic_delete"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/open_network"
                 />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/colorAccent"
-                android:layout_margin="10dp"
+                android:background="#ffffff"
+                style="@style/Line"
                 />
             <TextView
                 android:id="@+id/open"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No Network"
+                android:textColor="#ffffff"
                 />
         </LinearLayout>
         <LinearLayout
@@ -44,21 +47,23 @@
             >
             <ImageView
                 android:id="@+id/closeNetwork"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:drawable/btn_star_big_on"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/closed_network"
 
                 />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/colorAccent"
-                android:layout_margin="10dp"/>
+                android:background="#ffffff"
+                style="@style/Line"
+                />
             <TextView
                 android:id="@+id/close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ShadowX"
+                android:textColor="#ffffff"
                 />
         </LinearLayout>
     </LinearLayout>

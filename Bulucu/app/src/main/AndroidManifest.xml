@@ -27,7 +27,9 @@
         <activity android:name=".Activities.ScanSurrounding">
 
         </activity>
-        <activity android:name=".Activities.WifiMainActiity">
+        <activity android:name=".Activities.WifiMainActiity"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

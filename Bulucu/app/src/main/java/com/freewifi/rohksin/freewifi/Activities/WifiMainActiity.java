@@ -15,8 +15,10 @@ import android.view.View;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.freewifi.rohksin.freewifi.CallbackListeners.ListItemListener;
 import com.freewifi.rohksin.freewifi.Fragments.OpenFragment;
 import com.freewifi.rohksin.freewifi.Fragments.OpenWifiListFragment;
+import com.freewifi.rohksin.freewifi.Fragments.WifiDetailFragment;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.WifiUtility;
 
@@ -29,7 +31,7 @@ import java.util.List;
  * Created by Illuminati on 2/17/2018.
  */
 
-public class WifiMainActiity extends AppCompatActivity{
+public class WifiMainActiity extends AppCompatActivity implements ListItemListener{
 
 
     private TextView openNetwork;
@@ -43,6 +45,9 @@ public class WifiMainActiity extends AppCompatActivity{
     private List<ScanResult> allScanResults;
     private List<ScanResult> openScanResults;
     private List<ScanResult> closeScanResults;
+
+
+    private OpenFragment openFragment;
 
 
     @Override
@@ -61,6 +66,8 @@ public class WifiMainActiity extends AppCompatActivity{
 
         fragmentManager = getSupportFragmentManager();
 
+        openFragment = new OpenFragment().getInstance();
+
 
         openNetwork = (TextView)findViewById(R.id.open);
         closedNetwork = (TextView)findViewById(R.id.close);
@@ -70,7 +77,8 @@ public class WifiMainActiity extends AppCompatActivity{
             public void onClick(View v) {
 
                 fragmentManager.beginTransaction()
-                        .add(R.id.parentPanel, new OpenFragment().getInstance())
+                        .add(R.id.parentPanel, openFragment)
+                        .addToBackStack(null)
                         .commit();
 
             }
@@ -159,6 +167,9 @@ public class WifiMainActiity extends AppCompatActivity{
         {
              ScanResult scan = closeScanResults.get(0);
 
+            if(openFragment!=null)
+            openFragment.setUpList(closeScanResults);
+
             if(scan == null)
             {
                 Log.d("ISNULL", "YES");
@@ -187,6 +198,24 @@ public class WifiMainActiity extends AppCompatActivity{
 
 
 
+
+    public void openWifiDetail(ScanResult scanResult)
+    {
+        WifiDetailFragment detailFragment = new WifiDetailFragment().getInstance();
+
+        fragmentManager.beginTransaction()
+                .add(R.id.fragmentContainer, detailFragment)
+                .commit();
+
+        detailFragment.update(scanResult.SSID);
+    }
+
+
+    @Override
+    public void itemClick(ScanResult scanResult)
+    {
+        openWifiDetail(scanResult);
+    }
 
 
 }
