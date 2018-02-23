@@ -15,6 +15,7 @@ import com.freewifi.rohksin.freewifi.Adapters.OpenWifiListAdapter;
 import com.freewifi.rohksin.freewifi.Adapters.StringAdapter;
 import com.freewifi.rohksin.freewifi.R;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +81,7 @@ public class OpenFragment extends Fragment {
         adapter = new OpenWifiListAdapter(context, list);
         rv.setAdapter(adapter);
     }
+
 
 
 }
