@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="50dp">
+    <ImageView
+        android:id="@+id/wifiImage"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/closed_network"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="30dp"
+        />
     <TextView
         android:id="@+id/wifiName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/wifiImage"
         android:text="SSID"
         android:layout_centerVertical="true"
-        android:padding="10dp"
-        android:textSize="20sp"
+        android:textColor="#ffffff"
         />
-    <Button
+    <TextView
         android:id="@+id/connect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,5 +30,6 @@
         android:text="Connect"
         android:layout_alignParentRight="true"
         android:layout_alignBaseline="@id/wifiName"
-        />
+        android:textColor="#ffffff"
+         />
 </RelativeLayout>

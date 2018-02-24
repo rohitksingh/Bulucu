@@ -38,8 +38,4 @@ public class WifiDetailFragment extends Fragment {
     }
 
 
-    public void update(String value)
-    {
-        textView.setText(value);
-    }
 }

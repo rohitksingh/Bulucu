@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.R;
 
-/**
+/**5
  * Created by Illuminati on 2/23/2018.
  */
 
@@ -36,7 +36,7 @@ public class MyFragment extends Fragment implements GenericFragment{
 
     @Override
     public void doSomething() {
-        changeTextColor();
+
     }
 
     private TextView textView ;
@@ -50,6 +50,8 @@ public class MyFragment extends Fragment implements GenericFragment{
         bundle.putInt("YY",centery);
         MyFragment fragment = new MyFragment();
         fragment.setArguments(bundle);
+
+        Log.d("Coor", centerX+" "+centery);
 
         return fragment;
     }
@@ -74,10 +76,21 @@ public class MyFragment extends Fragment implements GenericFragment{
 
 
     @Override
+    public void onDestroy()
+    {
+
+
+
+        super.onDestroy();
+    }
+
+
+    @Override
     public void onDestroyView()
     {
-        setReverseAnimation(view);
+
         super.onDestroyView();
+
     }
 
     public void changeTextColor()
@@ -98,6 +111,8 @@ public class MyFragment extends Fragment implements GenericFragment{
         int startRadius = 0;
         int  endRadius = (int)Math.hypot(view.getWidth(), view.getHeight());
 
+
+
         Animator anim = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             anim = ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius, endRadius);
@@ -106,7 +121,10 @@ public class MyFragment extends Fragment implements GenericFragment{
         }
     }
 
-    private void setReverseAnimation(View view)
+
+
+
+    public void setReverseAnimation()
     {
 
         int startRadius = 0;
@@ -118,6 +136,33 @@ public class MyFragment extends Fragment implements GenericFragment{
             anim.setDuration(500);
             anim.start();
         }
+
+        anim.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+                view.setVisibility(View.INVISIBLE);
+                getFragmentManager().popBackStack();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+
+
     }
 
     private void getBundleArgument(Bundle bundle)

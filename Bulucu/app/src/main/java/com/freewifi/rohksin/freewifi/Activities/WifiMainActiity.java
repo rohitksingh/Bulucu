@@ -12,12 +12,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.CallbackListeners.ListItemListener;
+import com.freewifi.rohksin.freewifi.Fragments.CloseFragment;
 import com.freewifi.rohksin.freewifi.Fragments.OpenFragment;
 import com.freewifi.rohksin.freewifi.Fragments.OpenWifiListFragment;
 import com.freewifi.rohksin.freewifi.Fragments.WifiDetailFragment;
@@ -51,6 +53,8 @@ public class WifiMainActiity extends AppCompatActivity implements ListItemListen
 
 
     private OpenFragment openFragment;
+    private CloseFragment closeFragment;
+
 
 
     private View line;
@@ -78,6 +82,7 @@ public class WifiMainActiity extends AppCompatActivity implements ListItemListen
         fragmentManager = getSupportFragmentManager();
 
         openFragment = new OpenFragment().getInstance();
+        closeFragment = new CloseFragment().getInstance();
 
 
         openNetwork = (TextView)findViewById(R.id.open);
@@ -88,10 +93,23 @@ public class WifiMainActiity extends AppCompatActivity implements ListItemListen
             public void onClick(View v) {
 
 
+                Intent intent = new Intent(WifiMainActiity.this, OpenWifiActivity.class);
+                intent.setAction("OPEN_NETWORK");
+                intent.putParcelableArrayListExtra("LIST", openScanResults);
+
+
+
+                /*
+
+
                 Log.d("String", openNetwork.getLeft()+""+openNetwork.getRight()+openNetwork.getTop()+openNetwork.getBottom());
 
-                fragment = new MyFragment().getInstanceState(openNetwork.getRight()/2, openNetwork.getBottom()/2);
-                addFragmentWithAnimation(fragment);
+               // fragment = new MyFragment().getInstanceState(openNetwork.getRight()/2, openNetwork.getBottom()/2);
+
+
+                addFragmentWithAnimation(openFragment);
+
+                */
 
             }
         });
@@ -100,8 +118,8 @@ public class WifiMainActiity extends AppCompatActivity implements ListItemListen
             @Override
             public void onClick(View v) {
                 Log.d("String", closedNetwork.getLeft()+""+closedNetwork.getRight()+closedNetwork.getTop()+closedNetwork.getBottom());
-                fragment = new MyFragment().getInstanceState(closedNetwork.getRight()/2, closedNetwork.getBottom()/2);
-                addFragmentWithAnimation(fragment);
+                //fragment = new MyFragment().getInstanceState(closedNetwork.getRight()/2, closedNetwork.getBottom()/2);
+                addFragmentWithAnimation(closeFragment);
             }
         });
 
@@ -180,16 +198,20 @@ public class WifiMainActiity extends AppCompatActivity implements ListItemListen
         if(openScanResults.size()!=0)
         {
             openNetwork.setText(openScanResults.size()+"+");
+            if(closeFragment!=null)
+            {
+                closeFragment.setUpList(openScanResults);
+            }
         }else {
             openNetwork.setText("NO Network");
         }
 
         if(closeScanResults.size()!=0)
         {
-             ScanResult scan = closeScanResults.get(0);
+            ScanResult scan = closeScanResults.get(0);
 
             if(openFragment!=null)
-            openFragment.setUpList(closeScanResults);
+                openFragment.setUpList(closeScanResults);
 
             if(scan == null)
             {
@@ -217,6 +239,22 @@ public class WifiMainActiity extends AppCompatActivity implements ListItemListen
 
 
 
+    @Override
+    public void onBackPressed()
+    {
+
+
+        Log.d("SIZE", fragmentManager.getBackStackEntryCount()+"");
+
+        fragmentManager.popBackStack();
+
+        /*
+        if(fragmentManager.getBackStackEntryCount()!=0)
+            fragment.setReverseAnimation();
+        //removeFragmentWithAnimation(fragment);
+
+        */
+    }
 
 
 
@@ -225,17 +263,18 @@ public class WifiMainActiity extends AppCompatActivity implements ListItemListen
         WifiDetailFragment detailFragment = new WifiDetailFragment().getInstance();
 
         fragmentManager.beginTransaction()
-                .add(R.id.fragmentContainer, detailFragment)
+                .add(R.id.parentPanel, detailFragment)
+                .addToBackStack(null)
                 .commit();
 
-        detailFragment.update(scanResult.SSID);
+       // detailFragment.update(scanResult.SSID);
     }
 
 
     @Override
     public void itemClick(ScanResult scanResult)
     {
-        openWifiDetail(scanResult);
+       // openWifiDetail(scanResult);
     }
 
 
@@ -249,22 +288,31 @@ public class WifiMainActiity extends AppCompatActivity implements ListItemListen
 
     public void addFragmentWithAnimation(Fragment fragment)
     {
-        fragmentManager.beginTransaction()
-                .add(R.id.parentPanel, fragment)
-                .addToBackStack(null)
-                .commit();
+
+        Log.d("Size Add", fragmentManager.getBackStackEntryCount()+"");
+
+        if(fragmentManager.getBackStackEntryCount()==0)
+        {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.parentPanel, fragment)
+                    .addToBackStack(null)
+                    .commit();
+
+            Log.d("Size Add", fragmentManager.getBackStackEntryCount()+"");
+        }
+
+
 
     }
 
 
 
 
-
-
-
-
-
 }
+
+
+
+
 
 
 

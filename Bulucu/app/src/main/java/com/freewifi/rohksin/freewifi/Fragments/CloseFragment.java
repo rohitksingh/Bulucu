@@ -14,25 +14,26 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.freewifi.rohksin.freewifi.Adapters.CloseWifiListAdapter;
 import com.freewifi.rohksin.freewifi.Adapters.OpenWifiListAdapter;
-import com.freewifi.rohksin.freewifi.Adapters.StringAdapter;
 import com.freewifi.rohksin.freewifi.R;
-import com.freewifi.rohksin.freewifi.Testing.CircularRevealFragment;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Illuminati on 2/19/2018.
+ * Created by Illuminati on 2/24/2018.
  */
 
-public class OpenFragment extends Fragment {
+public class CloseFragment extends Fragment {
+
 
 
     private RecyclerView rv;
     private LinearLayoutManager llm;
-    private OpenWifiListAdapter adapter;
+    private CloseWifiListAdapter adapter;
+
+    private TextView noNetworkAvailable;
 
     private Context context;
 
@@ -51,9 +52,9 @@ public class OpenFragment extends Fragment {
 
 
 
-    public OpenFragment getInstance()
+    public CloseFragment getInstance()
     {
-        OpenFragment fragment = new OpenFragment();
+        CloseFragment fragment = new CloseFragment();
         Bundle bundle = new Bundle();
         fragment.setArguments(bundle);
         return fragment;
@@ -71,6 +72,15 @@ public class OpenFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle bundle)
     {
         view = inflater.inflate(R.layout.scan_list_layout, parent, false);
+
+        noNetworkAvailable = (TextView)view.findViewById(R.id.noNetworkAvailable);
+
+        rv = (RecyclerView)view.findViewById(R.id.rv);
+        rv.setVisibility(View.GONE);
+        noNetworkAvailable.setVisibility(View.VISIBLE);
+        noNetworkAvailable.setText("NO Network Available");
+
+
         //textView = (TextView)view.findViewById(R.id.testText);
 
         rv = (RecyclerView)view.findViewById(R.id.rv);
@@ -78,16 +88,10 @@ public class OpenFragment extends Fragment {
 
         scanResults = new ArrayList<ScanResult>();
 
-        adapter = new OpenWifiListAdapter(context, scanResults);
+       // adapter = new OpenWifiListAdapter(context, scanResults);
         rv.setLayoutManager(llm);
-        rv.setAdapter(adapter);
+       // rv.setAdapter(adapter);
 
-        view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                //setRevealAnimation(view);
-            }
-        });
 
         return view;
     }
@@ -97,15 +101,23 @@ public class OpenFragment extends Fragment {
     {
 
 
-       // adapter.notifyDataSetChanged();
+        // adapter.notifyDataSetChanged();
+
+        if(list!= null)
+        {
+            noNetworkAvailable.setText(list.size()+">>");
+        }
+        else {
+            noNetworkAvailable.setText("No network");
+        }
 
         scanResults = list;
         //adapter.notify();
 
         Log.d("Scan Result", (scanResults==null)+"");
 
-        adapter = new OpenWifiListAdapter(context, list);
-        rv.setAdapter(adapter);
+        //adapter = new OpenWifiListAdapter(context, list);
+       // rv.setAdapter(adapter);
 
     }
 
@@ -128,9 +140,6 @@ public class OpenFragment extends Fragment {
             anim.start();
         }
     }
-
-
-
 
 
 
