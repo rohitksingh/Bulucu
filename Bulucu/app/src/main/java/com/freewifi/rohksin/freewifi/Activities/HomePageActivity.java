@@ -1,7 +1,6 @@
 package com.freewifi.rohksin.freewifi.Activities;
 
 import android.Manifest;
-import android.animation.Animator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,27 +10,14 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.widget.LinearLayout;
-import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.freewifi.rohksin.freewifi.CallbackListeners.ListItemListener;
-import com.freewifi.rohksin.freewifi.Fragments.CloseFragment;
-import com.freewifi.rohksin.freewifi.Fragments.OpenFragment;
-import com.freewifi.rohksin.freewifi.Fragments.OpenWifiListFragment;
-import com.freewifi.rohksin.freewifi.Fragments.WifiDetailFragment;
 import com.freewifi.rohksin.freewifi.R;
-import com.freewifi.rohksin.freewifi.Testing.MyFragment;
-import com.freewifi.rohksin.freewifi.WifiUtility;
-
-import org.w3c.dom.Text;
+import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +26,7 @@ import java.util.List;
  * Created by Illuminati on 2/17/2018.
  */
 
-public class WifiMainActiity extends AppCompatActivity{
+public class HomePageActivity extends AppCompatActivity{
 
 
     private TextView openNetwork;
@@ -52,8 +38,6 @@ public class WifiMainActiity extends AppCompatActivity{
     private LinearLayout openWifiContainer;
     private LinearLayout closeWifiContainer;
 
-
-
     private WifiManager manager;
     private List<ScanResult> allScanResults;
     private List<ScanResult> openScanResults;
@@ -64,32 +48,35 @@ public class WifiMainActiity extends AppCompatActivity{
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.wifi_main_activity);
-
-        registerReceiver(new WifiScanReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-
+        setContentView(R.layout.home_page_activity_layout);
 
         manager = WifiUtility.getSingletonWifiManager(this);
+        registerReceiver(new WifiScanReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         manager.startScan();
 
+        setUpUI();
+
+    }
+
+
+    private void setUpUI()
+    {
         openNetwork = (TextView)findViewById(R.id.open);
         closedNetwork = (TextView)findViewById(R.id.close);
         openNum = (TextView)findViewById(R.id.openNum);
         closeNum = (TextView)findViewById(R.id.closeNum);
-
         openWifiContainer = (LinearLayout)findViewById(R.id.openContainer);
         closeWifiContainer = (LinearLayout)findViewById(R.id.closeContainer);
+        scanNow = (TextView)findViewById(R.id.scanNow);
+        scan = (TextView)findViewById(R.id.scan);
 
         openWifiContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
-                Intent intent = new Intent(WifiMainActiity.this, OpenWifiActivity.class);
+                Intent intent = new Intent(HomePageActivity.this, WifiListActivity.class);
                 intent.setAction("OPEN_NETWORK");
                 startActivity(intent);
-
-
 
             }
         });
@@ -98,44 +85,26 @@ public class WifiMainActiity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(WifiMainActiity.this, OpenWifiActivity.class);
+                Intent intent = new Intent(HomePageActivity.this, WifiListActivity.class);
                 intent.setAction("CLOSE_NETWORK");
                 startActivity(intent);
             }
         });
 
 
-        scanNow = (TextView)findViewById(R.id.scanNow);
-        scan = (TextView)findViewById(R.id.scan);
-
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                manager.startScan();
-                scanNow.setText(getNumOfWifi()+"");
-
-
+                startActivity(new Intent(HomePageActivity.this, ScanSurroundingActivity.class));
             }
         });
-
-
-        scanNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(WifiMainActiity.this, ScanSurrounding.class));
-            }
-        });
-
-
-
     }
 
 
-    private int getNumOfWifi()
-    {
-        return manager.getScanResults().size();
-    }
 
+    //************************************************************************************************************//
+    //                                   BroadcastReceiver                                                        //
+    //************************************************************************************************************//
 
     private class WifiScanReceiver extends BroadcastReceiver {
 
@@ -144,8 +113,8 @@ public class WifiMainActiity extends AppCompatActivity{
 
             if(intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
             {
-                Log.d("Scan","XXX");
-                manager.startScan();// Contineous scan
+
+                manager.startScan();                                                  // Contineous scan
                 scanNow.setText(getNumOfWifi()+"");
                 if(openScanResults!=null)
                 openNum.setText(openScanResults.size()+"");
@@ -157,13 +126,22 @@ public class WifiMainActiity extends AppCompatActivity{
         }
     }
 
+    //*************************************************************************************************************//
+    //                                            Helper Methods                                                   //
+    //*************************************************************************************************************//
+
+
+    private int getNumOfWifi()
+    {
+        return manager.getScanResults().size();
+    }
+
 
     private void setUpAllList()
     {
         allScanResults = manager.getScanResults();
         openScanResults = new ArrayList<ScanResult>();
         closeScanResults = new ArrayList<ScanResult>();
-
 
         for(ScanResult result : allScanResults)
         {
@@ -204,6 +182,13 @@ public class WifiMainActiity extends AppCompatActivity{
     }
 
 
+
+
+   //**************************************************************************************************************//
+    //                         Activity Life cycle methods   && Runtime Permission                                                    //
+    //*************************************************************************************************************//
+
+
     @Override
     public void onResume()
     {
@@ -218,13 +203,6 @@ public class WifiMainActiity extends AppCompatActivity{
         }
     }
 
+
 }
-
-
-
-
-
-
-
-
 

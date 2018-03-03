@@ -1,4 +1,4 @@
-package com.freewifi.rohksin.freewifi.Activities;
+package com.freewifi.rohksin.freewifi.Testing;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -20,7 +20,6 @@ import com.freewifi.rohksin.freewifi.Fragments.AllWifiListFragment;
 import com.freewifi.rohksin.freewifi.Fragments.OpenWifiListFragment;
 import com.freewifi.rohksin.freewifi.Fragments.WifiFragment;
 import com.freewifi.rohksin.freewifi.R;
-import com.freewifi.rohksin.freewifi.Adapters.WifiPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

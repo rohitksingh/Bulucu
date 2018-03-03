@@ -12,14 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.Adapters.OpenWifiListAdapter;
-import com.freewifi.rohksin.freewifi.Adapters.StringAdapter;
 import com.freewifi.rohksin.freewifi.R;
-import com.freewifi.rohksin.freewifi.Testing.CircularRevealFragment;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +66,7 @@ public class OpenFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle bundle)
     {
-        view = inflater.inflate(R.layout.scan_list_layout, parent, false);
+        view = inflater.inflate(R.layout.wifi_list_activity_layout, parent, false);
         //textView = (TextView)view.findViewById(R.id.testText);
 
         rv = (RecyclerView)view.findViewById(R.id.rv);

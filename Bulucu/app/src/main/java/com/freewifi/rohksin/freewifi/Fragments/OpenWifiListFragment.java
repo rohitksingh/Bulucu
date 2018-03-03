@@ -1,25 +1,27 @@
 package com.freewifi.rohksin.freewifi.Fragments;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Vibrator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
-import com.freewifi.rohksin.freewifi.Activities.WifiPagerActivity;
-import com.freewifi.rohksin.freewifi.R;
-import com.freewifi.rohksin.freewifi.Adapters.WifiListAdapter;
 
 /**
  * Created by Illuminati on 5/7/2017.
  */
 public class OpenWifiListFragment extends WifiFragment {
+    @Override
+    public View provideYourView(LayoutInflater inflater, ViewGroup group, Bundle savedInstanceState) {
+        return null;
+    }
 
+    @Override
+    public WifiFragment provideYourFragment() {
+        return null;
+    }
+
+/*
 
     @Override
     public View provideYourView(LayoutInflater inflater , ViewGroup parent ,Bundle savedInstanceState) {
@@ -55,5 +57,6 @@ public class OpenWifiListFragment extends WifiFragment {
 
         return new OpenWifiListFragment();
     }
+*/
 
 }

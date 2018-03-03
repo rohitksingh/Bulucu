@@ -43,7 +43,6 @@ public class StringAdapter extends RecyclerView.Adapter<StringAdapter.StingViewH
     }
 
 
-
     @Override
     public int getItemCount() {
         return scanList.size();
@@ -58,6 +57,5 @@ public class StringAdapter extends RecyclerView.Adapter<StringAdapter.StingViewH
             name = (TextView)itemView.findViewById(R.id.string);
         }
     }
-
 
 }

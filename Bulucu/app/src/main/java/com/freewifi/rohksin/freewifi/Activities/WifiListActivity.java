@@ -7,68 +7,61 @@ import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.Adapters.CloseWifiListAdapter;
 import com.freewifi.rohksin.freewifi.Adapters.OpenWifiListAdapter;
 import com.freewifi.rohksin.freewifi.R;
-import com.freewifi.rohksin.freewifi.WifiUtility;
+import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Illuminati on 2/24/2018.
  */
 
-public class OpenWifiActivity extends AppCompatActivity{
+public class WifiListActivity extends AppCompatActivity{
 
 
-    private TextView textView;
+    private TextView noNetworkFound;
     private RecyclerView rv;
     private LinearLayoutManager llm;
-    private List<ScanResult> scanResults = new ArrayList<ScanResult>();
-
 
     private RecyclerView.Adapter adapter;
-
     private WifiManager manager;
 
-    Intent intent;
+    private Intent intent;
+
 
     @Override
     public void onCreate(Bundle savedInstanceBundle)
-     {
+    {
         super.onCreate(savedInstanceBundle);
-        setContentView(R.layout.scan_list_layout);
-        textView = (TextView)findViewById(R.id.noNetworkAvailable);
+        setContentView(R.layout.wifi_list_activity_layout);
+        intent = getIntent();
 
-
+        noNetworkFound = (TextView)findViewById(R.id.noNetworkAvailable);
 
         rv = (RecyclerView)findViewById(R.id.rv);
         llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
-         rv.setPadding(0,getStatusBarHeight(),0,0);
+        rv.setPadding(0,getStatusBarHeight(),0,0);
 
-         intent = getIntent();
-
-
-         //setUpAdapters();
-
-         registerReceiver(new ScanReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-         manager = WifiUtility.getSingletonWifiManager(this);
-         manager.startScan();
+        registerReceiver(new ScanReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        manager = WifiUtility.getSingletonWifiManager(this);
+        manager.startScan();
 
     }
 
+
+
+    //**************************************************************************************************//
+    //                                 Helper Methods                                                   //
+    //**************************************************************************************************//
 
 
     private void setUpAdapters()
@@ -79,7 +72,6 @@ public class OpenWifiActivity extends AppCompatActivity{
         {
             scanResults = WifiUtility.getOpenScanResult(manager.getScanResults());
             adapter = new OpenWifiListAdapter(this, scanResults);
-
         }
         else if(intent.getAction().equals("CLOSE_NETWORK")){
 
@@ -87,21 +79,23 @@ public class OpenWifiActivity extends AppCompatActivity{
             adapter = new CloseWifiListAdapter(this, WifiUtility.getCloseScanResult(manager.getScanResults()));
         }
 
+        manageListVisibility(scanResults);
+
+    }
+
+    private void manageListVisibility(List<ScanResult> scanResults)
+    {
         if(scanResults.size()!=0) {
 
-            Log.d("Size", WifiUtility.getOpenScanResult(manager.getScanResults()).size()+"");
-            textView.setVisibility(View.GONE);
+            noNetworkFound.setVisibility(View.GONE);
             rv.setVisibility(View.VISIBLE);
             rv.setAdapter(adapter);
         }
         else{
             rv.setVisibility(View.GONE);
-            textView.setVisibility(View.VISIBLE);
-            textView.setText("NO NETWORK AVAILABLE");
+            noNetworkFound.setVisibility(View.VISIBLE);
+            noNetworkFound.setText("NO NETWORK AVAILABLE");
         }
-
-
-
     }
 
 
@@ -117,6 +111,12 @@ public class OpenWifiActivity extends AppCompatActivity{
         return height;
     }
 
+
+
+    //***********************************************************************************************************//
+    //              Receiver        listens for Wifi Scan Results                                                //
+    //***********************************************************************************************************//
+
     class ScanReceiver extends BroadcastReceiver{
 
         @Override
@@ -124,8 +124,6 @@ public class OpenWifiActivity extends AppCompatActivity{
         {
             if(intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
             {
-               // scanResults = manager.getScanResults();
-
                 setUpAdapters();
                 manager.startScan();
             }

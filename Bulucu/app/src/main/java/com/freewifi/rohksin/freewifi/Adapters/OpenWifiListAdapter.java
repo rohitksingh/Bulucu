@@ -10,11 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.freewifi.rohksin.freewifi.CallbackListeners.ListItemListener;
 import com.freewifi.rohksin.freewifi.R;
-import com.freewifi.rohksin.freewifi.WifiUtility;
-
-import org.w3c.dom.Text;
+import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 
 import java.util.List;
 

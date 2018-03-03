@@ -9,7 +9,6 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.R;
-import com.freewifi.rohksin.freewifi.WifiUtility;
 
 /**
  * Created by Illuminati on 3/3/2018.
@@ -44,8 +43,6 @@ public class WifiStatDialog extends Dialog {
         securityType.setText(scanResult.capabilities);
         wifiName.setText(scanResult.SSID+"");
         properties.setText("BSSID: "+scanResult.BSSID);
-
-
 
     }
 

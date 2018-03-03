@@ -1,4 +1,4 @@
-package com.freewifi.rohksin.freewifi.Adapters;
+package com.freewifi.rohksin.freewifi.Testing;
 
 import android.content.Context;
 import android.os.Bundle;
