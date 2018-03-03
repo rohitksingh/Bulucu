@@ -12,6 +12,7 @@
         android:text="WIFI NAME"
         android:textSize="20dp"
         android:textStyle="bold"
+        android:textColor="#ffffff"
         />
     <View
         android:layout_width="match_parent"

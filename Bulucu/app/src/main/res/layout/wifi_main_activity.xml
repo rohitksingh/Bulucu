@@ -12,6 +12,7 @@
         android:layout_marginTop="60dp"
         >
         <LinearLayout
+            android:id="@+id/openContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -45,6 +46,7 @@
                 />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/closeContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -92,11 +94,15 @@
         android:id="@+id/scan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Scan"
+        android:text="Scan Now"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:textSize="20dp"
+        android:textSize="30dp"
         android:layout_marginBottom="30dp"
         android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:background="@drawable/connect"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
         />
 </RelativeLayout>

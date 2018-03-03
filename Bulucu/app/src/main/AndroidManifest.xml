@@ -24,7 +24,8 @@
         <activity android:name=".Activities.WifiPagerActivity">
 
         </activity>
-        <activity android:name=".Activities.ScanSurrounding">
+        <activity android:name=".Activities.ScanSurrounding"
+            >
 
         </activity>
         <activity android:name=".Activities.WifiMainActiity"

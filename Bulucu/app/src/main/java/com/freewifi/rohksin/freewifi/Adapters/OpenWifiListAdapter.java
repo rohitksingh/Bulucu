@@ -8,9 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.freewifi.rohksin.freewifi.CallbackListeners.ListItemListener;
 import com.freewifi.rohksin.freewifi.R;
+import com.freewifi.rohksin.freewifi.WifiUtility;
 
 import org.w3c.dom.Text;
 
@@ -22,16 +24,13 @@ import java.util.List;
 
 public class OpenWifiListAdapter extends RecyclerView.Adapter<OpenWifiListAdapter.OpenWifiViewHolder> {
 
-
     private Context context;
     private List<ScanResult> list;
-
 
     public OpenWifiListAdapter(Context context, List<ScanResult> list)
     {
         this.context = context;
         this.list = list;
-
     }
 
     @Override
@@ -46,10 +45,12 @@ public class OpenWifiListAdapter extends RecyclerView.Adapter<OpenWifiListAdapte
         final ScanResult scanResult = list.get(position);
         holder.wifiName.setText(scanResult.SSID);
         holder.wifiImage.setImageResource(R.drawable.open_network);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.connect.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-
+                Toast.makeText(context, "Connectiong to "+scanResult.SSID+" ...", Toast.LENGTH_LONG).show();
+                WifiUtility.connect(context, scanResult);
             }
         });
     }
@@ -63,12 +64,13 @@ public class OpenWifiListAdapter extends RecyclerView.Adapter<OpenWifiListAdapte
 
         public TextView wifiName;
         public ImageView wifiImage;
-
+        public TextView connect;
 
         public OpenWifiViewHolder(View itemView) {
             super(itemView);
             wifiName = (TextView)itemView.findViewById(R.id.wifiName);
             wifiImage = (ImageView)itemView.findViewById(R.id.wifiImage);
+            connect = (TextView)itemView.findViewById(R.id.connect);
         }
     }
 }

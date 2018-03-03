@@ -1,12 +1,15 @@
 package com.freewifi.rohksin.freewifi.Activities;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +18,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -45,6 +49,8 @@ public class WifiMainActiity extends AppCompatActivity{
     private TextView closeNum;
     private TextView scanNow;
     private TextView scan;
+    private LinearLayout openWifiContainer;
+    private LinearLayout closeWifiContainer;
 
 
 
@@ -63,15 +69,18 @@ public class WifiMainActiity extends AppCompatActivity{
         registerReceiver(new WifiScanReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
 
-
         manager = WifiUtility.getSingletonWifiManager(this);
+        manager.startScan();
 
         openNetwork = (TextView)findViewById(R.id.open);
         closedNetwork = (TextView)findViewById(R.id.close);
         openNum = (TextView)findViewById(R.id.openNum);
         closeNum = (TextView)findViewById(R.id.closeNum);
 
-        openNetwork.setOnClickListener(new View.OnClickListener() {
+        openWifiContainer = (LinearLayout)findViewById(R.id.openContainer);
+        closeWifiContainer = (LinearLayout)findViewById(R.id.closeContainer);
+
+        openWifiContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -85,7 +94,7 @@ public class WifiMainActiity extends AppCompatActivity{
             }
         });
 
-        closedNetwork.setOnClickListener(new View.OnClickListener() {
+        closeWifiContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -194,6 +203,20 @@ public class WifiMainActiity extends AppCompatActivity{
         return (capability.contains("WPA") || capability.contains("WEP") || capability.contains("WPS"));
     }
 
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            if(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 87);
+            }
+        }
+    }
 
 }
 

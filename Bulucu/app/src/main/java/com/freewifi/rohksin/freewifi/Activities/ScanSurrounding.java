@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,9 +59,11 @@ public class ScanSurrounding extends AppCompatActivity {
     private StringAdapter adapter;
     private List<String> scanResults;
 
+
     private Button scanButton;
 
 
+   // private Toolbar toolbar;
     private Menu menu;
 
     MenuItem item;
@@ -76,15 +79,28 @@ public class ScanSurrounding extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.custom_scan);
         scanButton = (Button)findViewById(R.id.scanButton);
+        //toolbar = (Toolbar)findViewById(R.id.scanToolBar);
+        //setSupportActionBar(toolbar);
+
+        getSupportActionBar().setTitle("Scan Result");
+
+
         rv = (RecyclerView)findViewById(R.id.rv);
+
+
+
+
         llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
         scanResults = new ArrayList<String>();
         adapter = new StringAdapter(this, scanResults);
         rv.setAdapter(adapter);
 
+        Log.d("Status Bar Height", getSupportActionBar().getHeight()+"");
 
+        rv.setPadding(0, 120, 0, 0);
         scanButton.setText("START");
+        scanButton.setVisibility(View.GONE);
 
 
         manager = WifiUtility.getSingletonWifiManager(this);
@@ -94,25 +110,13 @@ public class ScanSurrounding extends AppCompatActivity {
 
         //final ScanTask task = new ScanTask();
 
+        startScan();
 
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //task.execute();
 
-                ScanTask task = new ScanTask();
-
-                if(!SCAN_RUNNING)
-                {
-                    task.execute();
-                    SCAN_RUNNING = true;
-                    scanButton.setText("STOP");
-                }
-                else {
-                    task.cancel(false);
-                    SCAN_RUNNING = false;
-                    scanButton.setText("START");
-                }
 
 
             }
@@ -128,6 +132,7 @@ public class ScanSurrounding extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.scan_surrounding_menu,menu);
+
         this.menu = menu;
         item = menu.findItem(R.id.numOfWifi);
         return true;
@@ -146,11 +151,6 @@ public class ScanSurrounding extends AppCompatActivity {
                 Toast.makeText(this, "Num Of Wifi", Toast.LENGTH_SHORT).show();
                 break;
             }
-            case R.id.addToDataBase:
-            {
-                Toast.makeText(this, "save", Toast.LENGTH_SHORT).show();
-                break;
-            }
             default:
                 Toast.makeText(this, "Default", Toast.LENGTH_SHORT).show();
 
@@ -163,12 +163,30 @@ public class ScanSurrounding extends AppCompatActivity {
 
 
 
+    private int getTopPadding()
+    {
+
+        int height=0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if(resourceId>0)
+        {
+            height = getResources().getDimensionPixelSize(resourceId);
+        }
+        return height;
+    }
+
 
 
 
 
     private class ScanTask extends AsyncTask<Void, String  , Void >{
 
+
+        @Override
+        public void onPreExecute()
+        {
+            Toast.makeText(ScanSurrounding.this, "Scanning...", Toast.LENGTH_LONG).show();
+        }
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -232,10 +250,35 @@ public class ScanSurrounding extends AppCompatActivity {
             // TEMP
         }
 
+        @Override
+        public void onPostExecute(Void result)
+        {
+            Toast.makeText(ScanSurrounding.this, "Scan Fininshed", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
 
+
+
+
+    public void startScan()
+    {
+        ScanTask task = new ScanTask();
+
+        if(!SCAN_RUNNING)
+        {
+            task.execute();
+            SCAN_RUNNING = true;
+            scanButton.setText("STOP");
+        }
+        else {
+            task.cancel(false);
+            SCAN_RUNNING = false;
+            scanButton.setText("START");
+        }
+
+    }
 
 
 }

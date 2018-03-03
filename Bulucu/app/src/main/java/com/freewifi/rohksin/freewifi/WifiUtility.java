@@ -61,6 +61,11 @@ public class WifiUtility {
 
     public static String getWifiDetail(ScanResult scanResult)
     {
+        String details = "BSSD :" + scanResult.BSSID +"\n"+
+                "capability :" + scanResult.capabilities;
+
+
+        /*
         String details = "WIFI NAME :" + scanResult.SSID +"\n"+
                 "BSSD :" + scanResult.BSSID +"\n"+
                 "capability :" + scanResult.capabilities +"\n"+
@@ -71,7 +76,7 @@ public class WifiUtility {
                 "Desc Content :"+scanResult.describeContents()+"\n"+
                 "Level :"+scanResult.level+"\n"
                 ;
-
+        */
         return details;
     }
 

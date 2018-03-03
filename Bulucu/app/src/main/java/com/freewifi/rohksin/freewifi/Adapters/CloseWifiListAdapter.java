@@ -1,13 +1,16 @@
 package com.freewifi.rohksin.freewifi.Adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.freewifi.rohksin.freewifi.Dialogs.WifiStatDialog;
 import com.freewifi.rohksin.freewifi.R;
 
 import java.security.PublicKey;
@@ -40,8 +43,16 @@ public class CloseWifiListAdapter extends RecyclerView.Adapter<CloseWifiListAdap
     @Override
     public void onBindViewHolder(CloseWifiViewHolder holder, int position) {
 
-        ScanResult scanResult = scanResults.get(position);
+        final ScanResult scanResult = scanResults.get(position);
         holder.wifiName.setText(scanResult.SSID);
+        holder.wifiImage.setImageResource(R.drawable.closed_network);
+        holder.wifidetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog = new WifiStatDialog(context , scanResult);
+                dialog.show();
+            }
+        });
     }
 
     @Override
@@ -53,10 +64,15 @@ public class CloseWifiListAdapter extends RecyclerView.Adapter<CloseWifiListAdap
 
 
         private TextView wifiName;
+        private ImageView wifiImage;
+        private TextView wifidetail;
 
         public CloseWifiViewHolder(View itemView) {
             super(itemView);
             wifiName = (TextView)itemView.findViewById(R.id.wifiName);
+            wifiImage = (ImageView)itemView.findViewById(R.id.wifiImage);
+            wifidetail = (TextView)itemView.findViewById(R.id.connect);
+            wifidetail.setText("Detail");
         }
     }
 }

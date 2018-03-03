@@ -7,10 +7,4 @@
         app:showAsAction="always"
         android:title="0"
         />
-    <item android:id="@+id/addToDataBase"
-        android:orderInCategory="100"
-        app:showAsAction="always"
-        android:title="SAVE"
-        android:icon="@android:drawable/btn_plus"
-        />
 </menu>

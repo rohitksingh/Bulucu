@@ -1,5 +1,6 @@
 package com.freewifi.rohksin.freewifi.Fragments;
 
+import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -33,9 +34,12 @@ public class WifiDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle bundle)
     {
         View view = inflater.inflate(R.layout.wifi_detail_layout,parent, false);
-        textView = (TextView)view.findViewById(R.id.test);
+        textView = (TextView)view.findViewById(R.id.property);
         return view;
     }
+
+
+
 
 
 }

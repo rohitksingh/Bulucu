@@ -1,14 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragmentContainer"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:layout_width="250dp"
+    android:layout_height="350dp"
+    android:background="@color/bulucuBlack"
     >
+    <ImageView
+        android:id="@+id/wifiImage"
+        android:layout_alignParentTop="true"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/closed_network"
+        android:layout_marginTop="10dp"
+        />
     <TextView
-        android:id="@+id/test"
+        android:id="@+id/wifiName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/wifiImage"
+        android:text="Wifi"
+        android:textColor="#ffffff"
+        android:layout_margin="10dp"
+        />
+    <TextView
+        android:id="@+id/property"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffffff"
+        android:text="Capabilitylklkdlksldksldllkdlsldklsldslkdslkdlskldksld"
+        android:gravity="center"
+        android:layout_margin="10dp"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Security Type"
+        android:textColor="#ffffff"
+        android:layout_below="@id/property"
+        android:id="@+id/securetyText"
+        android:layout_marginTop="10dp"
+        />
+    <View
+        android:layout_width="200dp"
+        android:layout_height="1dp"
+        android:background="#ffffff"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/securetyText"
+        android:layout_margin="2dp"
+        android:id="@+id/line"
+        />
+        <TextView
+            android:id="@+id/securityType"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line"
+            android:text="skdjskd"
+            android:textColor="#ffffff"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            />
 </RelativeLayout>

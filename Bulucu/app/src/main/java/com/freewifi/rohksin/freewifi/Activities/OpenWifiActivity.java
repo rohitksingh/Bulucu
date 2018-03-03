@@ -14,6 +14,7 @@ import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.Adapters.CloseWifiListAdapter;
@@ -36,8 +37,6 @@ public class OpenWifiActivity extends AppCompatActivity{
     private LinearLayoutManager llm;
     private List<ScanResult> scanResults = new ArrayList<ScanResult>();
 
-    private OpenWifiListAdapter openWifiListAdapter;
-    private CloseWifiListAdapter closeWifiListAdapter;
 
     private RecyclerView.Adapter adapter;
 
@@ -51,6 +50,9 @@ public class OpenWifiActivity extends AppCompatActivity{
         super.onCreate(savedInstanceBundle);
         setContentView(R.layout.scan_list_layout);
         textView = (TextView)findViewById(R.id.noNetworkAvailable);
+
+
+
         rv = (RecyclerView)findViewById(R.id.rv);
         llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
