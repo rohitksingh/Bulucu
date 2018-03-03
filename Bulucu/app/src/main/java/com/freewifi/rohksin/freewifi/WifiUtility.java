@@ -4,7 +4,9 @@ import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +21,9 @@ public class WifiUtility {
 
 
     private static List<ScanResult> scanResults;
+    private static List<ScanResult> openScans;
+    private static List<ScanResult> closeScans;
+
 
 
     public static void connect(Context context, ScanResult scanResult)
@@ -83,6 +88,54 @@ public class WifiUtility {
         }
     }
 
+
+
+    public static List<ScanResult> getOpenScanResult(List<ScanResult> allScan)
+    {
+        filterScan(allScan);
+        return openScans;
+    }
+
+    public static List<ScanResult> getCloseScanResult(List<ScanResult> allScan)
+    {
+        Log.d("SCAN", allScan.size()+"");
+        filterScan(allScan);
+        return closeScans;
+    }
+
+
+
+
+
+    private static void filterScan(List<ScanResult> scanResult)
+    {
+        scanResults = scanResult;
+        openScans = new ArrayList<ScanResult>();
+        closeScans = new ArrayList<ScanResult>();
+
+
+        for(ScanResult result : scanResults)
+        {
+            if(!isProtectedNetwork(result.capabilities))
+            {
+                openScans.add(result);
+            }
+            else {
+                Log.d("CLOSE", result.SSID);
+                closeScans.add(result);
+            }
+        }
+
+
+
+    }
+
+
+
+    private static boolean isProtectedNetwork(String capability)
+    {
+        return (capability.contains("WPA") || capability.contains("WEP") || capability.contains("WPS"));
+    }
 
 
 }

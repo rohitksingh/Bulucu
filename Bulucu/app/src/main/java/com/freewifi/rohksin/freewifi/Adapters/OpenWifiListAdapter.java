@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.CallbackListeners.ListItemListener;
@@ -25,13 +26,12 @@ public class OpenWifiListAdapter extends RecyclerView.Adapter<OpenWifiListAdapte
     private Context context;
     private List<ScanResult> list;
 
-    ListItemListener listItemListener;
 
     public OpenWifiListAdapter(Context context, List<ScanResult> list)
     {
         this.context = context;
         this.list = list;
-        listItemListener = (ListItemListener)context;
+
     }
 
     @Override
@@ -45,10 +45,11 @@ public class OpenWifiListAdapter extends RecyclerView.Adapter<OpenWifiListAdapte
 
         final ScanResult scanResult = list.get(position);
         holder.wifiName.setText(scanResult.SSID);
+        holder.wifiImage.setImageResource(R.drawable.open_network);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listItemListener.itemClick(scanResult);
+
             }
         });
     }
@@ -61,11 +62,13 @@ public class OpenWifiListAdapter extends RecyclerView.Adapter<OpenWifiListAdapte
     public class OpenWifiViewHolder extends RecyclerView.ViewHolder{
 
         public TextView wifiName;
+        public ImageView wifiImage;
 
 
         public OpenWifiViewHolder(View itemView) {
             super(itemView);
             wifiName = (TextView)itemView.findViewById(R.id.wifiName);
+            wifiImage = (ImageView)itemView.findViewById(R.id.wifiImage);
         }
     }
 }

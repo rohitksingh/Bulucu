@@ -36,32 +36,22 @@ import java.util.List;
  * Created by Illuminati on 2/17/2018.
  */
 
-public class WifiMainActiity extends AppCompatActivity implements ListItemListener{
+public class WifiMainActiity extends AppCompatActivity{
 
 
     private TextView openNetwork;
     private TextView closedNetwork;
+    private TextView openNum;
+    private TextView closeNum;
     private TextView scanNow;
     private TextView scan;
 
-    private FragmentManager fragmentManager;
+
 
     private WifiManager manager;
     private List<ScanResult> allScanResults;
     private List<ScanResult> openScanResults;
     private List<ScanResult> closeScanResults;
-
-
-    private OpenFragment openFragment;
-    private CloseFragment closeFragment;
-
-
-
-    private View line;
-
-
-    //Test Fragment
-    MyFragment fragment;
 
 
     @Override
@@ -70,23 +60,16 @@ public class WifiMainActiity extends AppCompatActivity implements ListItemListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wifi_main_activity);
 
-        //line = (View)findViewById(R.id.)
-
         registerReceiver(new WifiScanReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
+
+
         manager = WifiUtility.getSingletonWifiManager(this);
-        //allScanResults = new ArrayList<ScanResult>();
-
-
-
-        fragmentManager = getSupportFragmentManager();
-
-        openFragment = new OpenFragment().getInstance();
-        closeFragment = new CloseFragment().getInstance();
-
 
         openNetwork = (TextView)findViewById(R.id.open);
         closedNetwork = (TextView)findViewById(R.id.close);
+        openNum = (TextView)findViewById(R.id.openNum);
+        closeNum = (TextView)findViewById(R.id.closeNum);
 
         openNetwork.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,21 +78,9 @@ public class WifiMainActiity extends AppCompatActivity implements ListItemListen
 
                 Intent intent = new Intent(WifiMainActiity.this, OpenWifiActivity.class);
                 intent.setAction("OPEN_NETWORK");
-                intent.putParcelableArrayListExtra("LIST", openScanResults);
+                startActivity(intent);
 
 
-
-                /*
-
-
-                Log.d("String", openNetwork.getLeft()+""+openNetwork.getRight()+openNetwork.getTop()+openNetwork.getBottom());
-
-               // fragment = new MyFragment().getInstanceState(openNetwork.getRight()/2, openNetwork.getBottom()/2);
-
-
-                addFragmentWithAnimation(openFragment);
-
-                */
 
             }
         });
@@ -117,9 +88,10 @@ public class WifiMainActiity extends AppCompatActivity implements ListItemListen
         closedNetwork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("String", closedNetwork.getLeft()+""+closedNetwork.getRight()+closedNetwork.getTop()+closedNetwork.getBottom());
-                //fragment = new MyFragment().getInstanceState(closedNetwork.getRight()/2, closedNetwork.getBottom()/2);
-                addFragmentWithAnimation(closeFragment);
+
+                Intent intent = new Intent(WifiMainActiity.this, OpenWifiActivity.class);
+                intent.setAction("CLOSE_NETWORK");
+                startActivity(intent);
             }
         });
 
@@ -131,7 +103,8 @@ public class WifiMainActiity extends AppCompatActivity implements ListItemListen
             @Override
             public void onClick(View v) {
                 manager.startScan();
-                scanNow.setText("Result: "+getNumOfWifi());
+                scanNow.setText(getNumOfWifi()+"");
+
 
             }
         });
@@ -149,14 +122,10 @@ public class WifiMainActiity extends AppCompatActivity implements ListItemListen
     }
 
 
-
-
-
     private int getNumOfWifi()
     {
         return manager.getScanResults().size();
     }
-
 
 
     private class WifiScanReceiver extends BroadcastReceiver {
@@ -168,7 +137,11 @@ public class WifiMainActiity extends AppCompatActivity implements ListItemListen
             {
                 Log.d("Scan","XXX");
                 manager.startScan();// Contineous scan
-                scanNow.setText("Result: "+getNumOfWifi());
+                scanNow.setText(getNumOfWifi()+"");
+                if(openScanResults!=null)
+                openNum.setText(openScanResults.size()+"");
+                if(closeScanResults!=null)
+                closeNum.setText(closeScanResults.size()+"");
                 setUpAllList();
             }
 
@@ -197,11 +170,8 @@ public class WifiMainActiity extends AppCompatActivity implements ListItemListen
 
         if(openScanResults.size()!=0)
         {
-            openNetwork.setText(openScanResults.size()+"+");
-            if(closeFragment!=null)
-            {
-                closeFragment.setUpList(openScanResults);
-            }
+            openNetwork.setText(openScanResults.get(0).SSID);
+
         }else {
             openNetwork.setText("NO Network");
         }
@@ -209,20 +179,8 @@ public class WifiMainActiity extends AppCompatActivity implements ListItemListen
         if(closeScanResults.size()!=0)
         {
             ScanResult scan = closeScanResults.get(0);
-
-            if(openFragment!=null)
-                openFragment.setUpList(closeScanResults);
-
-            if(scan == null)
-            {
-                Log.d("ISNULL", "YES");
-            }
-            else {
-                Log.d("ISNOTNULL", "NO");
-            }
-
             closedNetwork.setText(scan.SSID+"");
-            Log.d("SIZE", closeScanResults.size()+" ");
+
         }
         else {
             closedNetwork.setText("NO NETWORK");
@@ -235,77 +193,6 @@ public class WifiMainActiity extends AppCompatActivity implements ListItemListen
     {
         return (capability.contains("WPA") || capability.contains("WEP") || capability.contains("WPS"));
     }
-
-
-
-
-    @Override
-    public void onBackPressed()
-    {
-
-
-        Log.d("SIZE", fragmentManager.getBackStackEntryCount()+"");
-
-        fragmentManager.popBackStack();
-
-        /*
-        if(fragmentManager.getBackStackEntryCount()!=0)
-            fragment.setReverseAnimation();
-        //removeFragmentWithAnimation(fragment);
-
-        */
-    }
-
-
-
-    public void openWifiDetail(ScanResult scanResult)
-    {
-        WifiDetailFragment detailFragment = new WifiDetailFragment().getInstance();
-
-        fragmentManager.beginTransaction()
-                .add(R.id.parentPanel, detailFragment)
-                .addToBackStack(null)
-                .commit();
-
-       // detailFragment.update(scanResult.SSID);
-    }
-
-
-    @Override
-    public void itemClick(ScanResult scanResult)
-    {
-       // openWifiDetail(scanResult);
-    }
-
-
-
-
-
-    //**************************************************************************************************************//
-    //                                          HELPER METHODS                                                      //
-    // *************************************************************************************************************//
-
-
-    public void addFragmentWithAnimation(Fragment fragment)
-    {
-
-        Log.d("Size Add", fragmentManager.getBackStackEntryCount()+"");
-
-        if(fragmentManager.getBackStackEntryCount()==0)
-        {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.parentPanel, fragment)
-                    .addToBackStack(null)
-                    .commit();
-
-            Log.d("Size Add", fragmentManager.getBackStackEntryCount()+"");
-        }
-
-
-
-    }
-
-
 
 
 }
