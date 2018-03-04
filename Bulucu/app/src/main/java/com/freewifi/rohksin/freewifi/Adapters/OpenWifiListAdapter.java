@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.freewifi.rohksin.freewifi.R;
+import com.freewifi.rohksin.freewifi.Utilities.IntentUtility;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 
 import java.util.List;
@@ -50,6 +51,13 @@ public class OpenWifiListAdapter extends RecyclerView.Adapter<OpenWifiListAdapte
                 WifiUtility.connect(context, scanResult);
             }
         });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtility.startTrackWifiActivity(context, scanResult);
+            }
+        });
+
     }
 
     @Override

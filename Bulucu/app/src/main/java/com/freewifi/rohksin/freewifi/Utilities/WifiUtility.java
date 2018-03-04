@@ -84,6 +84,21 @@ public class WifiUtility {
         return details;
     }
 
+    public static ScanResult getThisWifi(ScanResult scanResult, List<ScanResult> scanResults)
+    {
+        String ssid = scanResult.SSID;
+
+        for(ScanResult listItem : scanResults)
+        {
+            if(listItem.SSID.equals(ssid))
+            {
+                return listItem;
+            }
+        }
+
+        return null;
+    }
+
 
 
     //**************************************************************************************************//

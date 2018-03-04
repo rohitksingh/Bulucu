@@ -2,6 +2,7 @@ package com.freewifi.rohksin.freewifi.Adapters;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,8 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.freewifi.rohksin.freewifi.Activities.TrackWifiActivity;
+import com.freewifi.rohksin.freewifi.CallbackListeners.ListItemListener;
 import com.freewifi.rohksin.freewifi.Dialogs.WifiStatDialog;
 import com.freewifi.rohksin.freewifi.R;
+import com.freewifi.rohksin.freewifi.Testing.TestService;
+import com.freewifi.rohksin.freewifi.Utilities.IntentUtility;
 
 import java.security.PublicKey;
 import java.util.List;
@@ -25,6 +30,7 @@ public class CloseWifiListAdapter extends RecyclerView.Adapter<CloseWifiListAdap
 
     private Context context;
     private List<ScanResult> scanResults;
+
 
     public CloseWifiListAdapter(Context context, List<ScanResult> scanResults)
     {
@@ -51,6 +57,15 @@ public class CloseWifiListAdapter extends RecyclerView.Adapter<CloseWifiListAdap
             public void onClick(View v) {
                 Dialog dialog = new WifiStatDialog(context , scanResult);
                 dialog.show();
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                IntentUtility.startTrackWifiActivity(context, scanResult);
+
             }
         });
     }

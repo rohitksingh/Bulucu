@@ -31,10 +31,9 @@
 
         <activity android:name=".TestActivity">
         </activity>
-        <activity
-            android:name=".Activities.WifiDetailActivity"
-            android:label="Detail">
-        </activity>
+       <activity android:name=".Activities.TrackWifiActivity"
+           android:theme="@style/AppTheme.NoActionBar"
+           />
 
         <!--                Not used Currently                                 -->
         <activity android:name=".Testing.WifiPagerActivity"/>
@@ -44,8 +43,7 @@
 
         <!--                            SERVICES                           -->
 
-        <service android:name=".Services.WifiSignalService"/>
-        <service android:name=".Services.ScanWifiService"/>
+        <service android:name=".Testing.TestService"/>
 
     </application>
 
