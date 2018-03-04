@@ -51,15 +51,6 @@ public class TrackWifiActivity extends AppCompatActivity {
 
         manager = WifiUtility.getSingletonWifiManager(TrackWifiActivity.this);
 
-        DataPoint[] datapoint = new DataPoint[]
-                {
-                   new DataPoint(0,2),
-                        new DataPoint(0,2),
-                        new DataPoint(1,1),
-                        new DataPoint(2,0),
-                        new DataPoint(3,6),
-                        new DataPoint(4,7)
-                };
 
         series = new LineGraphSeries<DataPoint>();
         series.setColor(Color.WHITE);
@@ -96,6 +87,7 @@ public class TrackWifiActivity extends AppCompatActivity {
             {
                 int level = intent.getIntExtra("LEVELDATA",0);
 
+                /*
                 if(level==-1)
                 {
                     wifiLevel.setText("Wifi Lost");
@@ -104,15 +96,16 @@ public class TrackWifiActivity extends AppCompatActivity {
                     wifiLevel.setText(level+"");
                 }
 
+                */
 
 
+                int relativeLevel  = getLevel(level);
 
-                DataPoint newData = new DataPoint(count, getLevel(level));
+                DataPoint newData = new DataPoint(count, relativeLevel);
                 count++;
-
-
                 series.appendData(newData, true, 12);
 
+                wifiLevel.setText(WifiUtility.getWifiStrengthStatus(relativeLevel));
 
 
 

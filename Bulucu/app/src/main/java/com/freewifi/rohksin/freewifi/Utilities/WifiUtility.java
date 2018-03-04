@@ -100,6 +100,20 @@ public class WifiUtility {
     }
 
 
+    public static String getWifiStrengthStatus(int level)
+    {
+        if(level==0)
+            return "Wifi lost";
+        else if(level <= 5)
+            return "Signal Strength: WEAK";
+        else if(level > 5 && level <=10)
+            return "Signal Strength: Fair";
+        else if(level > 10 && level <=15)
+            return "Signal Strength: Good";
+        else
+            return "Signal Strength: Excellent";
+    }
+
 
     //**************************************************************************************************//
     //                                 Private Helper Methods                                           //
