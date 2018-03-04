@@ -8,8 +8,10 @@
         android:id="@+id/wifiImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_centerInParent="true"
         android:background="@drawable/closed_network"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
         />
     <TextView
         android:id="@+id/wifiLevel"
@@ -29,7 +31,14 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
+        android:layout_margin="10dp"
         android:textColor="#ffffff"
+        />
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_above="@id/wifiName"
         />
 </RelativeLayout>

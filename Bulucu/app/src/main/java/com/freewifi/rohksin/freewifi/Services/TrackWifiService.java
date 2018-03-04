@@ -1,4 +1,4 @@
-package com.freewifi.rohksin.freewifi.Testing;
+package com.freewifi.rohksin.freewifi.Services;
 
 import android.app.IntentService;
 import android.content.BroadcastReceiver;
@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 
@@ -18,16 +17,16 @@ import java.util.List;
  * Created by Illuminati on 3/3/2018.
  */
 
-public class TestService extends IntentService {
+public class TrackWifiService extends IntentService {
 
 
     private WifiManager wifiManager;
     private ScanResult targetScan;
 
-    public TestService()
+    public TrackWifiService()
     {
         super("estService");
-        wifiManager = WifiUtility.getSingletonWifiManager(TestService.this);
+        wifiManager = WifiUtility.getSingletonWifiManager(TrackWifiService.this);
 
     }
 

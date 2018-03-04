@@ -43,7 +43,7 @@
 
         <!--                            SERVICES                           -->
 
-        <service android:name=".Testing.TestService"/>
+        <service android:name=".Services.TrackWifiService"/>
 
     </application>
 

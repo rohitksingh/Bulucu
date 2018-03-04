@@ -4,14 +4,20 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.R;
-import com.freewifi.rohksin.freewifi.Testing.TestService;
+import com.freewifi.rohksin.freewifi.Services.TrackWifiService;
+import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 /**
  * Created by Illuminati on 3/3/2018.
@@ -25,6 +31,13 @@ public class TrackWifiActivity extends AppCompatActivity {
     private ScanResult targetWifi;
     private TextView wifiName;
 
+    private GraphView graphView;
+    LineGraphSeries<DataPoint> series;
+
+    int count =0;
+
+    private WifiManager manager;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -33,23 +46,48 @@ public class TrackWifiActivity extends AppCompatActivity {
         wifiLevel = (TextView)findViewById(R.id.wifiLevel);
         wifiName = (TextView)findViewById(R.id.wifiName);
 
+        graphView = (GraphView)findViewById(R.id.graph);
+
+
+        manager = WifiUtility.getSingletonWifiManager(TrackWifiActivity.this);
+
+        DataPoint[] datapoint = new DataPoint[]
+                {
+                   new DataPoint(0,2),
+                        new DataPoint(0,2),
+                        new DataPoint(1,1),
+                        new DataPoint(2,0),
+                        new DataPoint(3,6),
+                        new DataPoint(4,7)
+                };
+
+        series = new LineGraphSeries<DataPoint>();
+        series.setColor(Color.WHITE);
+        series.setTitle("WifiStatud");
+
+
+        graphView.addSeries(series);
+        graphView.getViewport().setXAxisBoundsManual(true);
+        graphView.getViewport().setYAxisBoundsManual(true);
+        graphView.getViewport().setMinX(0);
+        graphView.getViewport().setMaxX(10);
+        graphView.getViewport().setMinY(0);
+        graphView.getViewport().setMaxY(20);
 
         targetWifi = getIntent().getParcelableExtra(TARGET_WIFI);
 
         wifiName.setText("Tracking "+targetWifi.SSID);
 
-        Intent startTrackService = new Intent(this, TestService.class);
+        Intent startTrackService = new Intent(this, TrackWifiService.class);
         startTrackService.putExtra("SCAN_RESULT", targetWifi);
         startService(startTrackService);
 
-        registerReceiver(new LevelReceiver(), new IntentFilter("LEVEL"));
-
+        registerReceiver(new WifiLevelReceiver(), new IntentFilter("LEVEL"));
 
     }
 
 
-
-    class LevelReceiver extends BroadcastReceiver {
+    class WifiLevelReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -66,7 +104,29 @@ public class TrackWifiActivity extends AppCompatActivity {
                     wifiLevel.setText(level+"");
                 }
 
+
+
+
+                DataPoint newData = new DataPoint(count, getLevel(level));
+                count++;
+
+
+                series.appendData(newData, true, 12);
+
+
+
+
             }
+        }
+    }
+
+
+    private int  getLevel(int level)
+    {
+        if(level==-1)
+            return 0;
+        else {
+            return (manager.calculateSignalLevel(level, 20));
         }
     }
 
