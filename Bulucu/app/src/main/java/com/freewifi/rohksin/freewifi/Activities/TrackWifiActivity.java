@@ -38,6 +38,10 @@ public class TrackWifiActivity extends AppCompatActivity {
 
     private WifiManager manager;
 
+
+    private WifiLevelReceiver receiver;
+    private Intent startTrackService;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -69,13 +73,24 @@ public class TrackWifiActivity extends AppCompatActivity {
 
         wifiName.setText("Tracking "+targetWifi.SSID);
 
-        Intent startTrackService = new Intent(this, TrackWifiService.class);
+        startTrackService = new Intent(this, TrackWifiService.class);
         startTrackService.putExtra("SCAN_RESULT", targetWifi);
         startService(startTrackService);
 
-        registerReceiver(new WifiLevelReceiver(), new IntentFilter("LEVEL"));
+        receiver = new WifiLevelReceiver();
+        registerReceiver(receiver, new IntentFilter("LEVEL"));
 
     }
+
+
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        unregisterReceiver(receiver);
+        stopService(startTrackService);
+    }
+
 
 
     class WifiLevelReceiver extends BroadcastReceiver {

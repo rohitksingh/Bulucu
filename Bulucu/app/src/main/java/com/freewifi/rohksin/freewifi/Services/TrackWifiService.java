@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 
@@ -28,6 +29,7 @@ public class TrackWifiService extends IntentService {
         super("estService");
         wifiManager = WifiUtility.getSingletonWifiManager(TrackWifiService.this);
 
+        Log.d("NAME", "service started");
     }
 
 
@@ -37,6 +39,8 @@ public class TrackWifiService extends IntentService {
         //ScanResult scanResult
 
         targetScan = intent.getParcelableExtra("SCAN_RESULT");
+
+        Log.d("NAME", targetScan.SSID);
 
         registerReceiver(new ScanResultReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 

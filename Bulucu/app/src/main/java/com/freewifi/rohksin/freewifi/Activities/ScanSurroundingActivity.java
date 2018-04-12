@@ -10,6 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Toast;
 
 import com.freewifi.rohksin.freewifi.Adapters.StringAdapter;
@@ -38,6 +41,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
 
     private Menu menu;
     private MenuItem item;
+    private MenuItem scanningProgress;
 
     private boolean SCAN_RUNNING = false;
 
@@ -75,6 +79,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.scan_surrounding_menu,menu);
         this.menu = menu;
         item = menu.findItem(R.id.numOfWifi);
+        scanningProgress = menu.findItem(R.id.scanning);
         return true;
     }
 
@@ -123,6 +128,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         public void onPreExecute()
         {
             Toast.makeText(ScanSurroundingActivity.this, "Scanning...", Toast.LENGTH_LONG).show();
+           // startLoadingAnimation();
         }
 
         @Override
@@ -196,6 +202,22 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         }
 
     }
+
+
+    /*
+
+    public void startLoadingAnimation()
+    {
+
+        Log.d("Null", (scanningProgress==null)+""+(item==null));
+        View view = (View)scanningProgress;
+        Animation loadingAnimation = new RotateAnimation(0.0f,360.0f,view.getPivotX(),view.getPivotY());
+        loadingAnimation.setDuration(500);
+        loadingAnimation.setRepeatCount(-1);
+        view.setAnimation(loadingAnimation);
+    }
+
+    */
 
 
 }
