@@ -41,7 +41,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
 
     private Menu menu;
     private MenuItem item;
-    private MenuItem scanningProgress;
+    //private MenuItem scanningProgress;
 
     private boolean SCAN_RUNNING = false;
 
@@ -79,7 +79,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.scan_surrounding_menu,menu);
         this.menu = menu;
         item = menu.findItem(R.id.numOfWifi);
-        scanningProgress = menu.findItem(R.id.scanning);
+        //scanningProgress = menu.findItem(R.id.scanning);
         return true;
     }
 

@@ -7,8 +7,10 @@
         app:showAsAction="always"
         android:title="0"
         />
+    <!--
     <item android:id="@+id/scanning"
         app:showAsAction="always"
         android:icon="@drawable/bulucu_logo"
         />
+        -->
 </menu>
