@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
+import com.skyfishjy.library.RippleBackground;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public class HomePageActivity extends AppCompatActivity{
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_page_activity_layout);
+        setContentView(R.layout.upgrade_scan_activity_layout);
 
         manager = WifiUtility.getSingletonWifiManager(this);
         registerReceiver(new WifiScanReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
@@ -66,11 +67,25 @@ public class HomePageActivity extends AppCompatActivity{
         openNum = (TextView)findViewById(R.id.openNum);
         closeNum = (TextView)findViewById(R.id.closeNum);
         openWifiContainer = (LinearLayout)findViewById(R.id.openContainer);
-        closeWifiContainer = (LinearLayout)findViewById(R.id.closeContainer);
+//        closeWifiContainer = (LinearLayout)findViewById(R.id.closeContainer);
         scanNow = (TextView)findViewById(R.id.scanNow);
         scan = (TextView)findViewById(R.id.scan);
 
-        openWifiContainer.setOnClickListener(new View.OnClickListener() {
+
+
+        final RippleBackground opencontainerRipple=(RippleBackground)findViewById(R.id.content);
+        opencontainerRipple.startRippleAnimation();
+
+
+        final RippleBackground closeContainerRippple=(RippleBackground)findViewById(R.id.closeContainer);
+        closeContainerRippple.startRippleAnimation();
+
+        final RippleBackground allContainer=(RippleBackground)findViewById(R.id.content);
+        allContainer.startRippleAnimation();
+
+
+
+        opencontainerRipple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -81,7 +96,8 @@ public class HomePageActivity extends AppCompatActivity{
             }
         });
 
-        closeWifiContainer.setOnClickListener(new View.OnClickListener() {
+
+        closeContainerRippple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -115,7 +131,7 @@ public class HomePageActivity extends AppCompatActivity{
             {
 
                 manager.startScan();                                                  // Contineous scan
-                scanNow.setText(getNumOfWifi()+"");
+                scanNow.setText("Networks Available: "+ getNumOfWifi()+"\n click to see all");
                 if(openScanResults!=null)
                 openNum.setText(openScanResults.size()+"");
                 if(closeScanResults!=null)
@@ -135,7 +151,6 @@ public class HomePageActivity extends AppCompatActivity{
     {
         return manager.getScanResults().size();
     }
-
 
     private void setUpAllList()
     {
