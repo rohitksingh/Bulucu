@@ -75,18 +75,19 @@ public class HomePageActivity extends AppCompatActivity{
 
 
 
-        final RippleBackground opencontainerRipple=(RippleBackground)findViewById(R.id.content);
-        opencontainerRipple.startRippleAnimation();
+       // final RippleBackground opencontainerRipple=(RippleBackground)findViewById(R.id.content);
+      //  opencontainerRipple.startRippleAnimation();
 
 
-        final RippleBackground closeContainerRippple=(RippleBackground)findViewById(R.id.closeContainer);
-        closeContainerRippple.startRippleAnimation();
+      //  final RippleBackground closeContainerRippple=(RippleBackground)findViewById(R.id.closeContainer);
+      //  closeContainerRippple.startRippleAnimation();
 
-        final RippleBackground allContainer=(RippleBackground)findViewById(R.id.content);
-        allContainer.startRippleAnimation();
+    //    final RippleBackground allContainer=(RippleBackground)findViewById(R.id.content);
+//        allContainer.startRippleAnimation();
 
 
 
+        /*
         opencontainerRipple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +100,8 @@ public class HomePageActivity extends AppCompatActivity{
         });
 
 
+
+
         closeContainerRippple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,7 +111,7 @@ public class HomePageActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
-
+*/
 
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
