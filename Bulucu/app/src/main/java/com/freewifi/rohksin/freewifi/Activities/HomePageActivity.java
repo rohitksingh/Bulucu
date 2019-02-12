@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,7 +37,7 @@ public class HomePageActivity extends AppCompatActivity{
     private TextView openNum;
     private TextView closeNum;
     private TextView scanNow;
-    private TextView scan;
+    private FrameLayout scan;
     private LinearLayout openWifiContainer;
     private LinearLayout closeWifiContainer;
 
@@ -69,7 +71,7 @@ public class HomePageActivity extends AppCompatActivity{
         openWifiContainer = (LinearLayout)findViewById(R.id.openContainer);
 //        closeWifiContainer = (LinearLayout)findViewById(R.id.closeContainer);
         scanNow = (TextView)findViewById(R.id.scanNow);
-        scan = (TextView)findViewById(R.id.scan);
+        scan = (FrameLayout)findViewById(R.id.scan);
 
 
 
@@ -131,7 +133,7 @@ public class HomePageActivity extends AppCompatActivity{
             {
 
                 manager.startScan();                                                  // Contineous scan
-                scanNow.setText("Networks Available: "+ getNumOfWifi()+"\n click to see all");
+                scanNow.setText(getNumOfWifi()+"");
                 if(openScanResults!=null)
                 openNum.setText(openScanResults.size()+"");
                 if(closeScanResults!=null)
