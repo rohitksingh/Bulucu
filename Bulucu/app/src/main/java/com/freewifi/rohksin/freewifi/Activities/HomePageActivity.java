@@ -13,11 +13,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
+import com.skyfishjy.library.RippleBackground;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +37,9 @@ public class HomePageActivity extends AppCompatActivity{
     private TextView openNum;
     private TextView closeNum;
     private TextView scanNow;
-    private TextView scan;
-    private LinearLayout openWifiContainer;
-    private LinearLayout closeWifiContainer;
+    private FrameLayout scan;
+    private FrameLayout openWifiContainer;
+    private FrameLayout closeWifiContainer;
 
     private WifiManager manager;
     private List<ScanResult> allScanResults;
@@ -48,7 +51,7 @@ public class HomePageActivity extends AppCompatActivity{
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_page_activity_layout);
+        setContentView(R.layout.upgrade_scan_activity_layout);
 
         manager = WifiUtility.getSingletonWifiManager(this);
         registerReceiver(new WifiScanReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
@@ -65,10 +68,13 @@ public class HomePageActivity extends AppCompatActivity{
         closedNetwork = (TextView)findViewById(R.id.close);
         openNum = (TextView)findViewById(R.id.openNum);
         closeNum = (TextView)findViewById(R.id.closeNum);
-        openWifiContainer = (LinearLayout)findViewById(R.id.openContainer);
-        closeWifiContainer = (LinearLayout)findViewById(R.id.closeContainer);
+        openWifiContainer = (FrameLayout)findViewById(R.id.openContainer);
+        closeWifiContainer = (FrameLayout)findViewById(R.id.closeContainer);
         scanNow = (TextView)findViewById(R.id.scanNow);
-        scan = (TextView)findViewById(R.id.scan);
+
+
+        scan = (FrameLayout)findViewById(R.id.scan);
+
 
         openWifiContainer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +86,7 @@ public class HomePageActivity extends AppCompatActivity{
 
             }
         });
+
 
         closeWifiContainer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +142,6 @@ public class HomePageActivity extends AppCompatActivity{
     {
         return manager.getScanResults().size();
     }
-
 
     private void setUpAllList()
     {
