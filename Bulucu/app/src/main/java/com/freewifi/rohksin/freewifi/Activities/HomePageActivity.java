@@ -38,8 +38,8 @@ public class HomePageActivity extends AppCompatActivity{
     private TextView closeNum;
     private TextView scanNow;
     private FrameLayout scan;
-    private LinearLayout openWifiContainer;
-    private LinearLayout closeWifiContainer;
+    private FrameLayout openWifiContainer;
+    private FrameLayout closeWifiContainer;
 
     private WifiManager manager;
     private List<ScanResult> allScanResults;
@@ -68,27 +68,15 @@ public class HomePageActivity extends AppCompatActivity{
         closedNetwork = (TextView)findViewById(R.id.close);
         openNum = (TextView)findViewById(R.id.openNum);
         closeNum = (TextView)findViewById(R.id.closeNum);
-        openWifiContainer = (LinearLayout)findViewById(R.id.openContainer);
-//        closeWifiContainer = (LinearLayout)findViewById(R.id.closeContainer);
+        openWifiContainer = (FrameLayout)findViewById(R.id.openContainer);
+        closeWifiContainer = (FrameLayout)findViewById(R.id.closeContainer);
         scanNow = (TextView)findViewById(R.id.scanNow);
+
+
         scan = (FrameLayout)findViewById(R.id.scan);
 
 
-
-       // final RippleBackground opencontainerRipple=(RippleBackground)findViewById(R.id.content);
-      //  opencontainerRipple.startRippleAnimation();
-
-
-      //  final RippleBackground closeContainerRippple=(RippleBackground)findViewById(R.id.closeContainer);
-      //  closeContainerRippple.startRippleAnimation();
-
-    //    final RippleBackground allContainer=(RippleBackground)findViewById(R.id.content);
-//        allContainer.startRippleAnimation();
-
-
-
-        /*
-        opencontainerRipple.setOnClickListener(new View.OnClickListener() {
+        openWifiContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -100,9 +88,7 @@ public class HomePageActivity extends AppCompatActivity{
         });
 
 
-
-
-        closeContainerRippple.setOnClickListener(new View.OnClickListener() {
+        closeWifiContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -111,7 +97,7 @@ public class HomePageActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
-*/
+
 
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
