@@ -13,14 +13,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
-import com.skyfishjy.library.RippleBackground;
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +70,9 @@ public class HomePageActivity extends AppCompatActivity{
         openWifiContainer = (FrameLayout)findViewById(R.id.openContainer);
         closeWifiContainer = (FrameLayout)findViewById(R.id.closeContainer);
         scanNow = (TextView)findViewById(R.id.scanNow);
+
+
+        addIntoView(R.id.openContainer,"Open networks", "Click to see list of open networks around you");
 
 
         scan = (FrameLayout)findViewById(R.id.scan);
@@ -187,6 +189,35 @@ public class HomePageActivity extends AppCompatActivity{
         return (capability.contains("WPA") || capability.contains("WEP") || capability.contains("WPS"));
     }
 
+    private void addIntoView(int targetId, String msg, String desc)
+    {
+        TapTargetView.showFor(this,                 // `this` is an Activity
+                TapTarget.forView(findViewById(targetId), msg, desc)
+                        // All options below are optional
+                        .outerCircleColor(android.R.color.holo_red_dark)      // Specify a color for the outer circle
+                        .outerCircleAlpha(0.96f)            // Specify the alpha amount for the outer circle
+                        .targetCircleColor(android.R.color.white)   // Specify a color for the target circle
+                        .titleTextSize(20)                  // Specify the size (in sp) of the title text
+                        .titleTextColor(android.R.color.white)      // Specify the color of the title text
+                        .descriptionTextSize(10)            // Specify the size (in sp) of the description text
+                        .descriptionTextColor(android.R.color.holo_red_dark)  // Specify the color of the description text
+                        .textColor(android.R.color.holo_blue_dark)            // Specify a color for both the title and description text
+                        .dimColor(android.R.color.black)            // If set, will dim behind the view with 30% opacity of the given color
+                        .drawShadow(true)                   // Whether to draw a drop shadow or not
+                        .cancelable(false)                  // Whether tapping outside the outer circle dismisses the view
+                        .tintTarget(true)                   // Whether to tint the target view's color
+                        .transparentTarget(false)           // Specify whether the target is transparent (displays the content underneath)
+                        //.icon(Drawable)                     // Specify a custom drawable to draw as the target
+                        .targetRadius(60),                  // Specify the target radius (in dp)
+                new TapTargetView.Listener() {          // The listener can listen for regular clicks, long clicks or cancels
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);      // This call is optional
+                        // doSomething();
+                    }
+                });
+
+    }
 
 
 
