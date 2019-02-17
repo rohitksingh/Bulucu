@@ -73,6 +73,8 @@ public class HomePageActivity extends AppCompatActivity{
 
 
         addIntoView(R.id.openContainer,"Open networks", "Click to see list of open networks around you");
+        addIntoView(R.id.closeContainer, "Open networks", "Click to see list of close networks around you");
+        addIntoView(R.id.scan, "Scan Now", "Scan your surrounding for 10 seconds");
 
 
         scan = (FrameLayout)findViewById(R.id.scan);
