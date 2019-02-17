@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
-import com.skyfishjy.library.RippleBackground;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +46,8 @@ public class HomePageActivity extends AppCompatActivity{
     private List<ScanResult> openScanResults;
     private List<ScanResult> closeScanResults;
 
+    private FirebaseAnalytics firebaseAnalytics;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -57,7 +59,10 @@ public class HomePageActivity extends AppCompatActivity{
         registerReceiver(new WifiScanReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         manager.startScan();
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         setUpUI();
+
 
     }
 
@@ -80,6 +85,7 @@ public class HomePageActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
+                recordClickEvents("Open_Wifi_Clicked");
                 Intent intent = new Intent(HomePageActivity.this, WifiListActivity.class);
                 intent.setAction("OPEN_NETWORK");
                 startActivity(intent);
@@ -92,9 +98,11 @@ public class HomePageActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
+                recordClickEvents("Close_Wifi_Clicked");
                 Intent intent = new Intent(HomePageActivity.this, WifiListActivity.class);
                 intent.setAction("CLOSE_NETWORK");
                 startActivity(intent);
+
             }
         });
 
@@ -102,6 +110,8 @@ public class HomePageActivity extends AppCompatActivity{
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                recordClickEvents("Scan_Surrounding_Clicked");
                 startActivity(new Intent(HomePageActivity.this, ScanSurroundingActivity.class));
             }
         });
@@ -185,6 +195,13 @@ public class HomePageActivity extends AppCompatActivity{
     private boolean isProtectedNetwork(String capability)
     {
         return (capability.contains("WPA") || capability.contains("WEP") || capability.contains("WPS"));
+    }
+
+
+    private void recordClickEvents(String name)
+    {
+        Bundle bundle = new Bundle();
+        firebaseAnalytics.logEvent(name, bundle);
     }
 
 
