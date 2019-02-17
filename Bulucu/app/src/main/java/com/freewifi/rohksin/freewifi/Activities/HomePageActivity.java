@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -54,6 +55,11 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
     private SharedPreferences preferences;
 
 
+    private Drawable openWifiLogo;
+    private Drawable closeWifiLogo;
+    private Drawable scanNowLogo;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -66,9 +72,25 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
         setUpUI();
 
+
         preferences = getPreferences(MODE_PRIVATE);
         hasCompletedIntro = preferences.getBoolean("INTO_COMPLETED",false);
-        setUpIntroView();
+
+        if(!hasCompletedIntro){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    openWifiLogo = getResources().getDrawable( R.drawable.open_network);
+                    closeWifiLogo = getResources().getDrawable( R.drawable.closed_network);
+                    scanNowLogo = getResources().getDrawable( R.drawable.scan_now);
+
+                    setUpIntroView();
+                }
+            }).start();
+
+        }
+        //setUpIntroView();
 
     }
 
@@ -202,25 +224,25 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         return (capability.contains("WPA") || capability.contains("WEP") || capability.contains("WPS"));
     }
 
-    private void addIntroView(int targetId, String msg, String desc)
+    private void addIntroView(int targetId, String msg, String desc, int color, Drawable drawable)
     {
         TapTargetView.showFor(this,                 // `this` is an Activity
                 TapTarget.forView(findViewById(targetId), msg, desc)
                         // All options below are optional
-                        .outerCircleColor(android.R.color.holo_red_dark)      // Specify a color for the outer circle
+                        .outerCircleColor(color)      // Specify a color for the outer circle
                         .outerCircleAlpha(0.96f)            // Specify the alpha amount for the outer circle
                         .targetCircleColor(android.R.color.white)   // Specify a color for the target circle
                         .titleTextSize(20)                  // Specify the size (in sp) of the title text
                         .titleTextColor(android.R.color.white)      // Specify the color of the title text
-                        .descriptionTextSize(10)            // Specify the size (in sp) of the description text
-                        .descriptionTextColor(android.R.color.holo_red_dark)  // Specify the color of the description text
-                        .textColor(android.R.color.holo_blue_dark)            // Specify a color for both the title and description text
+                        .descriptionTextSize(15)            // Specify the size (in sp) of the description text
+                        .descriptionTextColor(android.R.color.white)  // Specify the color of the description text
+                        .textColor(android.R.color.white)            // Specify a color for both the title and description text
                         .dimColor(android.R.color.black)            // If set, will dim behind the view with 30% opacity of the given color
                         .drawShadow(true)                   // Whether to draw a drop shadow or not
                         .cancelable(false)                  // Whether tapping outside the outer circle dismisses the view
                         .tintTarget(true)                   // Whether to tint the target view's color
                         .transparentTarget(false)           // Specify whether the target is transparent (displays the content underneath)
-                        //.icon(Drawable)                     // Specify a custom drawable to draw as the target
+                        .icon(drawable)                     // Specify a custom drawable to draw as the target
                         .targetRadius(60),                  // Specify the target radius (in dp)
                 new TapTargetView.Listener() {
                     public void onTargetClick(TapTargetView view) {
@@ -240,15 +262,15 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
             switch (tapCounter) {
                 case 0:
-                    addIntroView(R.id.openContainer, "Open networks", "Click to see list of open networks around you");
+                    addIntroView(R.id.openContainer, "Open networks", "Click to see list of open networks around you", android.R.color.holo_green_dark,openWifiLogo);
                     tapCounter++;
                     break;
                 case 1:
-                    addIntroView(R.id.closeContainer, "Open networks", "Click to see list of close networks around you");
+                    addIntroView(R.id.closeContainer, "Close networks", "Click to see list of close networks around you", android.R.color.holo_orange_dark, closeWifiLogo);
                     tapCounter++;
                     break;
                 case 2:
-                    addIntroView(R.id.scan, "Scan Now", "Scan your surrounding for 10 seconds");
+                    addIntroView(R.id.scan, "Scan Now", "Scan your surrounding for 10 seconds", android.R.color.holo_blue_dark, openWifiLogo);
                     tapCounter++;
                     hasCompletedIntro= true;
                     SharedPreferences.Editor editor = preferences.edit();
