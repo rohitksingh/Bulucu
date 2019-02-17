@@ -74,7 +74,7 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
 
         preferences = getPreferences(MODE_PRIVATE);
-        hasCompletedIntro = preferences.getBoolean("INTO_COMPLETED",false);
+        //hasCompletedIntro = preferences.getBoolean("INTO_COMPLETED",false);
 
         if(!hasCompletedIntro){
             new Thread(new Runnable() {
@@ -232,7 +232,7 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
                         .outerCircleColor(color)      // Specify a color for the outer circle
                         .outerCircleAlpha(0.96f)            // Specify the alpha amount for the outer circle
                         .targetCircleColor(android.R.color.white)   // Specify a color for the target circle
-                        .titleTextSize(20)                  // Specify the size (in sp) of the title text
+                        .titleTextSize(20)// Specify the size (in sp) of the title text
                         .titleTextColor(android.R.color.white)      // Specify the color of the title text
                         .descriptionTextSize(15)            // Specify the size (in sp) of the description text
                         .descriptionTextColor(android.R.color.white)  // Specify the color of the description text
@@ -262,11 +262,11 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
             switch (tapCounter) {
                 case 0:
-                    addIntroView(R.id.openContainer, "Open networks", "Click to see list of open networks around you", android.R.color.holo_green_dark,openWifiLogo);
+                    addIntroView(R.id.openContainer, "\nOpen Networks", "Click to find open networks around you", android.R.color.holo_green_dark,openWifiLogo);
                     tapCounter++;
                     break;
                 case 1:
-                    addIntroView(R.id.closeContainer, "Close networks", "Click to see list of close networks around you", android.R.color.holo_orange_dark, closeWifiLogo);
+                    addIntroView(R.id.closeContainer, "\nClose networks", "Click to find close networks around you", android.R.color.holo_orange_dark, closeWifiLogo);
                     tapCounter++;
                     break;
                 case 2:
