@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
@@ -21,6 +22,7 @@ import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,7 @@ import java.util.List;
  * Created by Illuminati on 2/17/2018.
  */
 
-public class HomePageActivity extends AppCompatActivity{
+public class HomePageActivity extends AppCompatActivity implements TapTargetView.OnClickListener{
 
 
     private TextView openNetwork;
@@ -45,6 +47,12 @@ public class HomePageActivity extends AppCompatActivity{
     private List<ScanResult> openScanResults;
     private List<ScanResult> closeScanResults;
 
+    private TapTargetView.Listener tapTargetListener;
+
+    private int tapCounter=0;
+    private boolean hasCompletedIntro = false;
+    private SharedPreferences preferences;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -58,6 +66,10 @@ public class HomePageActivity extends AppCompatActivity{
 
         setUpUI();
 
+        preferences = getPreferences(MODE_PRIVATE);
+        hasCompletedIntro = preferences.getBoolean("INTO_COMPLETED",false);
+        setUpIntroView();
+
     }
 
 
@@ -70,11 +82,6 @@ public class HomePageActivity extends AppCompatActivity{
         openWifiContainer = (FrameLayout)findViewById(R.id.openContainer);
         closeWifiContainer = (FrameLayout)findViewById(R.id.closeContainer);
         scanNow = (TextView)findViewById(R.id.scanNow);
-
-
-        addIntoView(R.id.openContainer,"Open networks", "Click to see list of open networks around you");
-        addIntoView(R.id.closeContainer, "Open networks", "Click to see list of close networks around you");
-        addIntoView(R.id.scan, "Scan Now", "Scan your surrounding for 10 seconds");
 
 
         scan = (FrameLayout)findViewById(R.id.scan);
@@ -111,6 +118,10 @@ public class HomePageActivity extends AppCompatActivity{
         });
     }
 
+    @Override
+    public void onClick(View v) {
+
+    }
 
 
     //************************************************************************************************************//
@@ -191,7 +202,7 @@ public class HomePageActivity extends AppCompatActivity{
         return (capability.contains("WPA") || capability.contains("WEP") || capability.contains("WPS"));
     }
 
-    private void addIntoView(int targetId, String msg, String desc)
+    private void addIntroView(int targetId, String msg, String desc)
     {
         TapTargetView.showFor(this,                 // `this` is an Activity
                 TapTarget.forView(findViewById(targetId), msg, desc)
@@ -211,14 +222,45 @@ public class HomePageActivity extends AppCompatActivity{
                         .transparentTarget(false)           // Specify whether the target is transparent (displays the content underneath)
                         //.icon(Drawable)                     // Specify a custom drawable to draw as the target
                         .targetRadius(60),                  // Specify the target radius (in dp)
-                new TapTargetView.Listener() {          // The listener can listen for regular clicks, long clicks or cancels
-                    @Override
+                new TapTargetView.Listener() {
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);      // This call is optional
                         // doSomething();
+                        setUpIntroView();
                     }
                 });
 
+    }
+
+
+    private void setUpIntroView()
+    {
+        if(!hasCompletedIntro)
+        {
+
+            switch (tapCounter) {
+                case 0:
+                    addIntroView(R.id.openContainer, "Open networks", "Click to see list of open networks around you");
+                    tapCounter++;
+                    break;
+                case 1:
+                    addIntroView(R.id.closeContainer, "Open networks", "Click to see list of close networks around you");
+                    tapCounter++;
+                    break;
+                case 2:
+                    addIntroView(R.id.scan, "Scan Now", "Scan your surrounding for 10 seconds");
+                    tapCounter++;
+                    hasCompletedIntro= true;
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("INTO_COMPLETED",true);
+                    editor.commit();
+                    break;
+                default:
+                    break;
+
+            }
+
+        }
     }
 
 
