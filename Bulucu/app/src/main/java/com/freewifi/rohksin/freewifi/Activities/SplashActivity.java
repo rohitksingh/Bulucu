@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.freewifi.rohksin.freewifi.R;
+import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -19,6 +20,8 @@ public class SplashActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_activity_layout);
+
+        AppUtility.loadAppUtility(this);
 
         into = (LottieAnimationView)findViewById(R.id.bulucu_into);
 

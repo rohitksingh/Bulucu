@@ -5,11 +5,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,12 +19,12 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.R;
+import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,8 +52,8 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
     private TapTargetView.Listener tapTargetListener;
 
     private int tapCounter=0;
-    private boolean hasCompletedIntro = false;
-    private SharedPreferences preferences;
+    //private boolean hasCompletedIntro = false;
+    //private SharedPreferences preferences;
 
 
     private Drawable openWifiLogo;
@@ -76,25 +76,11 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
         setUpUI();
 
-        preferences = getPreferences(MODE_PRIVATE);
-        //hasCompletedIntro = preferences.getBoolean("INTO_COMPLETED",false);
 
-        if(!hasCompletedIntro){
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-
-                    openWifiLogo = getResources().getDrawable( R.drawable.open_network);
-                    closeWifiLogo = getResources().getDrawable( R.drawable.closed_network);
-                    scanNowLogo = getResources().getDrawable( R.drawable.scan_now);
-
-                    setUpIntroView();
-                }
-            }).start();
-
+        if(!AppUtility.hasCompletedIntro)
+        {
+            new DrawableLoader().execute();
         }
-        //setUpIntroView();
-
 
     }
 
@@ -266,7 +252,7 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
     private void setUpIntroView()
     {
-        if(!hasCompletedIntro)
+        if(!AppUtility.hasCompletedIntro)
         {
 
             switch (tapCounter) {
@@ -279,12 +265,10 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
                     tapCounter++;
                     break;
                 case 2:
-                    addIntroView(R.id.scan, "Scan Now", "Scan your surrounding for 10 seconds", android.R.color.holo_blue_dark, openWifiLogo);
+                    addIntroView(R.id.scan, "Scan Now", "Scan your surrounding for 10 seconds", android.R.color.holo_blue_dark, scanNowLogo);
                     tapCounter++;
-                    hasCompletedIntro= true;
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putBoolean("INTO_COMPLETED",true);
-                    editor.commit();
+                    AppUtility.saveIntoComplete();
+
                     break;
                 default:
                     break;
@@ -299,7 +283,6 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         Bundle bundle = new Bundle();
         firebaseAnalytics.logEvent(name, bundle);
     }
-
 
 
 
@@ -320,6 +303,28 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
                 requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 87);
             }
         }
+    }
+
+
+
+    private class DrawableLoader extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        public Void doInBackground(Void... params)
+        {
+            openWifiLogo = getResources().getDrawable( R.drawable.open_network);
+            closeWifiLogo = getResources().getDrawable( R.drawable.closed_network);
+            scanNowLogo = getResources().getDrawable( R.drawable.scan_now);
+
+            return null;
+        }
+
+        @Override
+        public void onPostExecute(Void result)
+        {
+            setUpIntroView();
+        }
+
     }
 
 

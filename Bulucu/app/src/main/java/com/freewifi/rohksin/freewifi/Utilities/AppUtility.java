@@ -2,6 +2,7 @@ package com.freewifi.rohksin.freewifi.Utilities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class AppUtility {
 
@@ -14,6 +15,8 @@ public class AppUtility {
     {
         sharedPreferences = context.getSharedPreferences("AppSharedPreference", Context.MODE_PRIVATE);
         loadUserData();
+
+        Log.d("User Complete", hasCompletedIntro+"");
     }
 
 
@@ -25,7 +28,10 @@ public class AppUtility {
     {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("INTRO_COMPLETED", true);
-        hasCompletedIntro = true;
+        editor.commit();
+        hasCompletedIntro = sharedPreferences.getBoolean("INTRO_COMPLETED", false);
+
+        Log.d("User Complete", hasCompletedIntro+"");
     }
 
 
