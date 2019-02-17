@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "861928680321",
+    "firebase_url": "https://grocery-7f028.firebaseio.com",
+    "project_id": "grocery-7f028",
+    "storage_bucket": "grocery-7f028.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861928680321:android:7e6ca518b105f507",
+        "android_client_info": {
+          "package_name": "com.freewifi.rohksin.freewifi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "861928680321-mbdbuf74q7h4ekncs3p1s6u9s66acvis.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_Hdh6fEBgQGZkUzjJyTGHXdKEP1Y4KTc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

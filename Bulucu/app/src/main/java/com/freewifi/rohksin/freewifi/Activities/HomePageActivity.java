@@ -22,6 +22,7 @@ import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.security.PublicKey;
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
     private Drawable openWifiLogo;
     private Drawable closeWifiLogo;
     private Drawable scanNowLogo;
+    private FirebaseAnalytics firebaseAnalytics;
 
 
     @Override
@@ -70,8 +72,9 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         registerReceiver(new WifiScanReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         manager.startScan();
 
-        setUpUI();
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
+        setUpUI();
 
         preferences = getPreferences(MODE_PRIVATE);
         //hasCompletedIntro = preferences.getBoolean("INTO_COMPLETED",false);
@@ -91,6 +94,7 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
         }
         //setUpIntroView();
+
 
     }
 
@@ -113,6 +117,7 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
             @Override
             public void onClick(View v) {
 
+                recordClickEvents("Open_Wifi_Clicked");
                 Intent intent = new Intent(HomePageActivity.this, WifiListActivity.class);
                 intent.setAction("OPEN_NETWORK");
                 startActivity(intent);
@@ -125,9 +130,11 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
             @Override
             public void onClick(View v) {
 
+                recordClickEvents("Close_Wifi_Clicked");
                 Intent intent = new Intent(HomePageActivity.this, WifiListActivity.class);
                 intent.setAction("CLOSE_NETWORK");
                 startActivity(intent);
+
             }
         });
 
@@ -135,6 +142,8 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                recordClickEvents("Scan_Surrounding_Clicked");
                 startActivity(new Intent(HomePageActivity.this, ScanSurroundingActivity.class));
             }
         });
@@ -284,6 +293,13 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
         }
     }
+
+    private void recordClickEvents(String name)
+    {
+        Bundle bundle = new Bundle();
+        firebaseAnalytics.logEvent(name, bundle);
+    }
+
 
 
 

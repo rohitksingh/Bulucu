@@ -29,4 +29,8 @@ dependencies {
     implementation 'com.jjoe64:graphview:4.2.1'
     implementation 'com.airbnb.android:lottie:2.7.0'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.12.0'
+    implementation 'com.skyfishjy.ripplebackground:library:1.0.1'
+    implementation 'com.google.firebase:firebase-core:16.0.7'
 }
+
+apply plugin: 'com.google.gms.google-services'
