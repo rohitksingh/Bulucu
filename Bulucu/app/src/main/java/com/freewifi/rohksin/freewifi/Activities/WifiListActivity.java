@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.Adapters.CloseWifiListAdapter;
@@ -51,6 +52,7 @@ public class WifiListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceBundle);
         setContentView(R.layout.wifi_list_activity_layout);
         intent = getIntent();
+        setBackGroundColor(intent.getIntExtra("BG_COLOR",0));
 
 
         noNetworkFound = (TextView)findViewById(R.id.noNetworkAvailable);
@@ -122,6 +124,13 @@ public class WifiListActivity extends AppCompatActivity {
         return height;
     }
 
+
+    private void setBackGroundColor(int color)
+    {
+        Log.d("Color", color+"");
+        RelativeLayout mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
+        mainLayout.setBackgroundColor(getResources().getColor(color));
+    }
 
 
 

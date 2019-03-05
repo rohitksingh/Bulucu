@@ -106,6 +106,7 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
                 recordClickEvents("Open_Wifi_Clicked");
                 Intent intent = new Intent(HomePageActivity.this, WifiListActivity.class);
                 intent.setAction("OPEN_NETWORK");
+                intent.putExtra("BG_COLOR",android.R.color.holo_green_light);
                 startActivity(intent);
 
             }
@@ -119,6 +120,7 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
                 recordClickEvents("Close_Wifi_Clicked");
                 Intent intent = new Intent(HomePageActivity.this, WifiListActivity.class);
                 intent.setAction("CLOSE_NETWORK");
+                intent.putExtra("BG_COLOR",android.R.color.holo_orange_light);
                 startActivity(intent);
 
             }
