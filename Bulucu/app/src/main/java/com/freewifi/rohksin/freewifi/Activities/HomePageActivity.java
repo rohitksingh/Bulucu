@@ -256,20 +256,23 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         {
 
             switch (tapCounter) {
+
                 case 0:
                     addIntroView(R.id.openContainer, "\nOpen Networks", "Click to find open networks around you", android.R.color.holo_green_dark,openWifiLogo);
                     tapCounter++;
                     break;
+
                 case 1:
                     addIntroView(R.id.closeContainer, "\nClose networks", "Click to find close networks around you", android.R.color.holo_orange_dark, closeWifiLogo);
                     tapCounter++;
                     break;
+
                 case 2:
                     addIntroView(R.id.scan, "Scan Now", "Scan your surrounding for 10 seconds", android.R.color.holo_blue_dark, scanNowLogo);
                     tapCounter++;
                     AppUtility.saveIntoComplete();
-
                     break;
+
                 default:
                     break;
 

@@ -6,7 +6,6 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/bulucuBlack"
     app:cardElevation="10dp"
     >
 <RelativeLayout
@@ -28,7 +27,6 @@
         android:layout_toRightOf="@id/wifiImage"
         android:text="SSID"
         android:layout_centerVertical="true"
-        android:textColor="#ffffff"
         />
     <TextView
         android:id="@+id/connect"
@@ -37,7 +35,6 @@
         android:layout_centerVertical="true"
         android:text="Connect"
         android:layout_alignParentRight="true"
-        android:textColor="#ffffff"
         android:layout_marginRight="12dp"
         android:background="@drawable/connect"
         android:paddingLeft="10dp"

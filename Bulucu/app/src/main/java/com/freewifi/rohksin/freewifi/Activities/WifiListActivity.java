@@ -63,9 +63,6 @@ public class WifiListActivity extends AppCompatActivity {
         registerReceiver(new ScanReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
 
-
-
-
         manager = WifiUtility.getSingletonWifiManager(this);
         manager.startScan();
 
