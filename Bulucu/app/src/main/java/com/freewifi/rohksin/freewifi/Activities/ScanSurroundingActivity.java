@@ -13,8 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.freewifi.rohksin.freewifi.Adapters.StringAdapter;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
@@ -39,9 +41,11 @@ public class ScanSurroundingActivity extends AppCompatActivity {
     private List<String> scanResults;
     private Set<String> uniqueScanResult;
 
-    private Menu menu;
-    private MenuItem item;
-    //private MenuItem scanningProgress;
+    private TextView scanTime;
+    private LottieAnimationView scanLottieButton;
+
+    //private Menu menu;
+    //private MenuItem item;
 
     private boolean SCAN_RUNNING = false;
 
@@ -49,11 +53,14 @@ public class ScanSurroundingActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.scan_surrounding_activity_layout);
+        setContentView(R.layout.redesign_scan_surrounding_activity_layout);
 
-        getSupportActionBar().setTitle("Scan Result");
+//        getSupportActionBar().setTitle("Scan Result");
 
         rv = (RecyclerView)findViewById(R.id.rv);
+
+        scanTime = (TextView)findViewById(R.id.scanTime);
+
 
         llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
@@ -73,13 +80,13 @@ public class ScanSurroundingActivity extends AppCompatActivity {
     //                                      Menu Related                                          //
     //********************************************************************************************//
 
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.scan_surrounding_menu,menu);
         this.menu = menu;
         item = menu.findItem(R.id.numOfWifi);
-        //scanningProgress = menu.findItem(R.id.scanning);
         return true;
     }
 
@@ -103,18 +110,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-    private int getTopPadding()
-    {
-        int height=0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if(resourceId>0)
-        {
-            height = getResources().getDimensionPixelSize(resourceId);
-        }
-        return height;
-    }
+*/
 
 
 
@@ -152,7 +148,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
                 }
 
                 scanResults = new ArrayList<String>(uniqueScanResult);
-                publishProgress("");
+                publishProgress((10-i)+"");
 
             }
 
@@ -168,8 +164,8 @@ public class ScanSurroundingActivity extends AppCompatActivity {
             //adapter.notifyDataSetChanged();     ? Why it is not working
 
             // TEMP
-
-            item.setTitle(scanResults.size()+"");
+            scanTime.setText(param[0]);
+            //item.setTitle(scanResults.size()+"");
             adapter = new StringAdapter(ScanSurroundingActivity.this, scanResults);
             rv.setAdapter(adapter);
 
@@ -204,20 +200,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
     }
 
 
-    /*
 
-    public void startLoadingAnimation()
-    {
-
-        Log.d("Null", (scanningProgress==null)+""+(item==null));
-        View view = (View)scanningProgress;
-        Animation loadingAnimation = new RotateAnimation(0.0f,360.0f,view.getPivotX(),view.getPivotY());
-        loadingAnimation.setDuration(500);
-        loadingAnimation.setRepeatCount(-1);
-        view.setAnimation(loadingAnimation);
-    }
-
-    */
 
 
 }
