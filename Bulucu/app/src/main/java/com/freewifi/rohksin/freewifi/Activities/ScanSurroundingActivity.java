@@ -11,13 +11,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -30,9 +26,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by Illuminati on 2/17/2018.
- */
 
 public class ScanSurroundingActivity extends AppCompatActivity {
 
@@ -55,9 +48,6 @@ public class ScanSurroundingActivity extends AppCompatActivity {
     private ScanTask scanTask;
 
 
-    //private Menu menu;
-    //private MenuItem item;
-
     private boolean SCAN_RUNNING = false;
     private int SCAN_NUM =0;
 
@@ -67,35 +57,14 @@ public class ScanSurroundingActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.redesign_scan_surrounding_activity_layout);
+        setContentView(R.layout.scan_surrounding_activity_layout);
 
         scannerLayout = (RelativeLayout)findViewById(R.id.scannerLayout);
         scannerLayout.setPadding(0,getStatusBarHeight(),0,0);
 
         title= (CollapsingToolbarLayout)findViewById(R.id.title);
         title.setExpandedTitleColor(Color.TRANSPARENT);
-
-
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = true;
-            int scrollRange = -1;
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    title.setTitle("Result Found "+SCAN_NUM);
-                    isShow = true;
-                } else if(isShow) {
-                    title.setTitle(" ");
-                    isShow = false;
-                }
-            }
-        });
-
+        setUpCollapsingToolBar();
 
 
 
@@ -115,14 +84,12 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         wifiNum.setPadding(0,getStatusBarHeight(),0,0);
 
 
-
-
         llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
         scanResults = new ArrayList<String>();
         adapter = new StringAdapter(this, scanResults);
         rv.setAdapter(adapter);
-        rv.setPadding(0, 120, 0, 0);
+        //rv.setPadding(0, 120, 0, 0);
 
         manager = WifiUtility.getSingletonWifiManager(this);
         uniqueScanResult = new LinkedHashSet<String>();
@@ -130,43 +97,6 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         startScan();
 
     }
-
-
-    //********************************************************************************************//
-    //                                      Menu Related                                          //
-    //********************************************************************************************//
-
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        getMenuInflater().inflate(R.menu.scan_surrounding_menu,menu);
-        this.menu = menu;
-        item = menu.findItem(R.id.numOfWifi);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-
-        int id = item.getItemId();
-
-        switch (id)
-        {
-            case R.id.numOfWifi:
-            {
-                //Toast.makeText(this, "Num Of Wifi", Toast.LENGTH_SHORT).show();
-                break;
-            }
-            default:
-              //  Toast.makeText(this, "Default", Toast.LENGTH_SHORT).show();
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-*/
 
 
 
@@ -184,11 +114,8 @@ public class ScanSurroundingActivity extends AppCompatActivity {
 
             SCAN_RUNNING = true;
             scanLottieButton.playAnimation();
-
-
             Snackbar.make(scanLottieButton, "Scanning...", Snackbar.LENGTH_SHORT)
                     .show();
-
 
         }
 
@@ -228,17 +155,13 @@ public class ScanSurroundingActivity extends AppCompatActivity {
 
             //adapter.notifyDataSetChanged();     ? Why it is not working
 
-            // TEMP
+            // TEMP ///////////////////////////////////////////////////////////////////////////////
             scanTime.setText(param[0]);
             SCAN_NUM = scanResults.size();
             wifiNum.setText("Result Found "+SCAN_NUM);
-
-            //item.setTitle(scanResults.size()+"");
             adapter = new StringAdapter(ScanSurroundingActivity.this, scanResults);
             rv.setAdapter(adapter);
-
-
-            // TEMP
+            // TEMP ///////////////////////////////////////////////////////////////////////////////
         }
 
         @Override
@@ -250,12 +173,17 @@ public class ScanSurroundingActivity extends AppCompatActivity {
             Snackbar.make(scanLottieButton, "Scan Finished", Snackbar.LENGTH_SHORT)
                     .show();
 
-            // Add someAction
+            // Add someAction // Menu item : two dots
 
         }
 
     }
 
+
+
+    //*******************************************************************************************************//
+    //                                     Private Helper methods                                            //
+    //*******************************************************************************************************//
 
 
     private void startScan()
@@ -280,6 +208,31 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         }
         return result;
     }
+
+
+    private void setUpCollapsingToolBar()
+    {
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = true;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    title.setTitle("Result Found "+SCAN_NUM);
+                    isShow = true;
+                } else if(isShow) {
+                    title.setTitle(" ");
+                    isShow = false;
+                }
+            }
+        });
+    }
+
 
 
 }
