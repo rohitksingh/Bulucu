@@ -4,6 +4,7 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,6 +45,13 @@ public class ScanSurroundingActivity extends AppCompatActivity {
     private TextView scanTime;
     private LottieAnimationView scanLottieButton;
 
+
+    private ScanTask scanTask;
+
+
+
+
+
     //private Menu menu;
     //private MenuItem item;
 
@@ -61,6 +69,15 @@ public class ScanSurroundingActivity extends AppCompatActivity {
 
         scanTime = (TextView)findViewById(R.id.scanTime);
         scanLottieButton = (LottieAnimationView)findViewById(R.id.lottieButton);
+        scanLottieButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                    startScan();
+            }
+        });
+
+
 
 
         llm = new LinearLayoutManager(this);
@@ -122,11 +139,16 @@ public class ScanSurroundingActivity extends AppCompatActivity {
 
     private class ScanTask extends AsyncTask<Void, String  , Void >{
 
+
+
         @Override
         public void onPreExecute()
         {
+
+            SCAN_RUNNING = true;
             Toast.makeText(ScanSurroundingActivity.this, "Scanning...", Toast.LENGTH_LONG).show();
-           // startLoadingAnimation();
+            scanLottieButton.playAnimation();
+
         }
 
         @Override
@@ -167,10 +189,11 @@ public class ScanSurroundingActivity extends AppCompatActivity {
 
             // TEMP
             scanTime.setText(param[0]);
+
+
             //item.setTitle(scanResults.size()+"");
             adapter = new StringAdapter(ScanSurroundingActivity.this, scanResults);
             rv.setAdapter(adapter);
-
 
 
             // TEMP
@@ -180,25 +203,8 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         public void onPostExecute(Void result)
         {
             Toast.makeText(ScanSurroundingActivity.this, "Scan Fininshed", Toast.LENGTH_SHORT).show();
-            scanTime.setText("Scan Again");
+            scanTime.setText("Scan");
             scanLottieButton.pauseAnimation();
-        }
-
-    }
-
-
-
-    public void startScan()
-    {
-        ScanTask task = new ScanTask();
-
-        if(!SCAN_RUNNING)
-        {
-            task.execute();
-            SCAN_RUNNING = true;
-        }
-        else {
-            task.cancel(false);
             SCAN_RUNNING = false;
         }
 
@@ -206,6 +212,17 @@ public class ScanSurroundingActivity extends AppCompatActivity {
 
 
 
+    private void startScan()
+    {
+
+
+        if(!SCAN_RUNNING) {
+            scanTask = new ScanTask();
+            scanTask.execute();
+        }
+
+
+    }
 
 
 }
