@@ -5,15 +5,19 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.RelativeLayout;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,12 +48,11 @@ public class ScanSurroundingActivity extends AppCompatActivity {
 
     private TextView scanTime;
     private LottieAnimationView scanLottieButton;
+    private TextView wifiNum;
+    private RelativeLayout scannerLayout;
 
 
     private ScanTask scanTask;
-
-
-
 
 
     //private Menu menu;
@@ -63,7 +66,10 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.redesign_scan_surrounding_activity_layout);
 
-//        getSupportActionBar().setTitle("Scan Result");
+        scannerLayout = (RelativeLayout)findViewById(R.id.scannerLayout);
+        scannerLayout.setPadding(0,getStatusBarHeight(),0,0);
+
+
 
         rv = (RecyclerView)findViewById(R.id.rv);
 
@@ -76,6 +82,9 @@ public class ScanSurroundingActivity extends AppCompatActivity {
                     startScan();
             }
         });
+
+        wifiNum = (TextView)findViewById(R.id.wifiNum);
+        wifiNum.setPadding(0,getStatusBarHeight(),0,0);
 
 
 
@@ -146,8 +155,12 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         {
 
             SCAN_RUNNING = true;
-            Toast.makeText(ScanSurroundingActivity.this, "Scanning...", Toast.LENGTH_LONG).show();
             scanLottieButton.playAnimation();
+
+
+            Snackbar.make(scanLottieButton, "Scanning...", Snackbar.LENGTH_SHORT)
+                    .show();
+
 
         }
 
@@ -190,7 +203,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
             // TEMP
             scanTime.setText(param[0]);
 
-
+            wifiNum.setText("Result Found "+scanResults.size());
             //item.setTitle(scanResults.size()+"");
             adapter = new StringAdapter(ScanSurroundingActivity.this, scanResults);
             rv.setAdapter(adapter);
@@ -202,10 +215,14 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         @Override
         public void onPostExecute(Void result)
         {
-            Toast.makeText(ScanSurroundingActivity.this, "Scan Fininshed", Toast.LENGTH_SHORT).show();
             scanTime.setText("Scan");
             scanLottieButton.pauseAnimation();
             SCAN_RUNNING = false;
+            Snackbar.make(scanLottieButton, "Scan Finished", Snackbar.LENGTH_SHORT)
+                    .show();
+
+            // Add someAction
+
         }
 
     }
@@ -222,6 +239,17 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         }
 
 
+    }
+
+
+
+    private int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
 

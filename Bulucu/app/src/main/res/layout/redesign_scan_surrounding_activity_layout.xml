@@ -29,6 +29,7 @@
             >
 
             <RelativeLayout
+                android:id="@+id/scannerLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
@@ -38,11 +39,23 @@
                    android:layout_alignParentLeft="true"
                    android:layout_height="match_parent"
                    android:layout_width="wrap_content"
+                   android:id="@+id/scanner"
                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/wifiNum"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_toRightOf="@id/scanner"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    />
 
             </RelativeLayout>
             <android.support.v7.widget.Toolbar
-                android:id="@+id/main.toolbar"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
