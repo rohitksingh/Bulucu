@@ -23,7 +23,6 @@ import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,7 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
     private Drawable openWifiLogo;
     private Drawable closeWifiLogo;
     private Drawable scanNowLogo;
-    private FirebaseAnalytics firebaseAnalytics;
+
 
 
     @Override
@@ -71,8 +70,6 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         manager = WifiUtility.getSingletonWifiManager(this);
         registerReceiver(new WifiScanReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         manager.startScan();
-
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         setUpUI();
 
@@ -103,7 +100,6 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
             @Override
             public void onClick(View v) {
 
-                recordClickEvents("Open_Wifi_Clicked");
                 Intent intent = new Intent(HomePageActivity.this, WifiListActivity.class);
                 intent.setAction("OPEN_NETWORK");
                 intent.putExtra("BG_COLOR",android.R.color.holo_green_light);
@@ -117,7 +113,6 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
             @Override
             public void onClick(View v) {
 
-                recordClickEvents("Close_Wifi_Clicked");
                 Intent intent = new Intent(HomePageActivity.this, WifiListActivity.class);
                 intent.setAction("CLOSE_NETWORK");
                 intent.putExtra("BG_COLOR",android.R.color.holo_orange_light);
@@ -131,7 +126,6 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
             @Override
             public void onClick(View v) {
 
-                recordClickEvents("Scan_Surrounding_Clicked");
                 startActivity(new Intent(HomePageActivity.this, ScanSurroundingActivity.class));
             }
         });
@@ -283,11 +277,6 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         }
     }
 
-    private void recordClickEvents(String name)
-    {
-        Bundle bundle = new Bundle();
-        firebaseAnalytics.logEvent(name, bundle);
-    }
 
 
 

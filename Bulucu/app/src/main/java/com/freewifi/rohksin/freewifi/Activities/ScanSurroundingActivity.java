@@ -134,7 +134,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
 
-            for(int i =0; i<20;i++)
+            for(int i =0; i<10;i++)
             {
                 try {
                     Thread.sleep(1000);
