@@ -27,7 +27,8 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
-        <activity android:name=".Activities.ScanSurroundingActivity" />
+        <activity android:name=".Activities.ScanSurroundingActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".Activities.WifiListActivity"
             android:theme="@style/AppTheme.NoActionBar" />

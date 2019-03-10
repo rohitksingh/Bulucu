@@ -11,13 +11,12 @@
         android:layout_marginLeft="20dp"
         android:text="WIFI NAME"
         android:textSize="20dp"
-        android:textStyle="bold"
         android:textColor="#ffffff"
         />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#000000"
+        android:background="#ffffff"
         android:layout_alignParentBottom="true"
         />
 
