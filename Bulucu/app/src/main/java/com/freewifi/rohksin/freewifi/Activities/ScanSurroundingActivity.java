@@ -60,6 +60,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         rv = (RecyclerView)findViewById(R.id.rv);
 
         scanTime = (TextView)findViewById(R.id.scanTime);
+        scanLottieButton = (LottieAnimationView)findViewById(R.id.lottieButton);
 
 
         llm = new LinearLayoutManager(this);
@@ -75,6 +76,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         startScan();
 
     }
+
 
     //********************************************************************************************//
     //                                      Menu Related                                          //
@@ -170,6 +172,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
             rv.setAdapter(adapter);
 
 
+
             // TEMP
         }
 
@@ -177,6 +180,8 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         public void onPostExecute(Void result)
         {
             Toast.makeText(ScanSurroundingActivity.this, "Scan Fininshed", Toast.LENGTH_SHORT).show();
+            scanTime.setText("Scan Again");
+            scanLottieButton.pauseAnimation();
         }
 
     }
