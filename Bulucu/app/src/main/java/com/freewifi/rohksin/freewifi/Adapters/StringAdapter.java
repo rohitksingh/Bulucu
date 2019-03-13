@@ -14,7 +14,7 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 /**
- * Created by Illuminati on 2/19/2018.
+ * Created by RohitKsingh on 2/19/2018.
  */
 
 public class StringAdapter extends RecyclerView.Adapter<StringAdapter.StingViewHolder>{
