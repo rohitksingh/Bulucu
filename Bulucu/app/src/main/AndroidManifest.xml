@@ -33,9 +33,7 @@
         <activity android:name=".Activities.WifiListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".TestActivity">
-        </activity>
-       <activity android:name=".Activities.TrackWifiActivity"
+        <activity android:name=".Activities.TrackWifiActivity"
            android:theme="@style/AppTheme.NoActionBar"
            />
 

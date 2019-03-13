@@ -15,7 +15,7 @@ import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 import java.util.List;
 
 /**
- * Created by Illuminati on 3/3/2018.
+ * Created by RohitKsingh on 3/3/2018.
  */
 
 public class TrackWifiService extends IntentService {
