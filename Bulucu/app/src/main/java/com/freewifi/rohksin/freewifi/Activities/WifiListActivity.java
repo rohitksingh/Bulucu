@@ -1,6 +1,6 @@
 package com.freewifi.rohksin.freewifi.Activities;
 
-import android.app.Dialog;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,16 +18,13 @@ import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.Adapters.CloseWifiListAdapter;
 import com.freewifi.rohksin.freewifi.Adapters.OpenWifiListAdapter;
-import com.freewifi.rohksin.freewifi.CallbackListeners.ListItemListener;
-import com.freewifi.rohksin.freewifi.Dialogs.WifiLevelDialog;
-import com.freewifi.rohksin.freewifi.Dialogs.WifiStatDialog;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 
 import java.util.List;
 
 /**
- * Created by Illuminati on 2/24/2018.
+ * Created by RohitKsingh on 2/24/2018.
  */
 
 public class WifiListActivity extends AppCompatActivity {
@@ -42,7 +38,6 @@ public class WifiListActivity extends AppCompatActivity {
     private WifiManager manager;
 
     private Intent intent;
-
 
 
 
@@ -134,9 +129,9 @@ public class WifiListActivity extends AppCompatActivity {
 
 
 
-    //***********************************************************************************************************//
-    //              Receiver        listens for Wifi Scan Results                                                //
-    //***********************************************************************************************************//
+     /***********************************************************************************************************
+     *                                  BroadcastReceiver                                                       *
+     ************************************************************************************************************/
 
     class ScanReceiver extends BroadcastReceiver{
 

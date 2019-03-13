@@ -4,13 +4,12 @@ import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Illuminati on 5/6/2017.
+ * Created by RohitKsingh on 5/6/2017.
  */
 public class WifiUtility {
 

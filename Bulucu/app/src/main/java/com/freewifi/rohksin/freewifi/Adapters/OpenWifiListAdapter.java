@@ -17,7 +17,7 @@ import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 import java.util.List;
 
 /**
- * Created by Illuminati on 2/22/2018.
+ * Created by RohitKsingh on 2/22/2018.
  */
 
 public class OpenWifiListAdapter extends RecyclerView.Adapter<OpenWifiListAdapter.OpenWifiViewHolder> {

@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Illuminati on 2/17/2018.
+ * Created by RohitKSingh on 2/17/2018.
  */
 
 public class HomePageActivity extends AppCompatActivity implements TapTargetView.OnClickListener{
@@ -55,8 +55,6 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
     private TapTargetView.Listener tapTargetListener;
 
     private int tapCounter=0;
-    //private boolean hasCompletedIntro = false;
-    //private SharedPreferences preferences;
 
 
     private Drawable openWifiLogo;
@@ -224,10 +222,12 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
     }
 
+
     private boolean isProtectedNetwork(String capability)
     {
         return (capability.contains("WPA") || capability.contains("WEP") || capability.contains("WPS"));
     }
+
 
     private void addIntroView(int targetId, String msg, String desc, int color, Drawable drawable)
     {

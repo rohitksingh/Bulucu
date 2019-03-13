@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
@@ -33,16 +32,9 @@
         <activity android:name=".Activities.WifiListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".TestActivity">
-        </activity>
-       <activity android:name=".Activities.TrackWifiActivity"
+        <activity android:name=".Activities.TrackWifiActivity"
            android:theme="@style/AppTheme.NoActionBar"
            />
-
-        <!--                Not used Currently                                 -->
-        <activity android:name=".Testing.WifiPagerActivity"/>
-
-
 
 
         <!--                            SERVICES                           -->

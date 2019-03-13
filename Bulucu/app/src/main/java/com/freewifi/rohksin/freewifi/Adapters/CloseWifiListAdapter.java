@@ -17,7 +17,7 @@ import com.freewifi.rohksin.freewifi.Utilities.IntentUtility;
 import java.util.List;
 
 /**
- * Created by Illuminati on 2/24/2018.
+ * Created by RohitKsingh on 2/24/2018.
  */
 
 public class CloseWifiListAdapter extends RecyclerView.Adapter<CloseWifiListAdapter.CloseWifiViewHolder> {
