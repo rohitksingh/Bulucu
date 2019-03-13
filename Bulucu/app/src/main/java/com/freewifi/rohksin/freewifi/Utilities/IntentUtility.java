@@ -7,7 +7,7 @@ import android.net.wifi.ScanResult;
 import com.freewifi.rohksin.freewifi.Activities.TrackWifiActivity;
 
 /**
- * Created by Illuminati on 3/3/2018.
+ * Created by RohitKsingh on 3/3/2018.
  */
 
 public class IntentUtility {
