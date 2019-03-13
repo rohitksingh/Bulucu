@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.freewifi.rohksin.freewifi.R;

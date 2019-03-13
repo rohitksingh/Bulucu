@@ -9,7 +9,6 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.R;
@@ -20,7 +19,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 /**
- * Created by Illuminati on 3/3/2018.
+ * Created by RohitKsingh on 3/3/2018.
  */
 
 public class TrackWifiActivity extends AppCompatActivity {
@@ -92,6 +91,9 @@ public class TrackWifiActivity extends AppCompatActivity {
     }
 
 
+    /***************************************************************************************************
+     *                                     BroadcastReceiver                                           *
+     ***************************************************************************************************/
 
     class WifiLevelReceiver extends BroadcastReceiver {
 
@@ -101,18 +103,6 @@ public class TrackWifiActivity extends AppCompatActivity {
             if(intent.getAction().equals("LEVEL"))
             {
                 int level = intent.getIntExtra("LEVELDATA",0);
-
-                /*
-                if(level==-1)
-                {
-                    wifiLevel.setText("Wifi Lost");
-                }
-                else {
-                    wifiLevel.setText(level+"");
-                }
-
-                */
-
 
                 int relativeLevel  = getLevel(level);
 
@@ -128,6 +118,10 @@ public class TrackWifiActivity extends AppCompatActivity {
         }
     }
 
+
+    /***************************************************************************************************
+     *                                     Private Helper mrthods                                      *
+     ***************************************************************************************************/
 
     private int  getLevel(int level)
     {
