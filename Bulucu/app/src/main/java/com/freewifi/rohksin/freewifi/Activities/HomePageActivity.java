@@ -3,19 +3,23 @@ package com.freewifi.rohksin.freewifi.Activities;
 import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.R;
@@ -59,6 +63,8 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
     private Drawable closeWifiLogo;
     private Drawable scanNowLogo;
 
+    // Privact policy update
+    private ImageView privacyPolicy;
 
 
     @Override
@@ -91,6 +97,14 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         openWifiContainer = (FrameLayout)findViewById(R.id.openContainer);
         closeWifiContainer = (FrameLayout)findViewById(R.id.closeContainer);
         scanNow = (TextView)findViewById(R.id.scanNow);
+
+        privacyPolicy = (ImageView)findViewById(R.id.privacyPolicy);
+        privacyPolicy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPrivacyPolicyDialog();
+            }
+        });
 
 
         scan = (FrameLayout)findViewById(R.id.scan);
@@ -319,6 +333,23 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
             setUpIntroView();
         }
 
+    }
+
+
+    private void openPrivacyPolicyDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Terms and Privacy Policy")
+                .setCancelable(true)
+                .setPositiveButton("Read", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String url = AppUtility.getPrivacyPolicyUrl();
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
 
