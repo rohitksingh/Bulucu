@@ -10,6 +10,8 @@ public class AppUtility {
 
     private static SharedPreferences sharedPreferences;
 
+    private static String PRIVACY_POLICY_URL = "https://r4rohit002.wixsite.com/bulucu";
+
 
     public static void loadAppUtility(Context context)
     {
@@ -32,6 +34,11 @@ public class AppUtility {
         hasCompletedIntro = sharedPreferences.getBoolean("INTRO_COMPLETED", false);
 
         Log.d("User Complete", hasCompletedIntro+"");
+    }
+
+    public static String getPrivacyPolicyUrl()
+    {
+        return PRIVACY_POLICY_URL;
     }
 
 

@@ -11,7 +11,15 @@
         android:layout_height="300dp"
         android:padding="20dp"
         >
-
+        <ImageView
+            android:id="@+id/privacyPolicy"
+            android:layout_marginTop="6dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/info"
+            />
         <FrameLayout
             android:id="@+id/openContainer"
             android:layout_width="wrap_content"
