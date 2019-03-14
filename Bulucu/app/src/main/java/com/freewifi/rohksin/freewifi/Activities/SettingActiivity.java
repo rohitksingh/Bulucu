@@ -27,7 +27,7 @@ public class SettingActiivity extends AppCompatActivity {
         setContentView(R.layout.setting_activity_layout);
 
         RelativeLayout mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
-        mainLayout.setPadding(0,getStatusBarHeight(), 0, 0);
+        mainLayout.setPadding(0, AppUtility.getStatusBarHeight(), 0, 0);
 
         german = (TextView)findViewById(R.id.german);
         greek = (TextView)findViewById(R.id.greek);
@@ -81,17 +81,6 @@ public class SettingActiivity extends AppCompatActivity {
     {
         getStarted.setEnabled(true);
         getStarted.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary));
-    }
-
-
-
-    private int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
     }
 
 

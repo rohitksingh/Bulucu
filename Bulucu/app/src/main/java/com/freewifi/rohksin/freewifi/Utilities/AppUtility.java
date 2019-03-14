@@ -18,14 +18,14 @@ public class AppUtility {
     private static SharedPreferences sharedPreferences;
 
     private static String PRIVACY_POLICY_URL = "https://r4rohit002.wixsite.com/bulucu";
+    private static Context context;
 
 
-    public static void load(Context context)
+    public static void load(Context _context)
     {
-        sharedPreferences = context.getSharedPreferences("AppSharedPreference", Context.MODE_PRIVATE);
+        sharedPreferences = _context.getSharedPreferences("AppSharedPreference", Context.MODE_PRIVATE);
+        context = _context;
         loadUserData();
-
-        Log.d("User Complete", hasCompletedIntro+"");
     }
 
 
@@ -60,6 +60,14 @@ public class AppUtility {
         return sharedPreferences.getInt("USER_LANGUAGE", -1);
     }
 
+    public static int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
 
 
 
