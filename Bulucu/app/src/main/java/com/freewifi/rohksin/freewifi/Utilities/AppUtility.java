@@ -7,6 +7,7 @@ import android.util.Log;
 /**
  *    TOD0
  *    1) make hasCompletedIntro private
+ *    2) make Context instance variable
  *
  */
 
@@ -19,7 +20,7 @@ public class AppUtility {
     private static String PRIVACY_POLICY_URL = "https://r4rohit002.wixsite.com/bulucu";
 
 
-    public static void loadAppUtility(Context context)
+    public static void load(Context context)
     {
         sharedPreferences = context.getSharedPreferences("AppSharedPreference", Context.MODE_PRIVATE);
         loadUserData();
@@ -58,6 +59,8 @@ public class AppUtility {
     {
         return sharedPreferences.getInt("USER_LANGUAGE", -1);
     }
+
+
 
 
 }

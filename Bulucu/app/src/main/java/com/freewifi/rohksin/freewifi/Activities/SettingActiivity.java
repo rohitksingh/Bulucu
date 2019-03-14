@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
@@ -23,6 +25,9 @@ public class SettingActiivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_activity_layout);
+
+        RelativeLayout mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
+        mainLayout.setPadding(0,getStatusBarHeight(), 0, 0);
 
         german = (TextView)findViewById(R.id.german);
         greek = (TextView)findViewById(R.id.greek);
@@ -62,13 +67,12 @@ public class SettingActiivity extends AppCompatActivity {
         });
 
 
-
-
     }
 
 
     private void setLanguage(int languageCode)
     {
+        Toast.makeText(this, this.getResources().getString(languageCode),Toast.LENGTH_SHORT).show();
         AppUtility.setUserLanguage(languageCode);
         enableButton();
     }
@@ -79,6 +83,16 @@ public class SettingActiivity extends AppCompatActivity {
         getStarted.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary));
     }
 
+
+
+    private int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
 
 
 }

@@ -56,8 +56,8 @@ public class SplashActivity extends AppCompatActivity {
 
     private void setUpUtility()
     {
-        AppUtility.loadAppUtility(this);
-        LangUtility.setUpAllLanguage(this);
+        AppUtility.load(this);
+        LangUtility.load(this);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.freewifi.rohksin.freewifi.Utilities;
 
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.freewifi.rohksin.freewifi.R;
 
@@ -13,32 +14,75 @@ public class LangUtility {
     private static Map<Integer, Integer> germanTranslator;
 
     private static Context context;
+    private static Resources resources;
 
-    public static void setUpAllLanguage(Context _context)
+    public static void load(Context _context)
     {
         context = _context;
-        setUpGerman();
+        resources = _context.getResources();
+        setUpAllLanguage();
     }
 
-    public static String getTranlation(int text, int lang_code)
+    /*******************************************************************************************
+     *                   Public Methods
+     ******************************************************************************************/
+
+    public static String getTranslation(int text)
     {
-        int resId = getLanguageTranlator(lang_code).get(text);
-        return context.getResources().getString(resId);
+
+        Map<Integer, Integer> langaugeTranlator  = getLanguageTranlator(AppUtility.getUserLanguage());
+        if(langaugeTranlator == null)
+            return getResText(text);
+        else {
+            if(langaugeTranlator.get(text)==null){
+                return getResText(text);
+            }else {
+                return getResText(langaugeTranlator.get(text));
+            }
+        }
+    }
+
+    /*********************************************************************************************
+     *                      Private Helper methods
+     ********************************************************************************************/
+
+
+    private static Map<Integer, Integer> getLanguageTranlator(int languageCode)
+    {
+
+        if(languageCode==R.string.GERMAN_)
+            return germanTranslator;
+        else return null;
+    }
+
+
+    private static String getResText(int resId)
+    {
+        return resources.getString(resId);
+    }
+
+
+    /*            SET UP ALL TRANSLATOR   */
+
+    private static void setUpAllLanguage()
+    {
+        setUpGerman();
+        setUpGreek();
     }
 
     private static void setUpGerman()
     {
         germanTranslator = new LinkedHashMap<Integer, Integer>();
         germanTranslator.put(R.string.ENGLISH_OPEN_NETWORK, R.string.GERMAN_OPEN_NETWORK);
+        germanTranslator.put(R.string.ENGLISH_TERMS, R.string.GERMAN_TERMS);
 
     }
 
-
-    private static Map<Integer, Integer> getLanguageTranlator(int languageCode)
+    private static void setUpGreek()
     {
-        if(languageCode==R.string.GERMAN_)
-            return germanTranslator;
-        else return null;
+        germanTranslator = new LinkedHashMap<Integer, Integer>();
+        germanTranslator.put(R.string.GREEK_OPEN_NETWORK, R.string.GERMAN_OPEN_NETWORK);
+        germanTranslator.put(R.string.GREEk_TERMS, R.string.GERMAN_TERMS);
     }
 
 }

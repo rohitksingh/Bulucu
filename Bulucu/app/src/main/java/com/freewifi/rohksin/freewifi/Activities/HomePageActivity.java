@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
+import com.freewifi.rohksin.freewifi.Utilities.LangUtility;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
@@ -338,7 +339,7 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
     private void openPrivacyPolicyDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Terms and Privacy Policy")
+        builder.setMessage(LangUtility.getTranslation(R.string.ENGLISH_TERMS))
                 .setCancelable(true)
                 .setPositiveButton("Read", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

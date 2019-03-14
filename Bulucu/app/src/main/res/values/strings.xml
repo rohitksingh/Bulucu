@@ -11,10 +11,16 @@
 
 
 
+    <string name="ENGLISH_TERMS">Terms and Privacy Policy</string>
+    <string name="GERMAN_TERMS">Nutzungsbedingungen und Datenschutzbestimmungen</string>
+    <string name="GREEk_TERMS">Όροι και πολιτική απορρήτου</string>
+    <string name="SPANISH_TERMS">Términos y Política de Privacidad</string>
+    <string name="HINDI_TERMS">शर्तें और गोपनीयता नीति</string>
+
+
     <!-- LANGUAGE_TEMPLATE -->
     <string name="ENGLISH_">ENGLISH</string>
     <string name="GERMAN_">GERMAN</string>
-    <string name="ALGRIAN_">ALGERIAN</string>
     <string name="GREEk_">GREEK</string>
     <string name="SPANISH_">SPANISH</string>
     <string name="HINDI_">HINDI</string>
