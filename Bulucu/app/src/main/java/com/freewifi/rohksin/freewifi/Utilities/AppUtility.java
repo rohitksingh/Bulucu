@@ -4,6 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+/**
+ *    TOD0
+ *    1) make hasCompletedIntro private
+ *
+ */
+
 public class AppUtility {
 
     public static boolean hasCompletedIntro ;
@@ -39,6 +45,18 @@ public class AppUtility {
     public static String getPrivacyPolicyUrl()
     {
         return PRIVACY_POLICY_URL;
+    }
+
+    public static void setUserLanguage(int language_code)
+    {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("USER_LANGUAGE", language_code);
+        editor.commit();
+    }
+
+    public static int getUserLanguage()
+    {
+        return sharedPreferences.getInt("USER_LANGUAGE", -1);
     }
 
 

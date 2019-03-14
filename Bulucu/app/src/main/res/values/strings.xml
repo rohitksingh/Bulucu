@@ -1,4 +1,22 @@
 <resources>
     <string name="app_name">Bulucu</string>
     <string name="action_settings">Settings</string>
+
+
+    <!-- language translation -->
+    <string name="ENGLISH_OPEN_NETWORK">Open networks. Click to see the open networks around you</string>
+    <string name="GERMAN_OPEN_NETWORK">Offene Netzwerke Klicken Sie hier, um die offenen Netzwerke um Sie herum anzuzeigen</string>
+    <string name="SPANISH_OPEN_NETWORK"></string>
+    <string name="GREEK_OPEN_NETWORK">Άνοιγμα δικτύων. Κάντε κλικ για να δείτε τα ανοιχτά δίκτυα γύρω σας Ánoigma diktýon. Kánte klik gia na deíte ta anoichtá díktya gýro sas</string>
+
+
+
+    <!-- LANGUAGE_TEMPLATE -->
+    <string name="ENGLISH_">ENGLISH</string>
+    <string name="GERMAN_">GERMAN</string>
+    <string name="ALGRIAN_">ALGERIAN</string>
+    <string name="GREEk_">GREEK</string>
+    <string name="SPANISH_">SPANISH</string>
+    <string name="HINDI_">HINDI</string>
+
 </resources>

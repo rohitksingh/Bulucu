@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Your Language"
+        style="@style/TextStyle"
+        android:textSize="25dp"
+        android:layout_centerHorizontal="true"
+        />
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_centerInParent="true"
+    >
+    <TextView
+        android:id="@+id/german"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="German"
+        style="@style/TextStyle"
+        />
+    <TextView
+        android:id="@+id/greek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Greek"
+        style="@style/TextStyle"
+        />
+    <TextView
+        android:id="@+id/spanish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Algeria"
+        style="@style/TextStyle"
+        />
+
+</LinearLayout>
+
+    <Button
+        android:id="@+id/getStarted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="Get Started"
+        android:background="@android:color/darker_gray"
+        android:layout_margin="36dp"
+        android:textColor="#ffffff"
+        android:enabled="true"
+        />
+</RelativeLayout>

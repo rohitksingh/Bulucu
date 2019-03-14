@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.airbnb.lottie.LottieAnimationView;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
+import com.freewifi.rohksin.freewifi.Utilities.LangUtility;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -20,7 +21,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_activity_layout);
 
-        AppUtility.loadAppUtility(this);
+        setUpUtility();
 
         into = (LottieAnimationView)findViewById(R.id.bulucu_into);
 
@@ -32,7 +33,8 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                startActivity(new Intent(SplashActivity.this, HomePageActivity.class));
+                //startActivity(new Intent(SplashActivity.this, HomePageActivity.class));
+                startActivity(new Intent(SplashActivity.this, SettingActiivity.class));
                 finish();
             }
 
@@ -49,6 +51,13 @@ public class SplashActivity extends AppCompatActivity {
 
 
 
+    }
+
+
+    private void setUpUtility()
+    {
+        AppUtility.loadAppUtility(this);
+        LangUtility.setUpAllLanguage(this);
     }
 
 }
