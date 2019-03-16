@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bulucu</string>
+
+    <string name="terms">Términos y Política de Privacidad</string>
+    <string name="read">Leer</string>
+    <string name="no_network">Sin red</string>
+    <string name="open_networks">Redes abiertas</string>
+    <string name="click_open_networks">Haz clic para encontrar redes abiertas a tu alrededor.</string>
+    <string name="close_networks">Redes cerradas</string>
+    <string name="click_closed_networks">Haz clic para encontrar redes cerradas a tu alrededor.</string>
+    <string name="scan_now">Escanear ahora</string>
+    <string name="scan_your_surrounding">Escanea tu entorno durante 10 segundos</string>
+    <string name="networks_available">Redes disponibles</string>
+    <string name="results_found">Resultados encontrados</string>
+    <string name="scan_finished">Escaneo Terminado</string>
+    <string name="scanning">Exploración...</string>
+    <string name="scan">Escanear</string>
+    <string name="no_network_available">NO HAY RED DISPONIBLE</string>
+    <string name="tracking">Rastreo</string>
+    <string name="signal_lost">Señal perdida</string>
+    <string name="weak_signal">Intensidad de señal: DÉBILES</string>
+    <string name="fair_signal">Intensidad de señal: JUSTA</string>
+    <string name="good_signal">Intensidad de señal: BUENO</string>
+    <string name="excellent_signal">Intensidad de señal: EXCELENTE</string>
+    <string name="detail">Detalle</string>
+    <string name="connecting">Conectando</string>
+    <string name="connect">Conectar</string>
+</resources>
