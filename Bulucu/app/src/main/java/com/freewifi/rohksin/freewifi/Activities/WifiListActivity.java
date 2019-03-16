@@ -102,7 +102,7 @@ public class WifiListActivity extends AppCompatActivity {
         else{
             rv.setVisibility(View.GONE);
             noNetworkFound.setVisibility(View.VISIBLE);
-            noNetworkFound.setText("NO NETWORK AVAILABLE");
+            noNetworkFound.setText(R.string.no_network_available);
         }
     }
 

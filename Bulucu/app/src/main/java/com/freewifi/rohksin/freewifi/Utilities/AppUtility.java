@@ -13,9 +13,12 @@ public class AppUtility {
     private static String PRIVACY_POLICY_URL = "https://r4rohit002.wixsite.com/bulucu";
 
 
-    public static void loadAppUtility(Context context)
+    private static Context context;
+
+    public static void loadAppUtility(Context _context)
     {
-        sharedPreferences = context.getSharedPreferences("AppSharedPreference", Context.MODE_PRIVATE);
+        context = _context;
+        sharedPreferences = _context.getSharedPreferences("AppSharedPreference", Context.MODE_PRIVATE);
         loadUserData();
 
         Log.d("User Complete", hasCompletedIntro+"");
@@ -41,5 +44,17 @@ public class AppUtility {
         return PRIVACY_POLICY_URL;
     }
 
+    public static String getString(int resId)
+    {
+        return context.getResources().getString(resId);
+    }
 
+    public static int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
 }

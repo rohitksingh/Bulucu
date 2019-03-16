@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.freewifi.rohksin.freewifi.Adapters.StringAdapter;
 import com.freewifi.rohksin.freewifi.R;
+import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         setContentView(R.layout.scan_surrounding_activity_layout);
 
         scannerLayout = (RelativeLayout)findViewById(R.id.scannerLayout);
-        scannerLayout.setPadding(0,getStatusBarHeight(),0,0);
+        scannerLayout.setPadding(0,AppUtility.getStatusBarHeight(),0,0);
 
         title= (CollapsingToolbarLayout)findViewById(R.id.title);
         title.setExpandedTitleColor(Color.TRANSPARENT);
@@ -81,7 +82,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         });
 
         wifiNum = (TextView)findViewById(R.id.wifiNum);
-        wifiNum.setPadding(0,getStatusBarHeight(),0,0);
+        wifiNum.setPadding(0, AppUtility.getStatusBarHeight(),0,0);
 
 
         llm = new LinearLayoutManager(this);
@@ -114,7 +115,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
 
             SCAN_RUNNING = true;
             scanLottieButton.playAnimation();
-            Snackbar.make(scanLottieButton, "Scanning...", Snackbar.LENGTH_SHORT)
+            Snackbar.make(scanLottieButton, R.string.scanning, Snackbar.LENGTH_SHORT)
                     .show();
 
         }
@@ -158,7 +159,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
             // TEMP ///////////////////////////////////////////////////////////////////////////////
             scanTime.setText(param[0]);
             SCAN_NUM = scanResults.size();
-            wifiNum.setText("Result Found "+SCAN_NUM);
+            wifiNum.setText(AppUtility.getString(R.string.results_found)+" "+SCAN_NUM);
             adapter = new StringAdapter(ScanSurroundingActivity.this, scanResults);
             rv.setAdapter(adapter);
             // TEMP ///////////////////////////////////////////////////////////////////////////////
@@ -167,10 +168,10 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         @Override
         public void onPostExecute(Void result)
         {
-            scanTime.setText("Scan");
+            scanTime.setText(R.string.scan);
             scanLottieButton.pauseAnimation();
             SCAN_RUNNING = false;
-            Snackbar.make(scanLottieButton, "Scan Finished", Snackbar.LENGTH_SHORT)
+            Snackbar.make(scanLottieButton, R.string.scan_finished, Snackbar.LENGTH_SHORT)
                     .show();
 
             // Add someAction // Menu item : two dots
@@ -199,17 +200,6 @@ public class ScanSurroundingActivity extends AppCompatActivity {
     }
 
 
-
-    private int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
-
-
     private void setUpCollapsingToolBar()
     {
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
@@ -223,7 +213,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    title.setTitle("Result Found "+SCAN_NUM);
+                    title.setTitle(R.string.results_found+" "+SCAN_NUM);
                     isShow = true;
                 } else if(isShow) {
                     title.setTitle(" ");

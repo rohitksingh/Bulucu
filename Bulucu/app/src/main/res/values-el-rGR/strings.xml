@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bulucu</string>
+
+    <string name="terms">Όροι και πολιτική απορρήτου</string>
+    <string name="read">Ανάγνωση</string>
+    <string name="no_network">Εκτός δικτύου</string>
+    <string name="open_networks">Άνοιγμα Δικτύων</string>
+    <string name="click_open_networks">Κάντε κλικ για να βρείτε ανοικτά δίκτυα γύρω σας</string>
+    <string name="close_networks">Κλειστά δίκτυα</string>
+    <string name="click_closed_networks">Κάντε κλικ για να βρείτε κλειστά δίκτυα γύρω σας</string>
+    <string name="scan_now">Σάρωση τώρα</string>
+    <string name="scan_your_surrounding">Σαρώστε το περιβάλλον σας για 10 δευτερόλεπτα</string>
+    <string name="networks_available">Διαθέσιμα δίκτυα</string>
+    <string name="results_found">Βρέθηκαν αποτελέσματα</string>
+    <string name="scan_finished">Η σάρωση ολοκληρώθηκε</string>
+    <string name="scanning">Ερευνα...</string>
+    <string name="scan">Σάρωση</string>
+    <string name="no_network_available">ΔΕΝ ΔΙΑΘΕΣΙΜΟ ΔΙΚΤΥΟ</string>
+    <string name="tracking">Παρακολούθηση</string>
+    <string name="signal_lost">Σήμα χαμένο</string>
+    <string name="weak_signal">Ισχύς σήματος: ΑΔΥΝΑΜΟΣ</string>
+    <string name="fair_signal">Ισχύς σήματος: ΕΚΘΕΣΗ</string>
+    <string name="good_signal">Ισχύς σήματος: ΚΑΛΟΣ</string>
+    <string name="excellent_signal">Ισχύς σήματος: ΕΞΟΧΟΣ</string>
+    <string name="detail">Λεπτομέρεια</string>
+    <string name="connecting">Συνδετικός</string>
+    <string name="connect">Συνδέω-συωδεομαι</string>
+
+</resources>

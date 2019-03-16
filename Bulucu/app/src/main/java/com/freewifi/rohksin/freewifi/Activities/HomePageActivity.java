@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.R;
@@ -38,6 +39,7 @@ import java.util.List;
 public class HomePageActivity extends AppCompatActivity implements TapTargetView.OnClickListener{
 
 
+    private RelativeLayout mainLayout;
     private TextView openNetwork;
     private TextView closedNetwork;
     private TextView openNum;
@@ -83,11 +85,14 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
             new DrawableLoader().execute();
         }
 
+
     }
 
 
     private void setUpUI()
     {
+
+        mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
         openNetwork = (TextView)findViewById(R.id.open);
         closedNetwork = (TextView)findViewById(R.id.close);
         openNum = (TextView)findViewById(R.id.openNum);
@@ -95,6 +100,8 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         openWifiContainer = (FrameLayout)findViewById(R.id.openContainer);
         closeWifiContainer = (FrameLayout)findViewById(R.id.closeContainer);
         scanNow = (TextView)findViewById(R.id.scanNow);
+
+        mainLayout.setPadding(0, AppUtility.getStatusBarHeight(),0,0);
 
         privacyPolicy = (ImageView)findViewById(R.id.privacyPolicy);
         privacyPolicy.setOnClickListener(new View.OnClickListener() {
@@ -206,7 +213,7 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
             openNetwork.setText(openScanResults.get(0).SSID);
 
         }else {
-            openNetwork.setText("NO Network");
+            openNetwork.setText(R.string.no_network);
         }
 
         if(closeScanResults.size()!=0)
@@ -216,7 +223,7 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
         }
         else {
-            closedNetwork.setText("NO NETWORK");
+            closedNetwork.setText(R.string.no_network);
         }
 
 
@@ -262,23 +269,21 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
     private void setUpIntroView()
     {
-        if(!AppUtility.hasCompletedIntro)
-        {
 
             switch (tapCounter) {
 
                 case 0:
-                    addIntroView(R.id.openContainer, "\nOpen Networks", "Click to find open networks around you", android.R.color.holo_green_dark,openWifiLogo);
+                    addIntroView(R.id.openContainer, AppUtility.getString(R.string.open_networks), AppUtility.getString(R.string.click_open_networks), android.R.color.holo_green_dark,openWifiLogo);
                     tapCounter++;
                     break;
 
                 case 1:
-                    addIntroView(R.id.closeContainer, "\nClose networks", "Click to find close networks around you", android.R.color.holo_orange_dark, closeWifiLogo);
+                    addIntroView(R.id.closeContainer, AppUtility.getString(R.string.close_networks), AppUtility.getString(R.string.click_closed_networks), android.R.color.holo_orange_dark, closeWifiLogo);
                     tapCounter++;
                     break;
 
                 case 2:
-                    addIntroView(R.id.scan, "Scan Now", "Scan your surrounding for 10 seconds", android.R.color.holo_blue_dark, scanNowLogo);
+                    addIntroView(R.id.scan, AppUtility.getString(R.string.scan_now), AppUtility.getString(R.string.scan_your_surrounding), android.R.color.holo_blue_dark, scanNowLogo);
                     tapCounter++;
                     AppUtility.saveIntoComplete();
                     break;
@@ -288,7 +293,6 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
             }
 
-        }
     }
 
 
@@ -338,9 +342,9 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
     private void openPrivacyPolicyDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Terms and Privacy Policy")
+        builder.setMessage(R.string.terms)
                 .setCancelable(true)
-                .setPositiveButton("Read", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.read, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String url = AppUtility.getPrivacyPolicyUrl();
                         Intent i = new Intent(Intent.ACTION_VIEW);
