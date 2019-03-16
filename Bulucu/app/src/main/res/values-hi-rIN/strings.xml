@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bulucu</string>
+
+    <string name="terms">शर्तें और गोपनीयता नीति</string>
+    <string name="read">पढ़ना</string>
+    <string name="no_network">कोई नेटवर्क नहीं</string>
+    <string name="open_networks">ओपन नेटवर्क</string>
+    <string name="click_open_networks">अपने आस-पास खुले नेटवर्क को खोजने के लिए क्लिक करें</string>
+    <string name="close_networks">बंद नेटवर्क</string>
+    <string name="click_closed_networks">अपने आस-पास बंद नेटवर्क खोजने के लिए क्लिक करें</string>
+    <string name="scan_now">अभी स्कैन करें</string>
+    <string name="scan_your_surrounding">10 सेकंड के लिए अपने आस-पास स्कैन करें</string>
+
+</resources>
