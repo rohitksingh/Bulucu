@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.R;
@@ -38,6 +39,7 @@ import java.util.List;
 public class HomePageActivity extends AppCompatActivity implements TapTargetView.OnClickListener{
 
 
+    private RelativeLayout mainLayout;
     private TextView openNetwork;
     private TextView closedNetwork;
     private TextView openNum;
@@ -92,6 +94,8 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
     private void setUpUI()
     {
+
+        mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
         openNetwork = (TextView)findViewById(R.id.open);
         closedNetwork = (TextView)findViewById(R.id.close);
         openNum = (TextView)findViewById(R.id.openNum);
@@ -99,6 +103,8 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         openWifiContainer = (FrameLayout)findViewById(R.id.openContainer);
         closeWifiContainer = (FrameLayout)findViewById(R.id.closeContainer);
         scanNow = (TextView)findViewById(R.id.scanNow);
+
+        mainLayout.setPadding(0, AppUtility.getStatusBarHeight(),0,0);
 
         privacyPolicy = (ImageView)findViewById(R.id.privacyPolicy);
         privacyPolicy.setOnClickListener(new View.OnClickListener() {
