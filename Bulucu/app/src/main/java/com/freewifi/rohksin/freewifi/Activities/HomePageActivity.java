@@ -206,7 +206,7 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
             openNetwork.setText(openScanResults.get(0).SSID);
 
         }else {
-            openNetwork.setText("NO Network");
+            openNetwork.setText(R.string.no_network);
         }
 
         if(closeScanResults.size()!=0)
@@ -216,7 +216,7 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
         }
         else {
-            closedNetwork.setText("NO NETWORK");
+            closedNetwork.setText(R.string.no_network);
         }
 
 
@@ -268,17 +268,17 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
             switch (tapCounter) {
 
                 case 0:
-                    addIntroView(R.id.openContainer, "\nOpen Networks", "Click to find open networks around you", android.R.color.holo_green_dark,openWifiLogo);
+                    addIntroView(R.id.openContainer, AppUtility.getString(R.string.open_networks), AppUtility.getString(R.string.click_open_networks), android.R.color.holo_green_dark,openWifiLogo);
                     tapCounter++;
                     break;
 
                 case 1:
-                    addIntroView(R.id.closeContainer, "\nClose networks", "Click to find close networks around you", android.R.color.holo_orange_dark, closeWifiLogo);
+                    addIntroView(R.id.closeContainer, AppUtility.getString(R.string.close_networks), AppUtility.getString(R.string.click_closed_networks), android.R.color.holo_orange_dark, closeWifiLogo);
                     tapCounter++;
                     break;
 
                 case 2:
-                    addIntroView(R.id.scan, "Scan Now", "Scan your surrounding for 10 seconds", android.R.color.holo_blue_dark, scanNowLogo);
+                    addIntroView(R.id.scan, AppUtility.getString(R.string.scan_now), AppUtility.getString(R.string.scan_your_surrounding), android.R.color.holo_blue_dark, scanNowLogo);
                     tapCounter++;
                     AppUtility.saveIntoComplete();
                     break;
@@ -338,9 +338,9 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
     private void openPrivacyPolicyDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Terms and Privacy Policy")
+        builder.setMessage(R.string.terms)
                 .setCancelable(true)
-                .setPositiveButton("Read", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.read, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String url = AppUtility.getPrivacyPolicyUrl();
                         Intent i = new Intent(Intent.ACTION_VIEW);

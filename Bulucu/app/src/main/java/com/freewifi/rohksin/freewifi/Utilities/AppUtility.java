@@ -13,9 +13,12 @@ public class AppUtility {
     private static String PRIVACY_POLICY_URL = "https://r4rohit002.wixsite.com/bulucu";
 
 
-    public static void loadAppUtility(Context context)
+    private static Context context;
+
+    public static void loadAppUtility(Context _context)
     {
-        sharedPreferences = context.getSharedPreferences("AppSharedPreference", Context.MODE_PRIVATE);
+        context = _context;
+        sharedPreferences = _context.getSharedPreferences("AppSharedPreference", Context.MODE_PRIVATE);
         loadUserData();
 
         Log.d("User Complete", hasCompletedIntro+"");
@@ -39,6 +42,11 @@ public class AppUtility {
     public static String getPrivacyPolicyUrl()
     {
         return PRIVACY_POLICY_URL;
+    }
+
+    public static String getString(int resId)
+    {
+        return context.getResources().getString(resId);
     }
 
 
