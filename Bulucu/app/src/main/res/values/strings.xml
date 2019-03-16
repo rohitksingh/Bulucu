@@ -20,9 +20,9 @@
     <string name="tracking">Tracking</string>
     <string name="signal_lost">Signal lost</string>
     <string name="weak_signal">Signal Strength: WEAK</string>
-    <string name="fair_signal">Signal Strength: WEAK</string>
-    <string name="good_signal">Signal Strength: WEAK</string>
-    <string name="excellent_signal">Signal Strength: WEAK</string>
+    <string name="fair_signal">Signal Strength: FAIR</string>
+    <string name="good_signal">Signal Strength: GOOD</string>
+    <string name="excellent_signal">Signal Strength: EXCELLENT</string>
     <string name="detail">Detail</string>
     <string name="connecting">Connecting</string>
     <string name="connect">Connect</string>

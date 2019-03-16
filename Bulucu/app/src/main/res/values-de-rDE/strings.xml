@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bulucu</string>
+
+    <string name="terms">Nutzungsbedingungen und Datenschutzbestimmungen</string>
+    <string name="read">Lesen</string>
+    <string name="no_network">Kein Netzwerk</string>
+    <string name="open_networks">Offene Netzwerke</string>
+    <string name="click_open_networks">Klicken Sie hier, um offene Netzwerke in Ihrer Nähe zu finden</string>
+    <string name="close_networks">Geschlossene Netzwerke</string>
+    <string name="click_closed_networks">Klicken Sie hier, um geschlossene Netzwerke in Ihrer Nähe zu finden</string>
+    <string name="scan_now">Scanne jetzt</string>
+    <string name="scan_your_surrounding">Scannen Sie Ihre Umgebung 10 Sekunden lang</string>
+    <string name="networks_available">Netzwerke verfügbar</string>
+    <string name="results_found">Gefundene Ergebnisse</string>
+    <string name="scan_finished">Scannen abgeschlossen</string>
+    <string name="scanning">Scannen ...</string>
+    <string name="scan">Scan</string>
+    <string name="no_network_available">KEIN NETZWERK VERFÜGBAR</string>
+    <string name="tracking">Verfolgung</string>
+    <string name="signal_lost">Signal verloren</string>
+    <string name="weak_signal">Signalstärke: SCHWACH</string>
+    <string name="fair_signal">Signalstärke: MESSE</string>
+    <string name="good_signal">Signalstärke: GUT</string>
+    <string name="excellent_signal">Signalstärke: AUSGEZEICHNET</string>
+    <string name="detail">Detail</string>
+    <string name="connecting">Anschließen</string>
+    <string name="connect">Verbinden</string>
+</resources>
