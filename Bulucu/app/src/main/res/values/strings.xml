@@ -7,8 +7,8 @@
     <string name="no_network">NO Network</string>
     <string name="open_networks">Open Networks</string>
     <string name="click_open_networks">Click to find open networks around you</string>
-    <string name="close_networks">Close networks</string>
-    <string name="click_closed_networks">Click to find close networks around you</string>
+    <string name="close_networks">Closed Networks</string>
+    <string name="click_closed_networks">Click to find closed networks around you</string>
     <string name="scan_now">Scan Now</string>
     <string name="scan_your_surrounding">Scan your surrounding for 10 seconds</string>
 </resources>

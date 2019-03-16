@@ -78,10 +78,14 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         setUpUI();
 
 
+        new DrawableLoader().execute();
+
+        /*
         if(!AppUtility.hasCompletedIntro)
         {
             new DrawableLoader().execute();
         }
+        */
 
     }
 
@@ -262,8 +266,6 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
     private void setUpIntroView()
     {
-        if(!AppUtility.hasCompletedIntro)
-        {
 
             switch (tapCounter) {
 
@@ -288,7 +290,6 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
             }
 
-        }
     }
 
 
