@@ -11,5 +11,19 @@
     <string name="click_closed_networks">अपने आस-पास बंद नेटवर्क खोजने के लिए क्लिक करें</string>
     <string name="scan_now">अभी स्कैन करें</string>
     <string name="scan_your_surrounding">10 सेकंड के लिए अपने आस-पास स्कैन करें</string>
+    <string name="networks_available">नेटवर्क उपलब्ध है</string>
+    <string name="results_found">परिणाम मिले</string>
+    <string name="scan_finished">स्कैन समाप्त हो गया</string>
+    <string name="scanning">स्कैनिंग ...</string>
+    <string name="scan">स्कैन</string>
+    <string name="no_network_available">कोई नेटवर्क उपलब्ध नहीं है</string>
+    <string name="signal_lost">सिग्नल खो गया</string>
+    <string name="weak_signal">सिग्नल की शक्ति: कमजोर</string>
+    <string name="fair_signal">सिग्नल की शक्ति: स्पष्ट</string>
+    <string name="good_signal">सिग्नल की शक्ति: अच्छा</string>
+    <string name="excellent_signal">सिग्नल की शक्ति: अति उत्कृष्ट</string>
+    <string name="">विवरण</string>
+    <string name="connecting">कनेक्ट</string>
+    <string name="connect">कनेक्ट</string>
 
 </resources>

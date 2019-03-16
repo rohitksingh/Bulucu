@@ -54,7 +54,7 @@
                     android:id="@+id/open"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No Network"
+                    android:text="@string/no_network"
                     android:textColor="#ffffff"
                     />
                 <TextView
@@ -101,7 +101,7 @@
                     android:id="@+id/close"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No Network"
+                    android:text="@string/no_network"
                     android:textColor="#ffffff"
                     />
                 <TextView
@@ -151,7 +151,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Networks Available"
+                android:text="@string/networks_available"
                 android:textColor="#ffffff"
                 android:textSize="10dp"
                 android:textStyle="bold"

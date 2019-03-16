@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Services.TrackWifiService;
+import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -70,7 +71,7 @@ public class TrackWifiActivity extends AppCompatActivity {
 
         targetWifi = getIntent().getParcelableExtra(TARGET_WIFI);
 
-        wifiName.setText("Tracking "+targetWifi.SSID);
+        wifiName.setText(AppUtility.getString(R.string.tracking)+" "+targetWifi.SSID);
 
         startTrackService = new Intent(this, TrackWifiService.class);
         startTrackService.putExtra("SCAN_RESULT", targetWifi);

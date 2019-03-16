@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.freewifi.rohksin.freewifi.R;
+import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 import com.freewifi.rohksin.freewifi.Utilities.IntentUtility;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 
@@ -47,7 +48,7 @@ public class OpenWifiListAdapter extends RecyclerView.Adapter<OpenWifiListAdapte
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Connectiong to "+scanResult.SSID+" ...", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, AppUtility.getString(R.string.connecting)+" "+scanResult.SSID+" ...", Toast.LENGTH_LONG).show();
                 WifiUtility.connect(context, scanResult);
             }
         });

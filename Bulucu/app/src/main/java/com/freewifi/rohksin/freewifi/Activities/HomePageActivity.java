@@ -80,14 +80,11 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         setUpUI();
 
 
-        new DrawableLoader().execute();
-
-        /*
         if(!AppUtility.hasCompletedIntro)
         {
             new DrawableLoader().execute();
         }
-        */
+
 
     }
 

@@ -5,6 +5,8 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 
+import com.freewifi.rohksin.freewifi.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,15 +104,15 @@ public class WifiUtility {
     public static String getWifiStrengthStatus(int level)
     {
         if(level==0)
-            return "Wifi lost";
+            return AppUtility.getString(R.string.signal_lost);
         else if(level <= 5)
-            return "Signal Strength: WEAK";
+            return AppUtility.getString(R.string.weak_signal);
         else if(level > 5 && level <=10)
-            return "Signal Strength: Fair";
+            return AppUtility.getString(R.string.fair_signal);
         else if(level > 10 && level <=15)
-            return "Signal Strength: Good";
+            return AppUtility.getString(R.string.good_signal);
         else
-            return "Signal Strength: Excellent";
+            return AppUtility.getString(R.string.excellent_signal);
     }
 
 
