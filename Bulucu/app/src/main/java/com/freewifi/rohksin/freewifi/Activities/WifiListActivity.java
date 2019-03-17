@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.Adapters.CloseWifiListAdapter;
 import com.freewifi.rohksin.freewifi.Adapters.OpenWifiListAdapter;
+import com.freewifi.rohksin.freewifi.Interfaces.WifiScanInterface;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 
@@ -27,19 +28,20 @@ import java.util.List;
  * Created by RohitKsingh on 2/24/2018.
  */
 
-public class WifiListActivity extends AppCompatActivity {
+public class WifiListActivity extends AppCompatActivity implements WifiScanInterface{
 
 
     private TextView noNetworkFound;
     private RecyclerView rv;
     private LinearLayoutManager llm;
-
     private RecyclerView.Adapter adapter;
+
     private WifiManager manager;
+    private ScanReceiver scanReceiver;
 
     private Intent intent;
 
-
+    private static final String TAG = "WIFI_LIST_ACTIVITY_TAG";
 
     @Override
     public void onCreate(Bundle savedInstanceBundle)
@@ -57,19 +59,14 @@ public class WifiListActivity extends AppCompatActivity {
         rv.setLayoutManager(llm);
         rv.setPadding(0,getStatusBarHeight(),0,0);
 
-        registerReceiver(new ScanReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-
-
-        manager = WifiUtility.getSingletonWifiManager(this);
-        manager.startScan();
 
     }
 
 
 
-    //**************************************************************************************************//
-    //                                 Helper Methods                                                   //
-    //**************************************************************************************************//
+    /**************************************************************************************************
+    *                               Private Helper Methods                                            *
+    //************************************************************************************************/
 
 
     private void setUpAdapters()
@@ -80,11 +77,15 @@ public class WifiListActivity extends AppCompatActivity {
         {
             scanResults = WifiUtility.getOpenScanResult(manager.getScanResults());
             adapter = new OpenWifiListAdapter(this, scanResults);
+
+            Log.d(TAG, "OPEN: "+scanResults.size());
         }
         else if(intent.getAction().equals("CLOSE_NETWORK")){
 
             scanResults = WifiUtility.getCloseScanResult(manager.getScanResults());
             adapter = new CloseWifiListAdapter(this, WifiUtility.getCloseScanResult(manager.getScanResults()));
+
+            Log.d(TAG, "CLOSED: "+scanResults.size());
         }
 
         manageListVisibility(scanResults);
@@ -128,9 +129,52 @@ public class WifiListActivity extends AppCompatActivity {
     }
 
 
+    /***********************************************************************************************************
+     *                                  Interface methods                                                      *
+     ***********************************************************************************************************/
 
-     /***********************************************************************************************************
-     *                                  BroadcastReceiver                                                       *
+    @Override
+    public void startScan() {
+
+        scanReceiver = new ScanReceiver();
+        registerReceiver(scanReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        manager = WifiUtility.getSingletonWifiManager(this);
+        manager.startScan();
+    }
+
+    @Override
+    public void stopScan() {
+       unregisterReceiver(scanReceiver);
+    }
+
+    @Override
+    public void updateScanUI() {
+
+    }
+
+
+    /***********************************************************************************************************
+     *                                  Activity Lifecycle methods                                             *
+     ***********************************************************************************************************/
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        startScan();
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        stopScan();
+    }
+
+
+
+    /***********************************************************************************************************
+     *                                  BroadcastReceiver                                                      *
      ************************************************************************************************************/
 
     class ScanReceiver extends BroadcastReceiver{

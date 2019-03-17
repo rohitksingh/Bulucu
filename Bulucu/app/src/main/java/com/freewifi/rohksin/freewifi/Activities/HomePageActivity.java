@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.freewifi.rohksin.freewifi.Interfaces.WifiScanInterface;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
@@ -36,7 +37,7 @@ import java.util.List;
  * Created by RohitKSingh on 2/17/2018.
  */
 
-public class HomePageActivity extends AppCompatActivity implements TapTargetView.OnClickListener{
+public class HomePageActivity extends AppCompatActivity implements WifiScanInterface{
 
 
     private RelativeLayout mainLayout;
@@ -86,7 +87,6 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
 
     }
-
 
     private void setUpUI()
     {
@@ -149,15 +149,41 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         });
     }
 
+
+    /***********************************************************************************************************
+     *                                  Interface methods                                                      *
+     ***********************************************************************************************************/
+
     @Override
-    public void onClick(View v) {
+    public void startScan()
+    {
+        manager = WifiUtility.getSingletonWifiManager(this);
+        wifiScanReceiver = new WifiScanReceiver();
+        registerReceiver(wifiScanReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        manager.startScan();
+    }
+
+
+    @Override
+    public void stopScan()
+    {
+        unregisterReceiver(wifiScanReceiver);
+    }
+
+
+
+    @Override
+    public void updateScanUI() {
 
     }
 
 
-    //************************************************************************************************************//
-    //                                   BroadcastReceiver                                                        //
-    //************************************************************************************************************//
+
+
+
+    /************************************************************************************************************
+    *                                    BroadcastReceiver                                                      *
+    ************************************************************************************************************/
 
     private class WifiScanReceiver extends BroadcastReceiver {
 
@@ -179,9 +205,9 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         }
     }
 
-    //*************************************************************************************************************//
-    //                                            Helper Methods                                                   //
-    //*************************************************************************************************************//
+    /*************************************************************************************************************
+    *                                    Helper Methods                                                          *
+    *************************************************************************************************************/
 
 
     private int getNumOfWifi()
@@ -368,19 +394,6 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
     }
 
 
-    private void startScan()
-    {
-        manager = WifiUtility.getSingletonWifiManager(this);
-        wifiScanReceiver = new WifiScanReceiver();
-        registerReceiver(wifiScanReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        manager.startScan();
-    }
-
-
-    private void stopScan()
-    {
-        unregisterReceiver(wifiScanReceiver);
-    }
 
 
 }
