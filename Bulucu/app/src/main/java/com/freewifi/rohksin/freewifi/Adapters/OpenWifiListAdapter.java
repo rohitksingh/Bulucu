@@ -55,7 +55,7 @@ public class OpenWifiListAdapter extends RecyclerView.Adapter<OpenWifiListAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentUtility.startTrackWifiActivity(context, scanResult);
+             //   IntentUtility.startTrackWifiActivity(context, scanResult);
             }
         });
 

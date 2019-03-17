@@ -59,7 +59,7 @@ public class CloseWifiListAdapter extends RecyclerView.Adapter<CloseWifiListAdap
             @Override
             public void onClick(View v) {
 
-                IntentUtility.startTrackWifiActivity(context, scanResult);
+               // IntentUtility.startTrackWifiActivity(context, scanResult);
 
             }
         });

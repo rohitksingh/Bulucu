@@ -12,6 +12,7 @@ import com.freewifi.rohksin.freewifi.Activities.TrackWifiActivity;
 
 public class IntentUtility {
 
+    /*
 
     public static void startTrackWifiActivity(Context context, ScanResult scanResult)
     {
@@ -19,5 +20,7 @@ public class IntentUtility {
         intent.putExtra(TrackWifiActivity.TARGET_WIFI,scanResult);
         context.startActivity(intent);
     }
+
+    */
 
 }
