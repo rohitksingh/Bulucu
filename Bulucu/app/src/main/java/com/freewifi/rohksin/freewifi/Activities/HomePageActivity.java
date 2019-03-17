@@ -222,11 +222,13 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
 
         if(openScanResults.size()!=0)
         {
-            openNetwork.setText(openScanResults.get(0).SSID);
+            ScanResult scan = openScanResults.get(0);
+            openNetwork.setText(scan.SSID+"");
             openNum.setText(openScanResults.size()+"");
 
         }else {
             openNetwork.setText(R.string.no_network);
+            openNum.setText(openScanResults.size()+"");
         }
 
         if(closeScanResults.size()!=0)
@@ -237,6 +239,7 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
         }
         else {
             closedNetwork.setText(R.string.no_network);
+            closeNum.setText(closeScanResults.size()+"");
         }
 
 
