@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bulucu</string>
+    <string name="action_settings">Settings</string>
 
     <string name="terms">Nutzungsbedingungen und Datenschutzbestimmungen</string>
     <string name="read">Lesen</string>
