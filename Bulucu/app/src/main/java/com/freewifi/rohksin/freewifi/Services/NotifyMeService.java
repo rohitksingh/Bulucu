@@ -5,37 +5,51 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.freewifi.rohksin.freewifi.Activities.HomePageActivity;
+import com.freewifi.rohksin.freewifi.Interfaces.WifiScanInterface;
 import com.freewifi.rohksin.freewifi.R;
+import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 
 import static android.support.v4.app.NotificationCompat.PRIORITY_MIN;
 
-public class NotifyMeService extends IntentService {
+public class NotifyMeService extends Service implements WifiScanInterface{
+
+    /**
+        TODO Dynamically register BroadcastReceiver
+     */
 
     private int FOREGROUND_ID = 2222;
 
+    private WifiManager wifiManager;
+    private WifiScanReceiver wifiScanReceiver;
+
     private static final String TAG = "NotifyMeService";
 
-    public NotifyMeService()
-    {
-        super("NotifyMeService");
-    }
 
     @Override
-    public void onHandleIntent(@NonNull Intent intent)
+    public void onCreate()
     {
+        startScan();
+    }
 
 
-        Log.d(TAG, "onHandleIntent: ");
-
+    @Override
+    public int onStartCommand(Intent intent, int flag, int flagId)
+    {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String channelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId);
@@ -45,14 +59,9 @@ public class NotifyMeService extends IntentService {
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .build();
 
-
-
-
         startForeground(FOREGROUND_ID,notification);     //<-- Makes Foreground
 
-
-
-        for(int i=0;i<5;i++)
+        for(int i=0;i<10;i++)
         {
             Log.d(TAG, "onHandleIntent: "+i);
             try {
@@ -62,11 +71,27 @@ public class NotifyMeService extends IntentService {
             }
         }
 
-
-        stopForeground(true);
-
-
+        stopSelf();
+        return flag;
     }
+
+
+
+
+    @Override
+    public void onDestroy()
+    {
+        Log.d(TAG, "onDestroy: ");
+        stopScan();
+        stopForeground(true);
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private String createNotificationChannel(NotificationManager notificationManager){
@@ -80,7 +105,55 @@ public class NotifyMeService extends IntentService {
         return channelId;
     }
 
+    @Override
+    public void startScan() {
 
+        wifiScanReceiver = new WifiScanReceiver();
+        registerReceiver(wifiScanReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        wifiManager = WifiUtility.getSingletonWifiManager(this);
+        wifiManager.startScan();
+        wifiScanReceiver = new WifiScanReceiver();
+
+    }
+
+    @Override
+    public void stopScan() {
+
+        unregisterReceiver(wifiScanReceiver);
+    }
+
+    @Override
+    public void updateScanUI() {
+
+    }
+
+
+    private class WifiScanReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if(intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
+            {
+
+                Log.d(TAG, "onReceive: ");
+                wifiManager.startScan();                                                  // Contineous scan
+
+            }
+
+        }
+    }
+
+
+    private void notifyUser()
+    {
+
+    }
+
+    private boolean newResultFound()
+    {
+        return true;
+    }
 
 
 }
