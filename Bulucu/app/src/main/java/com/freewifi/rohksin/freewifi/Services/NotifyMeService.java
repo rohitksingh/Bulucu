@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.IBinder;
@@ -23,6 +24,9 @@ import com.freewifi.rohksin.freewifi.Activities.HomePageActivity;
 import com.freewifi.rohksin.freewifi.Interfaces.WifiScanInterface;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.support.v4.app.NotificationCompat.PRIORITY_MIN;
 
@@ -40,15 +44,45 @@ public class NotifyMeService extends Service implements WifiScanInterface{
     private static final String TAG = "NotifyMeService";
 
 
+    private List<ScanResult> oldResults;
+    private List<ScanResult> newResults;
+
+
     @Override
     public void onCreate()
     {
         startScan();
+        oldResults = new ArrayList<ScanResult>();
+        newResults = new ArrayList<ScanResult>();
     }
 
 
     @Override
     public int onStartCommand(Intent intent, int flag, int flagId)
+    {
+        createNotification("Notify me");  //<-- Makes Foreground
+
+        for(int i=0;i<10;i++)
+        {
+            Log.d(TAG, "onStartCommand: ");
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        
+        stopSelf();
+
+        return flag;
+    }
+
+
+
+    private void createNotification(String msg)
     {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String channelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
@@ -57,25 +91,11 @@ public class NotifyMeService extends Service implements WifiScanInterface{
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setPriority(PRIORITY_MIN)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                .setContentText(msg)
                 .build();
 
-        startForeground(FOREGROUND_ID,notification);     //<-- Makes Foreground
-
-        for(int i=0;i<10;i++)
-        {
-            Log.d(TAG, "onHandleIntent: "+i);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        stopSelf();
-        return flag;
+        startForeground(FOREGROUND_ID,notification);
     }
-
-
 
 
     @Override
@@ -137,7 +157,10 @@ public class NotifyMeService extends Service implements WifiScanInterface{
             {
 
                 Log.d(TAG, "onReceive: ");
+                WifiUtility.updateWifiResult(wifiManager.getScanResults());
                 wifiManager.startScan();                                                  // Contineous scan
+
+                newResultFound(WifiUtility.getOpenScanResult());
 
             }
 
@@ -147,12 +170,23 @@ public class NotifyMeService extends Service implements WifiScanInterface{
 
     private void notifyUser()
     {
-
+        createNotification("New Network found");
     }
 
-    private boolean newResultFound()
+    private void newResultFound(List<ScanResult> openNetworks)
     {
-        return true;
+        Log.d(TAG, "newResultFound:? ");
+        oldResults = newResults;
+        newResults = openNetworks;
+
+        if(oldResults.size()!=newResults.size())
+        {
+            Log.d(TAG, "newResultFound:? YES");
+            notifyUser();
+        }else {
+            //compare logic
+        }
+
     }
 
 
