@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.Interfaces.WifiScanInterface;
 import com.freewifi.rohksin.freewifi.R;
+import com.freewifi.rohksin.freewifi.Services.NotifyMeService;
 import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 import com.getkeepsafe.taptargetview.TapTarget;
@@ -106,7 +107,8 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
         privacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openPrivacyPolicyDialog();
+                //openPrivacyPolicyDialog();
+                openNotifyMe();
             }
         });
 
@@ -382,6 +384,11 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
     }
 
 
+    private void openNotifyMe()
+    {
+        Intent i = new Intent(this, NotifyMeService.class);
+        startService(i);
+    }
 
 
 }

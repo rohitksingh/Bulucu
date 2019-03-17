@@ -41,6 +41,7 @@
         <!--                            SERVICES                           -->
 
         <service android:name=".Services.TrackWifiService"/>
+        <service android:name=".Services.NotifyMeService"/>
 
     </application>
 
