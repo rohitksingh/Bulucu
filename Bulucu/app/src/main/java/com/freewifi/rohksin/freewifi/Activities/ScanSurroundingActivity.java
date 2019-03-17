@@ -52,6 +52,8 @@ public class ScanSurroundingActivity extends AppCompatActivity {
     private boolean SCAN_RUNNING = false;
     private int SCAN_NUM =0;
 
+    private static final String TAG = "ScanSurroundingActivity";
+
 
 
     @Override
@@ -100,6 +102,14 @@ public class ScanSurroundingActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        stopScan();
+    }
+
+
 
     //*******************************************************************************************************//
     //                                          AsncTask                                                     //
@@ -113,6 +123,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         public void onPreExecute()
         {
 
+            Log.d(TAG, "onPreExecute: ");
             SCAN_RUNNING = true;
             scanLottieButton.playAnimation();
             Snackbar.make(scanLottieButton, R.string.scanning, Snackbar.LENGTH_SHORT)
@@ -123,12 +134,20 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
 
+            Log.d(TAG, "doInBackground: ");
+            
+            if(isCancelled())
+            {
+                return null;
+            }
+
             for(int i =0; i<10;i++)
             {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    return null;
                 }
 
                 List<ScanResult> results = manager.getScanResults();
@@ -152,14 +171,14 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         public void onProgressUpdate(String ... param)
         {
 
-            Log.d("Log", scanResults.size()+"");
+            Log.d(TAG, "scanlist size: "+scanResults.size());
 
             //adapter.notifyDataSetChanged();     ? Why it is not working
 
             // TEMP ///////////////////////////////////////////////////////////////////////////////
             scanTime.setText(param[0]);
             SCAN_NUM = scanResults.size();
-            wifiNum.setText(AppUtility.getString(R.string.results_found)+" "+SCAN_NUM);
+            wifiNum.setText(AppUtility.getString(R.string.results_found)+": "+SCAN_NUM);
             adapter = new StringAdapter(ScanSurroundingActivity.this, scanResults);
             rv.setAdapter(adapter);
             // TEMP ///////////////////////////////////////////////////////////////////////////////
@@ -173,7 +192,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
             SCAN_RUNNING = false;
             Snackbar.make(scanLottieButton, R.string.scan_finished, Snackbar.LENGTH_SHORT)
                     .show();
-
+            Log.d(TAG, "onPostExecute: ");
             // Add someAction // Menu item : two dots
 
         }
@@ -190,6 +209,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
     private void startScan()
     {
 
+        Log.d(TAG, "Scan running "+SCAN_RUNNING);
 
         if(!SCAN_RUNNING) {
             scanTask = new ScanTask();
@@ -197,6 +217,11 @@ public class ScanSurroundingActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private void stopScan()
+    {
+        scanTask.cancel(true);
     }
 
 

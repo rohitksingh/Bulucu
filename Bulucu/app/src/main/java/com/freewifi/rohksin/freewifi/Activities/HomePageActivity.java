@@ -194,11 +194,9 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
             {
 
                 manager.startScan();                                                  // Contineous scan
-                scanNow.setText(getNumOfWifi()+"");
-                if(openScanResults!=null)
-                openNum.setText(openScanResults.size()+"");
-                if(closeScanResults!=null)
-                closeNum.setText(closeScanResults.size()+"");
+
+
+
                 setUpAllList();
             }
 
@@ -210,32 +208,22 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
     *************************************************************************************************************/
 
 
-    private int getNumOfWifi()
-    {
-        return manager.getScanResults().size();
-    }
-
     private void setUpAllList()
     {
         allScanResults = manager.getScanResults();
-        openScanResults = new ArrayList<ScanResult>();
-        closeScanResults = new ArrayList<ScanResult>();
+        WifiUtility.updateWifiResult(allScanResults);
+        openScanResults = WifiUtility.getOpenScanResult();
+        closeScanResults = WifiUtility.getCloseScanResult();
 
-        for(ScanResult result : allScanResults)
-        {
-            if(!isProtectedNetwork(result.capabilities))
-            {
-                openScanResults.add(result);
-            }
-            else {
-                Log.d("CLOSE", result.SSID);
-                closeScanResults.add(result);
-            }
-        }
+
+
+        if(allScanResults!=null)
+            scanNow.setText(allScanResults.size()+"");
 
         if(openScanResults.size()!=0)
         {
             openNetwork.setText(openScanResults.get(0).SSID);
+            openNum.setText(openScanResults.size()+"");
 
         }else {
             openNetwork.setText(R.string.no_network);
@@ -245,7 +233,7 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
         {
             ScanResult scan = closeScanResults.get(0);
             closedNetwork.setText(scan.SSID+"");
-
+            closeNum.setText(closeScanResults.size()+"");
         }
         else {
             closedNetwork.setText(R.string.no_network);

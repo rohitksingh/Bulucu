@@ -39,6 +39,7 @@ public class WifiListActivity extends AppCompatActivity implements WifiScanInter
 
     private WifiManager manager;
     private ScanReceiver scanReceiver;
+    private List<ScanResult> scanResults;
 
     private Intent intent;
 
@@ -59,6 +60,7 @@ public class WifiListActivity extends AppCompatActivity implements WifiScanInter
         llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
         rv.setPadding(0, AppUtility.getStatusBarHeight(),0,0);
+        setUpAdapters();
 
 
     }
@@ -72,19 +74,20 @@ public class WifiListActivity extends AppCompatActivity implements WifiScanInter
 
     private void setUpAdapters()
     {
-        List<ScanResult> scanResults = null;
+
 
         if(intent.getAction().equals("OPEN_NETWORK"))
         {
-            scanResults = WifiUtility.getOpenScanResult(manager.getScanResults());
+
+            scanResults = WifiUtility.getOpenScanResult();
             adapter = new OpenWifiListAdapter(this, scanResults);
 
             Log.d(TAG, "OPEN: "+scanResults.size());
         }
         else if(intent.getAction().equals("CLOSE_NETWORK")){
 
-            scanResults = WifiUtility.getCloseScanResult(manager.getScanResults());
-            adapter = new CloseWifiListAdapter(this, WifiUtility.getCloseScanResult(manager.getScanResults()));
+            scanResults = WifiUtility.getCloseScanResult();
+            adapter = new CloseWifiListAdapter(this, scanResults);
 
             Log.d(TAG, "CLOSED: "+scanResults.size());
         }
@@ -173,6 +176,7 @@ public class WifiListActivity extends AppCompatActivity implements WifiScanInter
         {
             if(intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
             {
+                WifiUtility.updateWifiResult(manager.getScanResults());
                 setUpAdapters();
                 manager.startScan();
             }
