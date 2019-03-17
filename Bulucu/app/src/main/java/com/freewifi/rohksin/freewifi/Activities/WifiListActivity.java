@@ -20,6 +20,7 @@ import com.freewifi.rohksin.freewifi.Adapters.CloseWifiListAdapter;
 import com.freewifi.rohksin.freewifi.Adapters.OpenWifiListAdapter;
 import com.freewifi.rohksin.freewifi.Interfaces.WifiScanInterface;
 import com.freewifi.rohksin.freewifi.R;
+import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 
 import java.util.List;
@@ -57,7 +58,7 @@ public class WifiListActivity extends AppCompatActivity implements WifiScanInter
         rv = (RecyclerView)findViewById(R.id.rv);
         llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
-        rv.setPadding(0,getStatusBarHeight(),0,0);
+        rv.setPadding(0, AppUtility.getStatusBarHeight(),0,0);
 
 
     }
@@ -107,18 +108,6 @@ public class WifiListActivity extends AppCompatActivity implements WifiScanInter
         }
     }
 
-
-
-    private int getStatusBarHeight()
-    {
-        int height = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if(resourceId>0)
-        {
-            height = getResources().getDimensionPixelSize(resourceId);
-        }
-        return height;
-    }
 
 
     private void setBackGroundColor(int color)
