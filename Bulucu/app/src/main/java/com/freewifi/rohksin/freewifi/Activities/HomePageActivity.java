@@ -51,7 +51,7 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
     private FrameLayout closeWifiContainer;
 
     private WifiManager manager;
-    private List<ScanResult> allScanResults;
+    //private List<ScanResult> allScanResults;
     private List<ScanResult> openScanResults;
     private List<ScanResult> closeScanResults;
 
@@ -217,21 +217,11 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
 
     private void setUpAllList()
     {
-        allScanResults = manager.getScanResults();
-        openScanResults = new ArrayList<ScanResult>();
-        closeScanResults = new ArrayList<ScanResult>();
+        WifiUtility.updateWifiResult(manager.getScanResults());
+        openScanResults = WifiUtility.getOpenScanResult();
+        closeScanResults = WifiUtility.getCloseScanResult();
 
-        for(ScanResult result : allScanResults)
-        {
-            if(!isProtectedNetwork(result.capabilities))
-            {
-                openScanResults.add(result);
-            }
-            else {
-                Log.d("CLOSE", result.SSID);
-                closeScanResults.add(result);
-            }
-        }
+
 
         if(openScanResults.size()!=0)
         {

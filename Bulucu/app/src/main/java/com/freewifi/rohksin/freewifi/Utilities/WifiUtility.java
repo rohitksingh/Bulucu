@@ -35,6 +35,12 @@ public class WifiUtility {
         }
     }
 
+    public static void updateWifiResult(List<ScanResult> _allScanResults)
+    {
+        allScanResults = _allScanResults;
+    }
+
+
 
     public static void connect(Context context, ScanResult scanResult)
     {
@@ -55,15 +61,15 @@ public class WifiUtility {
     }
 
 
-    public static List<ScanResult> getOpenScanResult(List<ScanResult> allScan)
+    public static List<ScanResult> getOpenScanResult()
     {
-        filterScan(allScan);
+        filterScan();
         return openScans;
     }
 
-    public static List<ScanResult> getCloseScanResult(List<ScanResult> allScan)
+    public static List<ScanResult> getCloseScanResult()
     {
-        filterScan(allScan);
+        filterScan();
         return closeScans;
     }
 
@@ -120,9 +126,9 @@ public class WifiUtility {
     //                                 Private Helper Methods                                           //
     //**************************************************************************************************//
 
-    private static void filterScan(List<ScanResult> scanResult)
+    private static void filterScan()
     {
-        allScanResults = scanResult;
+        allScanResults = getAllScanResults();
         openScans = new ArrayList<ScanResult>();
         closeScans = new ArrayList<ScanResult>();
 
@@ -143,5 +149,12 @@ public class WifiUtility {
     {
         return (capability.contains("WPA") || capability.contains("WEP") || capability.contains("WPS"));
     }
+
+
+    private static List<ScanResult> getAllScanResults()
+    {
+        return allScanResults;
+    }
+
 
 }
