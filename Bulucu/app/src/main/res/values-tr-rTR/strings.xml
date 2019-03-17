@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Bulucu</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="terms">Şartlar ve Gizlilik Politikası</string>
+    <string name="read">okumak</string>
+    <string name="no_network">Ağ yok</string>
+    <string name="open_networks">Ağları Aç</string>
+    <string name="click_open_networks">Çevrenizdeki açık ağları bulmak için tıklayın</string>
+    <string name="close_networks">Kapalı ağlar</string>
+    <string name="click_closed_networks">Çevrenizdeki kapalı ağları bulmak için tıklayın</string>
+    <string name="scan_now">Şimdi Tara</string>
+    <string name="scan_your_surrounding">Çevrenizi 10 saniye boyunca tarayın</string>
+    <string name="networks_available">Mevcut Ağlar</string>
+    <string name="results_found">Sonuçlar bulundu</string>
+    <string name="scan_finished">Tarama Tamamlandı</string>
+    <string name="scanning">Tarama...</string>
+    <string name="scan">taramak</string>
+    <string name="no_network_available">MEVCUT YOK</string>
+    <string name="tracking">Takip</string>
+    <string name="signal_lost">Kayıp sinyal</string>
+    <string name="weak_signal">Sinyal gücü: ZAYIF</string>
+    <string name="fair_signal">Sinyal gücü: ADİL</string>
+    <string name="good_signal">Sinyal gücü: İYİ</string>
+    <string name="excellent_signal">Sinyal gücü: MÜKEMMEL</string>
+    <string name="detail">detay</string>
+    <string name="connecting">Bağlanıyor</string>
+    <string name="connect">bağlamak</string>
+
+</resources>
