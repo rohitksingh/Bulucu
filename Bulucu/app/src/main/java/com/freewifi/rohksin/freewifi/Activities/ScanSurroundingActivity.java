@@ -213,7 +213,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    title.setTitle(R.string.results_found+" "+SCAN_NUM);
+                    title.setTitle(AppUtility.getString(R.string.results_found)+": "+SCAN_NUM);
                     isShow = true;
                 } else if(isShow) {
                     title.setTitle(" ");
