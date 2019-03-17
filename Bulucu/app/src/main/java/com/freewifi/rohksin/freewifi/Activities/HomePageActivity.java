@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.freewifi.rohksin.freewifi.Interfaces.WifiScanInterface;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
@@ -36,7 +37,7 @@ import java.util.List;
  * Created by RohitKSingh on 2/17/2018.
  */
 
-public class HomePageActivity extends AppCompatActivity implements TapTargetView.OnClickListener{
+public class HomePageActivity extends AppCompatActivity implements WifiScanInterface{
 
 
     private RelativeLayout mainLayout;
@@ -66,6 +67,8 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
     // Privact policy update
     private ImageView privacyPolicy;
 
+    private WifiScanReceiver wifiScanReceiver;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -73,9 +76,6 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upgrade_scan_activity_layout);
 
-        manager = WifiUtility.getSingletonWifiManager(this);
-        registerReceiver(new WifiScanReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        manager.startScan();
 
         setUpUI();
 
@@ -87,7 +87,6 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
 
     }
-
 
     private void setUpUI()
     {
@@ -150,15 +149,41 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         });
     }
 
+
+    /***********************************************************************************************************
+     *                                  Interface methods                                                      *
+     ***********************************************************************************************************/
+
     @Override
-    public void onClick(View v) {
+    public void startScan()
+    {
+        manager = WifiUtility.getSingletonWifiManager(this);
+        wifiScanReceiver = new WifiScanReceiver();
+        registerReceiver(wifiScanReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        manager.startScan();
+    }
+
+
+    @Override
+    public void stopScan()
+    {
+        unregisterReceiver(wifiScanReceiver);
+    }
+
+
+
+    @Override
+    public void updateScanUI() {
 
     }
 
 
-    //************************************************************************************************************//
-    //                                   BroadcastReceiver                                                        //
-    //************************************************************************************************************//
+
+
+
+    /************************************************************************************************************
+    *                                    BroadcastReceiver                                                      *
+    ************************************************************************************************************/
 
     private class WifiScanReceiver extends BroadcastReceiver {
 
@@ -180,9 +205,9 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         }
     }
 
-    //*************************************************************************************************************//
-    //                                            Helper Methods                                                   //
-    //*************************************************************************************************************//
+    /*************************************************************************************************************
+    *                                    Helper Methods                                                          *
+    *************************************************************************************************************/
 
 
     private int getNumOfWifi()
@@ -298,15 +323,16 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
 
 
-   //**************************************************************************************************************//
-    //                         Activity Life cycle methods   && Runtime Permission                                                    //
-    //*************************************************************************************************************//
+    /**************************************************************************************************************
+    *                     Activity Life cycle methods   && Runtime Permission                                     *
+    /*************************************************************************************************************/
 
 
     @Override
     public void onResume()
     {
         super.onResume();
+        startScan();
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
@@ -318,6 +344,17 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
     }
 
 
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        stopScan();
+    }
+
+
+    /**************************************************************************************************************
+     *                                    Private helper  methods                                                 *
+     /*************************************************************************************************************/
 
     private class DrawableLoader extends AsyncTask<Void, Void, Void>{
 
@@ -355,6 +392,8 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         AlertDialog alert = builder.create();
         alert.show();
     }
+
+
 
 
 }
