@@ -66,6 +66,8 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
     // Privact policy update
     private ImageView privacyPolicy;
 
+    private WifiScanReceiver wifiScanReceiver;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -73,9 +75,6 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upgrade_scan_activity_layout);
 
-        manager = WifiUtility.getSingletonWifiManager(this);
-        registerReceiver(new WifiScanReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        manager.startScan();
 
         setUpUI();
 
@@ -298,15 +297,16 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
 
 
 
-   //**************************************************************************************************************//
-    //                         Activity Life cycle methods   && Runtime Permission                                                    //
-    //*************************************************************************************************************//
+    /**************************************************************************************************************
+    *                     Activity Life cycle methods   && Runtime Permission                                     *
+    /*************************************************************************************************************/
 
 
     @Override
     public void onResume()
     {
         super.onResume();
+        startScan();
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
@@ -318,6 +318,17 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
     }
 
 
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        stopScan();
+    }
+
+
+    /**************************************************************************************************************
+     *                                    Private helper  methods                                                 *
+     /*************************************************************************************************************/
 
     private class DrawableLoader extends AsyncTask<Void, Void, Void>{
 
@@ -354,6 +365,21 @@ public class HomePageActivity extends AppCompatActivity implements TapTargetView
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+
+    private void startScan()
+    {
+        manager = WifiUtility.getSingletonWifiManager(this);
+        wifiScanReceiver = new WifiScanReceiver();
+        registerReceiver(wifiScanReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        manager.startScan();
+    }
+
+
+    private void stopScan()
+    {
+        unregisterReceiver(wifiScanReceiver);
     }
 
 
