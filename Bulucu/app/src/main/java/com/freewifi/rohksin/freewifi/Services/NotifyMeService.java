@@ -21,6 +21,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.freewifi.rohksin.freewifi.Activities.HomePageActivity;
+import com.freewifi.rohksin.freewifi.Activities.ScanSurroundingActivity;
 import com.freewifi.rohksin.freewifi.Interfaces.WifiScanInterface;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
@@ -61,22 +62,6 @@ public class NotifyMeService extends Service implements WifiScanInterface{
     public int onStartCommand(Intent intent, int flag, int flagId)
     {
         createNotification("Notify me");  //<-- Makes Foreground
-
-        for(int i=0;i<10;i++)
-        {
-            Log.d(TAG, "onStartCommand: ");
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-
-        }
-        
-        stopSelf();
-
         return flag;
     }
 
@@ -84,14 +69,26 @@ public class NotifyMeService extends Service implements WifiScanInterface{
 
     private void createNotification(String msg)
     {
+
+
+
+        Intent yesReceive = new Intent(this, ScanSurroundingActivity.class);
+        yesReceive.setAction("STOP_SERVICE");
+
+
+        PendingIntent pendingIntentYes = PendingIntent.getActivity(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String channelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId);
-        Notification notification = notificationBuilder.setOngoing(true)
+
+
+        Notification notification = notificationBuilder.setOngoing(false)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setPriority(PRIORITY_MIN)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setContentText(msg)
+                .setContentIntent(pendingIntentYes)
                 .build();
 
         startForeground(FOREGROUND_ID,notification);
