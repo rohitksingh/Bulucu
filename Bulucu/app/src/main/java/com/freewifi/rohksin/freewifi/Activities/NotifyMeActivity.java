@@ -17,6 +17,7 @@ import android.widget.ToggleButton;
 import com.freewifi.rohksin.freewifi.Interfaces.NotifyMeCallback;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Services.NotifyMeService;
+import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 
 import java.util.List;
 
@@ -131,7 +132,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     {
         Log.d(TAG, "getDetails: "+bound);
 
-        boolean result = getIntent().getBooleanExtra("startedByNotification", false);
+        boolean result = AppUtility.getNotifyServiceStatus();
         if(result) {
             bindService();
         }
@@ -140,12 +141,14 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
 
     private void startNotifyMe()
     {
+        AppUtility.setNotifySericeStatus(true);
         startService(notifyMeIntent);
         bindService();
     }
 
     private void stopNotifyMe()
     {
+        AppUtility.setNotifySericeStatus(false);
         stopService(notifyMeIntent);
         unbindService();
     }
@@ -160,6 +163,12 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
 
         details = (TextView)findViewById(R.id.detail);
         toggle = (ToggleButton) findViewById(R.id.chkState);
+
+        if(AppUtility.getNotifyServiceStatus())
+        {
+            toggle.setChecked(true);
+        }
+
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -169,6 +178,9 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
                 }
             }
         });
+
+
+
 
     }
 

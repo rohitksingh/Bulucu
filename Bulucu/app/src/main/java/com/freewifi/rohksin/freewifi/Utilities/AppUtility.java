@@ -57,4 +57,20 @@ public class AppUtility {
         }
         return result;
     }
+
+
+    public static void setNotifySericeStatus(boolean status)
+    {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("NOTIFY_ME_STATUS", status);
+        editor.commit();
+    }
+
+    public static boolean getNotifyServiceStatus()
+    {
+        return sharedPreferences.getBoolean("NOTIFY_ME_STATUS", false);
+    }
+
+
+
 }
