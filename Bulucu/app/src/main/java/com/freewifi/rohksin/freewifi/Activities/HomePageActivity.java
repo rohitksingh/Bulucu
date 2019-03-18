@@ -389,8 +389,8 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
 
     private void openNotifyMe()
     {
-        Intent i = new Intent(this, NotifyMeService.class);
-        startService(i);
+        Intent i = new Intent(this, NotifyMeActivity.class);
+        startActivity(i);
     }
 
 

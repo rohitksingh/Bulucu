@@ -10,6 +10,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -21,13 +24,19 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.freewifi.rohksin.freewifi.Activities.HomePageActivity;
+import com.freewifi.rohksin.freewifi.Activities.NotifyMeActivity;
 import com.freewifi.rohksin.freewifi.Activities.ScanSurroundingActivity;
 import com.freewifi.rohksin.freewifi.Interfaces.WifiScanInterface;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static android.support.v4.app.NotificationCompat.PRIORITY_MIN;
 
@@ -45,16 +54,17 @@ public class NotifyMeService extends Service implements WifiScanInterface{
     private static final String TAG = "NotifyMeService";
 
 
-    private List<ScanResult> oldResults;
-    private List<ScanResult> newResults;
+
+
+    private Set<String> allScanNames;
 
 
     @Override
     public void onCreate()
     {
+        allScanNames = new TreeSet<String>();
         startScan();
-        oldResults = new ArrayList<ScanResult>();
-        newResults = new ArrayList<ScanResult>();
+
     }
 
 
@@ -72,11 +82,8 @@ public class NotifyMeService extends Service implements WifiScanInterface{
 
 
 
-        Intent yesReceive = new Intent(this, ScanSurroundingActivity.class);
-        yesReceive.setAction("STOP_SERVICE");
-
-
-        PendingIntent pendingIntentYes = PendingIntent.getActivity(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent notifyMeIntent = new Intent(this, NotifyMeActivity.class);
+        PendingIntent pendingIntentYes = PendingIntent.getActivity(this, 12345,notifyMeIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String channelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
@@ -129,7 +136,6 @@ public class NotifyMeService extends Service implements WifiScanInterface{
         registerReceiver(wifiScanReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         wifiManager = WifiUtility.getSingletonWifiManager(this);
         wifiManager.startScan();
-        wifiScanReceiver = new WifiScanReceiver();
 
     }
 
@@ -157,7 +163,7 @@ public class NotifyMeService extends Service implements WifiScanInterface{
                 WifiUtility.updateWifiResult(wifiManager.getScanResults());
                 wifiManager.startScan();                                                  // Contineous scan
 
-                newResultFound(WifiUtility.getOpenScanResult());
+                notifyUser(newResultFound(WifiUtility.getOpenScanResult()));
 
             }
 
@@ -165,24 +171,32 @@ public class NotifyMeService extends Service implements WifiScanInterface{
     }
 
 
-    private void notifyUser()
+    private void notifyUser(boolean newResultsFound)
     {
-        createNotification("New Network found");
+        Log.d(TAG, "notifyUser: "+newResultsFound + ": "+allScanNames.size());
+        if(newResultsFound) {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+            r.play();
+        }
     }
 
-    private void newResultFound(List<ScanResult> openNetworks)
+    private boolean newResultFound(List<ScanResult> openNetworks)
     {
-        Log.d(TAG, "newResultFound:? ");
-        oldResults = newResults;
-        newResults = openNetworks;
+        boolean newResultFound = false;
 
-        if(oldResults.size()!=newResults.size())
+        for(int i=0;i<openNetworks.size();i++)
         {
-            Log.d(TAG, "newResultFound:? YES");
-            notifyUser();
-        }else {
-            //compare logic
+            String name= openNetworks.get(i).SSID;
+            if(!allScanNames.contains(name))
+            {
+                newResultFound = true;
+                allScanNames.add(name);
+            }
+
         }
+
+        return newResultFound;
 
     }
 
