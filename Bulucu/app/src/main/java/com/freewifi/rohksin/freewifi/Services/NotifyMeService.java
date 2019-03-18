@@ -95,6 +95,7 @@ public class NotifyMeService extends Service implements WifiScanInterface {
         Log.d(TAG, "createNotification: "+allScanNames.size());
 
         Intent notifyMeIntent = new Intent(this, NotifyMeActivity.class);
+        notifyMeIntent.putExtra("startedByNotification", true);
 
         PendingIntent pendingIntentYes = PendingIntent.getActivity(this, 12345,notifyMeIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
 

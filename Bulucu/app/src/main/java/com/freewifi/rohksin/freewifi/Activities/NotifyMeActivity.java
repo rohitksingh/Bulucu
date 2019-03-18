@@ -38,13 +38,17 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeResul
         stop = (Button)findViewById(R.id.stop);
         details = (TextView)findViewById(R.id.detail);
 
+
+
+
         notifyMeIntent = new Intent(this, NotifyMeService.class);
+        getDetails();
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startService(notifyMeIntent);
-                bindService(notifyMeIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+                bindService();
             }
         });
 
@@ -106,4 +110,20 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeResul
     public void notifyResults(List<String> results) {
         getDetails(results);
     }
+
+
+    private void bindService()
+    {
+        bindService(notifyMeIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+
+    private void getDetails()
+    {
+        boolean result = getIntent().getBooleanExtra("startedByNotification", false);
+        if(result) {
+            bindService();
+        }
+    }
+
 }
