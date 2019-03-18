@@ -15,6 +15,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
@@ -26,6 +27,7 @@ import android.util.Log;
 import com.freewifi.rohksin.freewifi.Activities.HomePageActivity;
 import com.freewifi.rohksin.freewifi.Activities.NotifyMeActivity;
 import com.freewifi.rohksin.freewifi.Activities.ScanSurroundingActivity;
+import com.freewifi.rohksin.freewifi.Interfaces.NotifyMeResults;
 import com.freewifi.rohksin.freewifi.Interfaces.WifiScanInterface;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
@@ -40,7 +42,7 @@ import java.util.TreeSet;
 
 import static android.support.v4.app.NotificationCompat.PRIORITY_MIN;
 
-public class NotifyMeService extends Service implements WifiScanInterface{
+public class NotifyMeService extends Service implements WifiScanInterface {
 
     /**
         TODO Dynamically register BroadcastReceiver
@@ -54,9 +56,10 @@ public class NotifyMeService extends Service implements WifiScanInterface{
     private static final String TAG = "NotifyMeService";
 
 
-
-
     private Set<String> allScanNames;
+
+    private NotifyMeResults notifyMeResults;;
+    public IBinder localBinder = new LocalBinder();
 
 
     @Override
@@ -77,13 +80,25 @@ public class NotifyMeService extends Service implements WifiScanInterface{
 
 
 
+    public class LocalBinder extends Binder {
+        public NotifyMeService getService() {
+            return NotifyMeService.this;
+        }
+    }
+
+
+
     private void createNotification(String msg)
     {
 
 
+        Log.d(TAG, "createNotification: "+allScanNames.size());
 
         Intent notifyMeIntent = new Intent(this, NotifyMeActivity.class);
+
         PendingIntent pendingIntentYes = PendingIntent.getActivity(this, 12345,notifyMeIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
+
+
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String channelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
@@ -113,7 +128,7 @@ public class NotifyMeService extends Service implements WifiScanInterface{
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return localBinder;
     }
 
 
@@ -151,7 +166,15 @@ public class NotifyMeService extends Service implements WifiScanInterface{
     }
 
 
+    public void registerCallBack(NotifyMeResults notifyMeResults)
+    {
+        this.notifyMeResults = notifyMeResults;
+    }
+
+
     private class WifiScanReceiver extends BroadcastReceiver {
+
+
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -165,6 +188,9 @@ public class NotifyMeService extends Service implements WifiScanInterface{
 
                 notifyUser(newResultFound(WifiUtility.getOpenScanResult()));
 
+                if(notifyMeResults!=null)
+                notifyMeResults.notifyResults(new ArrayList<String>(allScanNames));
+
             }
 
         }
@@ -173,7 +199,7 @@ public class NotifyMeService extends Service implements WifiScanInterface{
 
     private void notifyUser(boolean newResultsFound)
     {
-        Log.d(TAG, "notifyUser: "+newResultsFound + ": "+allScanNames.size());
+        Log.d(TAG, "notifyUser: "+newResultsFound + ": "+allScanNames.toString());
         if(newResultsFound) {
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
@@ -190,6 +216,7 @@ public class NotifyMeService extends Service implements WifiScanInterface{
             String name= openNetworks.get(i).SSID;
             if(!allScanNames.contains(name))
             {
+
                 newResultFound = true;
                 allScanNames.add(name);
             }
