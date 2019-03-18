@@ -11,57 +11,41 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.freewifi.rohksin.freewifi.Interfaces.NotifyMeResults;
+import com.freewifi.rohksin.freewifi.Interfaces.NotifyMeCallback;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Services.NotifyMeService;
 
 import java.util.List;
 
-public class NotifyMeActivity extends AppCompatActivity implements NotifyMeResults{
+public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallback {
 
     private Button start, stop;
     private TextView details;
 
-    Intent notifyMeIntent;
+    private Intent notifyMeIntent;
 
     private NotifyMeService myService;
     private boolean bound = false;
 
-
+    /*************************************************************************************************
+     *                      Activity Lifecycle methods
+     ************************************************************************************************/
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notify_me_activity);
-        start = (Button)findViewById(R.id.start);
-        stop = (Button)findViewById(R.id.stop);
-        details = (TextView)findViewById(R.id.detail);
 
-
-
+        setupUI();
 
         notifyMeIntent = new Intent(this, NotifyMeService.class);
         getDetails();
 
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startService(notifyMeIntent);
-                bindService();
-            }
-        });
 
-        stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stopService(notifyMeIntent);
-            }
-        });
 
 
     }
-
 
     @Override
     protected void onStop() {
@@ -74,6 +58,10 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeResul
         }
     }
 
+
+    /*************************************************************************************************
+     *                         Service Connection
+     ************************************************************************************************/
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
 
@@ -93,6 +81,20 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeResul
     };
 
 
+    /*************************************************************************************************
+     *                         Callback method
+     ************************************************************************************************/
+
+    @Override
+    public void notifyResults(List<String> results) {
+        getDetails(results);
+    }
+
+
+    /*************************************************************************************************
+     *                         Private Helper methods
+     ************************************************************************************************/
+
 
     private void getDetails(List<String> results)
     {
@@ -106,10 +108,6 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeResul
         }
     }
 
-    @Override
-    public void notifyResults(List<String> results) {
-        getDetails(results);
-    }
 
 
     private void bindService()
@@ -124,6 +122,34 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeResul
         if(result) {
             bindService();
         }
+    }
+
+
+
+    /*************************************************************************************************
+     *                         Setup UI
+     ************************************************************************************************/
+
+    private void setupUI()
+    {
+        start = (Button)findViewById(R.id.start);
+        stop = (Button)findViewById(R.id.stop);
+        details = (TextView)findViewById(R.id.detail);
+
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startService(notifyMeIntent);
+                bindService();
+            }
+        });
+
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopService(notifyMeIntent);
+            }
+        });
     }
 
 }
