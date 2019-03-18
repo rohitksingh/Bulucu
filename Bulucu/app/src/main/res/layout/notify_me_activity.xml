@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     >
     <TextView
         android:id="@+id/detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-   <Button
-       android:id="@+id/start"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="Start Service"
-       />
-    <Button
-        android:id="@+id/stop"
+    <ToggleButton
+        android:id="@+id/chkState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stop Service"
+        android:textOff="Start"
+        android:textOn="Stop"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
         />
-</LinearLayout>
+
+    <TextView
+        android:layout_above="@+id/chkState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notify Me when an open network is detected"
+        android:layout_centerHorizontal="true"
+        android:padding="20dp"
+        android:textSize="20dp"
+        android:gravity="center"
+        />
+
+</RelativeLayout>
