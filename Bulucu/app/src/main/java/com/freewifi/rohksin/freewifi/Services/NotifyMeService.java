@@ -25,11 +25,15 @@ import android.util.Log;
 import com.freewifi.rohksin.freewifi.Activities.NotifyMeActivity;
 import com.freewifi.rohksin.freewifi.Interfaces.NotifyMeCallback;
 import com.freewifi.rohksin.freewifi.Interfaces.WifiScanInterface;
+import com.freewifi.rohksin.freewifi.Models.WifiResult;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -47,6 +51,7 @@ public class NotifyMeService extends Service implements WifiScanInterface {
     private static final String TAG = "NotifyMeService";
 
     private Set<String> allScanNames;
+    private List<WifiResult> allwifiResults;
 
     private NotifyMeCallback notifyMeCallback;;
     public IBinder localBinder = new LocalBinder();
@@ -60,6 +65,7 @@ public class NotifyMeService extends Service implements WifiScanInterface {
     public void onCreate()
     {
         allScanNames = new TreeSet<String>();
+        allwifiResults = new ArrayList<WifiResult>();
         startScan();
 
     }
@@ -142,7 +148,7 @@ public class NotifyMeService extends Service implements WifiScanInterface {
             r.play();
 
             if(notifyMeCallback !=null)
-                notifyMeCallback.notifyResults(new ArrayList<String>(allScanNames));
+                notifyMeCallback.notifyResults(allwifiResults);
 
         }
     }
@@ -159,6 +165,11 @@ public class NotifyMeService extends Service implements WifiScanInterface {
 
                 newResultFound = true;
                 allScanNames.add(name);
+
+                WifiResult wifiResult = new WifiResult();
+                wifiResult.setScanResult(openNetworks.get(i));
+                wifiResult.setDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
+                allwifiResults.add(wifiResult);
             }
 
         }

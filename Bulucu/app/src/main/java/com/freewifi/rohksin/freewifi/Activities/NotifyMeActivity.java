@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.freewifi.rohksin.freewifi.Interfaces.NotifyMeCallback;
+import com.freewifi.rohksin.freewifi.Models.WifiResult;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Services.NotifyMeService;
 import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
@@ -91,7 +92,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
      ************************************************************************************************/
 
     @Override
-    public void notifyResults(List<String> results) {
+    public void notifyResults(List<WifiResult> results) {
         Log.d(TAG, "NOTIFY USER ");
         getDetails(results);
     }
@@ -102,7 +103,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
      ************************************************************************************************/
 
 
-    private void getDetails(List<String> results)
+    private void getDetails(List<WifiResult> results)
     {
 
         if(results!=null)
