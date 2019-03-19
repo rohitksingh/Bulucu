@@ -75,7 +75,7 @@ public class NotifyMeService extends Service implements WifiScanInterface {
     @Override
     public int onStartCommand(Intent intent, int flag, int flagId)
     {
-        createNotification("Notify me");  //<-- Makes Foreground
+        createNotification("Notify Me is Running");  //<-- Makes Foreground
         return flag;
     }
 
@@ -220,14 +220,13 @@ public class NotifyMeService extends Service implements WifiScanInterface {
         PendingIntent pendingIntentYes = PendingIntent.getActivity(this, 12345,notifyMeIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String channelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId);
 
 
         Notification notification = notificationBuilder.setOngoing(false)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.bulucu_logo)
                 .setPriority(PRIORITY_MIN)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setContentText(msg)
