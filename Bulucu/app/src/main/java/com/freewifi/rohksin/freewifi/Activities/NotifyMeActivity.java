@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +30,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
      */
 
     private TextView details;
-    private ToggleButton toggle;
+    private SwitchCompat toggle;
 
     private Intent notifyMeIntent;
 
@@ -91,6 +92,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
 
     @Override
     public void notifyResults(List<String> results) {
+        Log.d(TAG, "NOTIFY USER ");
         getDetails(results);
     }
 
@@ -162,7 +164,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     {
 
         details = (TextView)findViewById(R.id.detail);
-        toggle = (ToggleButton) findViewById(R.id.chkState);
+        toggle = (SwitchCompat) findViewById(R.id.chkState);
 
         if(AppUtility.getNotifyServiceStatus())
         {

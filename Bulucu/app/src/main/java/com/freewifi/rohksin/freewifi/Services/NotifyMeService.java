@@ -140,6 +140,10 @@ public class NotifyMeService extends Service implements WifiScanInterface {
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
             r.play();
+
+            if(notifyMeCallback !=null)
+                notifyMeCallback.notifyResults(new ArrayList<String>(allScanNames));
+
         }
     }
 
@@ -183,9 +187,6 @@ public class NotifyMeService extends Service implements WifiScanInterface {
                 wifiManager.startScan();                                                  // Contineous scan
 
                 notifyUser(newResultFound(WifiUtility.getOpenScanResult()));
-
-                if(notifyMeCallback !=null)
-                    notifyMeCallback.notifyResults(new ArrayList<String>(allScanNames));
 
             }
 
