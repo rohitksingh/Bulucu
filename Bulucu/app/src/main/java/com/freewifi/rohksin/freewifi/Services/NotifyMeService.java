@@ -27,6 +27,7 @@ import com.freewifi.rohksin.freewifi.Interfaces.NotifyMeCallback;
 import com.freewifi.rohksin.freewifi.Interfaces.WifiScanInterface;
 import com.freewifi.rohksin.freewifi.Models.WifiResult;
 import com.freewifi.rohksin.freewifi.R;
+import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 
 import java.text.SimpleDateFormat;
@@ -159,17 +160,14 @@ public class NotifyMeService extends Service implements WifiScanInterface {
 
         for(int i=0;i<openNetworks.size();i++)
         {
-            String name= openNetworks.get(i).SSID;
+            ScanResult openNetwork = openNetworks.get(i);
+            String name= openNetwork.SSID;
+
             if(!allScanNames.contains(name))
             {
-
                 newResultFound = true;
                 allScanNames.add(name);
-
-                WifiResult wifiResult = new WifiResult();
-                wifiResult.setScanResult(openNetworks.get(i));
-                wifiResult.setDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
-                allwifiResults.add(wifiResult);
+                allwifiResults.add(createWifiResult(openNetwork));
             }
 
         }
@@ -250,6 +248,16 @@ public class NotifyMeService extends Service implements WifiScanInterface {
         channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
         notificationManager.createNotificationChannel(channel);
         return channelId;
+    }
+
+    private WifiResult createWifiResult(ScanResult scanResult)
+    {
+
+        WifiResult wifiResult = new WifiResult();
+        wifiResult.setScanResult(scanResult);
+        wifiResult.setDate(AppUtility.getCurrentDate());
+
+        return wifiResult;
     }
 
 

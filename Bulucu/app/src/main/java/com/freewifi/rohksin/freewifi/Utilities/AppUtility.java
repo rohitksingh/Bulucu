@@ -4,13 +4,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class AppUtility {
 
     public static boolean hasCompletedIntro ;
 
     private static SharedPreferences sharedPreferences;
-
     private static String PRIVACY_POLICY_URL = "https://r4rohit002.wixsite.com/bulucu";
+    private static String DATE_FORMAT = "yyyy-MM-dd";
 
 
     private static Context context;
@@ -69,6 +73,11 @@ public class AppUtility {
     public static boolean getNotifyServiceStatus()
     {
         return sharedPreferences.getBoolean("NOTIFY_ME_STATUS", false);
+    }
+
+    public static String getCurrentDate()
+    {
+        return new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(new Date());
     }
 
 
