@@ -2,10 +2,6 @@ package com.freewifi.rohksin.freewifi.Models;
 
 import android.net.wifi.ScanResult;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 public class WifiResult {
 
     private ScanResult scanResult;

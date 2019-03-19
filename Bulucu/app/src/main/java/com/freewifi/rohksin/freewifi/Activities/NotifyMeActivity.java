@@ -4,22 +4,22 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.freewifi.rohksin.freewifi.Interfaces.NotifyMeCallback;
 import com.freewifi.rohksin.freewifi.Models.WifiResult;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Services.NotifyMeService;
 import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 
 import java.util.List;
 
@@ -34,7 +34,6 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     private SwitchCompat toggle;
 
     private Intent notifyMeIntent;
-
     private NotifyMeService myService;
     private boolean bound = false;
 
@@ -106,9 +105,9 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     private void getDetails(List<WifiResult> results)
     {
 
-        if(results!=null)
+        if(results.size()!=0)
         {
-            details.setText(results.toString());
+            details.setText(getResultData(results));
         }
         else {
             details.setText("No result Found");
@@ -167,6 +166,8 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
         details = (TextView)findViewById(R.id.detail);
         toggle = (SwitchCompat) findViewById(R.id.chkState);
 
+        runIntro();
+
         if(AppUtility.getNotifyServiceStatus())
         {
             toggle.setChecked(true);
@@ -182,9 +183,62 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
             }
         });
 
-
-
-
     }
+
+
+    private void runIntro()
+    {
+          if(!AppUtility.getNotifyMeIntroStatus())
+          {
+              addIntroView(R.id.chkState, "Notify Me", " Get notified when a new open network is detected", android.R.color.holo_purple, getResources().getDrawable( R.drawable.scan_now));
+          }
+    }
+
+    private void addIntroView(int targetId, String msg, String desc, int color, Drawable drawable)
+    {
+        TapTargetView.showFor(this,                 // `this` is an Activity
+                TapTarget.forView(findViewById(targetId), msg, desc)
+                        // All options below are optional
+                        .outerCircleColor(color)      // Specify a color for the outer circle
+                        .outerCircleAlpha(0.96f)            // Specify the alpha amount for the outer circle
+                        .targetCircleColor(android.R.color.white)   // Specify a color for the target circle
+                        .titleTextSize(20)// Specify the size (in sp) of the title text
+                        .titleTextColor(android.R.color.white)      // Specify the color of the title text
+                        .descriptionTextSize(15)            // Specify the size (in sp) of the description text
+                        .descriptionTextColor(android.R.color.white)  // Specify the color of the description text
+                        .textColor(android.R.color.white)            // Specify a color for both the title and description text
+                        .dimColor(android.R.color.black)            // If set, will dim behind the view with 30% opacity of the given color
+                        .drawShadow(true)                   // Whether to draw a drop shadow or not
+                        .cancelable(false)                  // Whether tapping outside the outer circle dismisses the view
+                        .tintTarget(true)                   // Whether to tint the target view's color
+                        .transparentTarget(false)           // Specify whether the target is transparent (displays the content underneath)
+                        .icon(drawable)                     // Specify a custom drawable to draw as the target
+                        .targetRadius(60),                  // Specify the target radius (in dp)
+                new TapTargetView.Listener() {
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);      // This call is optional
+                        // doSomething();
+                    }
+                });
+    }
+
+
+    /**
+     *    Temp methods, it will be removed once layout is decided
+     *
+     */
+
+    public String getResultData(List<WifiResult> wifiResults)
+    {
+        String result="";
+
+        for(WifiResult wifiResult: wifiResults)
+        {
+            result = result +"\n"+wifiResult.toString();
+        }
+
+        return result;
+    }
+
 
 }

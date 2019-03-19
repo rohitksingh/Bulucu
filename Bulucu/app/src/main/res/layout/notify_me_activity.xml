@@ -5,13 +5,15 @@
     >
     <TextView
         android:id="@+id/detail"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:textSize="25dp"
+        android:layout_alignParentTop="true"
+        android:textSize="15dp"
         android:layout_marginTop="30dp"
         android:textStyle="bold"
         android:gravity="center"
+        android:padding="4dp"
+
         />
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/chkState"
@@ -21,17 +23,6 @@
         android:textOn="Stop"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
         />
-
-    <TextView
-        android:layout_above="@+id/chkState"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Notify Me when an open network is detected"
-        android:layout_centerHorizontal="true"
-        android:padding="20dp"
-        android:textSize="20dp"
-        android:gravity="center"
-        />
-
 </RelativeLayout>

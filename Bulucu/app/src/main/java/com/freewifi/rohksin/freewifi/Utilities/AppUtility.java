@@ -80,6 +80,17 @@ public class AppUtility {
         return new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(new Date());
     }
 
+    public static boolean getNotifyMeIntroStatus()
+    {
+        boolean isIntroRunningFirstTime = sharedPreferences.getBoolean("NOTIFY_ME_INTRO_STATUS", false);
+        if(!isIntroRunningFirstTime)
+        {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("NOTIFY_ME_INTRO_STATUS", true);
+            editor.commit();
+        }
+        return isIntroRunningFirstTime;
+    }
 
 
 }
