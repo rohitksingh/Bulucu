@@ -110,6 +110,12 @@ public class NotifyMeService extends Service implements WifiScanInterface {
         this.notifyMeCallback = notifyMeCallback;
     }
 
+    public List<WifiResult> getAllwifiResults()
+    {
+        return allwifiResults;
+    }
+
+
     /*************************************************************************************************
      *                      Interface methods
      ************************************************************************************************/

@@ -138,6 +138,11 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
         if(result) {
             bindService();
         }
+
+        if(myService!=null)
+            getDetails(myService.getAllwifiResults());
+
+
     }
 
 
