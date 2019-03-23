@@ -34,7 +34,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".Activities.NotifyMeActivity"
-            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".Activities.HomePageActivity">
             <meta-data
                android:name="android.support.PARENT_ACTIVITY"

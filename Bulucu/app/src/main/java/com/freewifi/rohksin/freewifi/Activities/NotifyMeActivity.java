@@ -1,5 +1,6 @@
 package com.freewifi.rohksin.freewifi.Activities;
 
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,8 @@ import android.content.ServiceConnection;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,10 +17,13 @@ import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.Adapters.NotifyMeListAdapter;
+import com.freewifi.rohksin.freewifi.Dialogs.NotifyMeDialog;
+import com.freewifi.rohksin.freewifi.Dialogs.WifiStatDialog;
 import com.freewifi.rohksin.freewifi.Interfaces.NotifyMeCallback;
 import com.freewifi.rohksin.freewifi.Models.WifiResult;
 import com.freewifi.rohksin.freewifi.R;
@@ -43,7 +49,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     private RecyclerView notifyMeList;
     private LinearLayoutManager llm;
     private NotifyMeListAdapter adapter;
-    private RelativeLayout mainLayout;
+    private ActionBar actionBar;
 
     private Intent notifyMeIntent;
     private NotifyMeService myService;
@@ -169,12 +175,13 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     private void trySetUpUI()
     {
 
-        mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
-        mainLayout.setPadding(0,AppUtility.getStatusBarHeight(),0,0);
         details = (TextView)findViewById(R.id.detail);
         toggle = (SwitchCompat) findViewById(R.id.chkState);
-        Log.d("SERVICE_STATUS", "trySetUpUI: "+AppUtility.getToggleState());
-        toggle.setChecked(AppUtility.getToggleState());
+
+        actionBar = getSupportActionBar();
+
+        syncUI();    //<-- Synv UI with background service
+
         runIntro();
 
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -182,6 +189,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
                 if (isChecked) {
                     startService(notifyMeIntent);
                     AppUtility.setToggleState(true);
+                    createInfoDialog();
 
                 } else {
                     myService.stopScan();
@@ -241,6 +249,18 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
                         // doSomething();
                     }
                 });
+    }
+
+
+    private void syncUI()
+    {
+        toggle.setChecked(AppUtility.getToggleState());
+    }
+
+    private void createInfoDialog()
+    {
+        Dialog dialog = new NotifyMeDialog(this);
+        dialog.show();
     }
 
 
