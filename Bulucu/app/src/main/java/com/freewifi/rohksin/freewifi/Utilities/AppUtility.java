@@ -4,16 +4,22 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class AppUtility {
 
     public static boolean hasCompletedIntro ;
 
     private static SharedPreferences sharedPreferences;
-
     private static String PRIVACY_POLICY_URL = "https://r4rohit002.wixsite.com/bulucu";
+    private static String DATE_FORMAT = "yyyy-MM-dd";
 
 
     private static Context context;
+
+    private static boolean toggleState;
 
     public static void loadAppUtility(Context _context)
     {
@@ -57,4 +63,50 @@ public class AppUtility {
         }
         return result;
     }
+
+
+    public static void setNotifySericeStatus(boolean status)
+    {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("NOTIFY_ME_STATUS", status);
+        editor.commit();
+    }
+
+    public static boolean getNotifyServiceStatus()
+    {
+        return sharedPreferences.getBoolean("NOTIFY_ME_STATUS", false);
+    }
+
+    public static String getCurrentDate()
+    {
+        return new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(new Date());
+    }
+
+    public static boolean getNotifyMeIntroStatus()
+    {
+        boolean isIntroRunningFirstTime = sharedPreferences.getBoolean("NOTIFY_ME_INTRO_STATUS", false);
+        if(!isIntroRunningFirstTime)
+        {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("NOTIFY_ME_INTRO_STATUS", true);
+            editor.commit();
+        }
+        return isIntroRunningFirstTime;
+    }
+
+    public static boolean isServiceRunning(int serviceStartedCouner)
+    {
+        return serviceStartedCouner == 0 ? false : true;
+    }
+
+    public static void setToggleState(boolean _toggleState)
+    {
+        toggleState = _toggleState;
+    }
+
+    public static boolean getToggleState()
+    {
+        return toggleState;
+    }
+
 }
