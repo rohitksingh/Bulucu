@@ -29,8 +29,11 @@ import java.util.List;
 public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallback {
 
 
-    /*
-         TODO kEEP a static variable in to know if the service is running
+    /**
+         TODO Create a utility to sync status of all UI elements
+         1) AppUtility.syncUIStatus();
+         2) BroadcastReceiver stable unregister call
+         3) Notification
      */
 
     private TextView details;
