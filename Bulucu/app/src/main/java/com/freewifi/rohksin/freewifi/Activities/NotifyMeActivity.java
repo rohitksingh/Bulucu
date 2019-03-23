@@ -10,6 +10,8 @@ import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import com.freewifi.rohksin.freewifi.Interfaces.NotifyMeCallback;
 import com.freewifi.rohksin.freewifi.Models.WifiResult;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Services.NotifyMeService;
+import com.freewifi.rohksin.freewifi.Services.TestNotifyMeService;
 import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
@@ -34,10 +37,13 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     private SwitchCompat toggle;
 
     private Intent notifyMeIntent;
-    private NotifyMeService myService;
+    private TestNotifyMeService myService;
     private boolean bound = false;
 
     private static final String TAG = "NotifyMeActivity";
+
+    private Button start,stop;
+
 
     /*************************************************************************************************
      *                      Activity Lifecycle methods
@@ -49,12 +55,20 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notify_me_activity);
 
-        notifyMeIntent = new Intent(this, NotifyMeService.class);
+        notifyMeIntent = new Intent(this, TestNotifyMeService.class);
 
-        setupUI();
+        trySetUpUI();
 
-        getDetails();
+      //  getDetails();
 
+    }
+
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        bindService();
     }
 
     @Override
@@ -73,15 +87,17 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             // cast the IBinder and get MyService instance
-            NotifyMeService.LocalBinder binder = (NotifyMeService.LocalBinder) service;
+            TestNotifyMeService.NotifyMeBinder binder = (TestNotifyMeService.NotifyMeBinder) service;
             myService = binder.getService();
             bound = true;
             myService.registerCallBack(NotifyMeActivity.this); // register
+            details.setText(getResultData(myService.getAllwifiResults()));
         }
 
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
             bound = false;
+            Log.d("Lifecycle", "onServiceDisConnected: ");
         }
     };
 
@@ -92,7 +108,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
 
     @Override
     public void notifyResults(List<WifiResult> results) {
-        Log.d(TAG, "NOTIFY USER ");
+        Log.d("NOTIFY_USER_TRACK", "NOTIFY USER ");
         getDetails(results);
     }
 
@@ -107,6 +123,10 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
 
         if(results.size()!=0)
         {
+            Log.d(TAG, "Setting up text" +(results.toString()));
+
+
+
             details.setText(getResultData(results));
         }
         else {
@@ -118,6 +138,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
 
     private void bindService()
     {
+        Log.d("TestNotifyMeService", "bindService: ");
         bindService(notifyMeIntent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
@@ -125,39 +146,51 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     {
         if (bound) {
             myService.registerCallBack(null); // unregister
+            Log.d("TestNotifyMeService", "unbindService: ");
             unbindService(serviceConnection);
             bound = false;
         }
     }
 
+
+
     private void getDetails()
     {
-        Log.d(TAG, "getDetails: "+bound);
+       // Log.d(TAG, "getDetails: "+bound);
 
+        /*
         boolean result = AppUtility.getNotifyServiceStatus();
         if(result) {
             bindService();
         }
+        */
+
+        /*
+        bindService();
 
         if(myService!=null)
             getDetails(myService.getAllwifiResults());
+            */
 
 
     }
+
+
 
 
     private void startNotifyMe()
     {
-        AppUtility.setNotifySericeStatus(true);
+        //AppUtility.setNotifySericeStatus(true);
         startService(notifyMeIntent);
-        bindService();
+       // bindService();
     }
 
     private void stopNotifyMe()
     {
-        AppUtility.setNotifySericeStatus(false);
+        // AppUtility.setNotifySericeStatus(false);
+        myService.stopScan();
         stopService(notifyMeIntent);
-        unbindService();
+        //unbindService();
     }
 
 
@@ -165,28 +198,41 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
      *                         Setup UI
      ************************************************************************************************/
 
+
+    private void trySetUpUI()
+    {
+
+        details = (TextView)findViewById(R.id.detail);
+        start = (Button)findViewById(R.id.startScan);
+        stop = (Button)findViewById(R.id.stopScan);
+
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                  startService(notifyMeIntent);
+            }
+        });
+
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                   myService.stopScan();
+                   stopService(notifyMeIntent);
+            }
+        });
+
+    }
+
     private void setupUI()
     {
 
         details = (TextView)findViewById(R.id.detail);
-        toggle = (SwitchCompat) findViewById(R.id.chkState);
+        //toggle = (SwitchCompat) findViewById(R.id.chkState);
 
         runIntro();
 
-        if(AppUtility.getNotifyServiceStatus())
-        {
-            toggle.setChecked(true);
-        }
 
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    startNotifyMe();
-                } else {
-                    stopNotifyMe();
-                }
-            }
-        });
+
 
     }
 
@@ -195,7 +241,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     {
           if(!AppUtility.getNotifyMeIntroStatus())
           {
-              addIntroView(R.id.chkState, "Notify Me", "Get notified when a new open network is detected", android.R.color.holo_purple, getResources().getDrawable( R.drawable.scan_now));
+              //addIntroView(R.id.chkState, "Notify Me", "Get notified when a new open network is detected", android.R.color.holo_purple, getResources().getDrawable( R.drawable.scan_now));
           }
     }
 
@@ -235,7 +281,9 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
 
     public String getResultData(List<WifiResult> wifiResults)
     {
+
         String result="";
+        Log.d(TAG, "getResultData: ");
 
         for(WifiResult wifiResult: wifiResults)
         {
@@ -243,6 +291,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
         }
 
         return result;
+
     }
 
 

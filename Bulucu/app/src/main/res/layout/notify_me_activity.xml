@@ -15,6 +15,25 @@
         android:padding="4dp"
 
         />
+
+    <Button
+        android:id="@+id/startScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        />
+    <Button
+        android:id="@+id/stopScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        />
+
+    <!--
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/chkState"
         android:layout_width="wrap_content"
@@ -25,4 +44,6 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
         />
+        -->
+
 </RelativeLayout>

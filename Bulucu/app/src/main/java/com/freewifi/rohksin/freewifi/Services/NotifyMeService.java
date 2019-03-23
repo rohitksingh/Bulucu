@@ -57,6 +57,8 @@ public class NotifyMeService extends Service implements WifiScanInterface {
     private NotifyMeCallback notifyMeCallback;;
     public IBinder localBinder = new LocalBinder();
 
+    public int counter =0;
+
 
     /*************************************************************************************************
      *                      Service Lifecycle methods
@@ -67,7 +69,9 @@ public class NotifyMeService extends Service implements WifiScanInterface {
     {
         allScanNames = new TreeSet<String>();
         allwifiResults = new ArrayList<WifiResult>();
-        startScan();
+
+
+        Log.d("Lifecycle", "onCreate"+ counter);
 
     }
 
@@ -75,24 +79,29 @@ public class NotifyMeService extends Service implements WifiScanInterface {
     @Override
     public int onStartCommand(Intent intent, int flag, int flagId)
     {
+        counter++;
+        Log.d("Lifecycle", "onStartCommand: "+ counter);
+        startScan();
         createNotification("Notify Me is Running");  //<-- Makes Foreground
-        return flag;
+        return START_STICKY;
     }
 
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+        Log.d("Lifecycle", "onBind: "+ counter);
         return localBinder;
     }
 
     @Override
     public void onDestroy()
     {
+        super.onDestroy();
+        Log.d("Lifecycle", "onDestroy: "+ counter);
         Log.d(TAG, "onDestroy: ");
-        stopScan();
-        stopForeground(true);
     }
+
 
 
     /*************************************************************************************************
@@ -133,6 +142,7 @@ public class NotifyMeService extends Service implements WifiScanInterface {
     @Override
     public void stopScan() {
 
+        stopForeground(true);
         unregisterReceiver(wifiScanReceiver);
     }
 
@@ -180,6 +190,11 @@ public class NotifyMeService extends Service implements WifiScanInterface {
 
         return newResultFound;
 
+    }
+
+    public int getCounter()
+    {
+        return counter;
     }
 
 
@@ -264,6 +279,8 @@ public class NotifyMeService extends Service implements WifiScanInterface {
 
         return wifiResult;
     }
+
+
 
 
 }
