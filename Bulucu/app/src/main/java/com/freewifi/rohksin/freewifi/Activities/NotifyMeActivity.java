@@ -8,13 +8,18 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.freewifi.rohksin.freewifi.Adapters.NotifyMeListAdapter;
+import com.freewifi.rohksin.freewifi.Adapters.StringAdapter;
 import com.freewifi.rohksin.freewifi.Interfaces.NotifyMeCallback;
 import com.freewifi.rohksin.freewifi.Models.WifiResult;
 import com.freewifi.rohksin.freewifi.R;
@@ -38,6 +43,10 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
 
     private TextView details;
     private SwitchCompat toggle;
+    private RecyclerView notifyMeList;
+    private LinearLayoutManager llm;
+    private NotifyMeListAdapter adapter;
+    private RelativeLayout mainLayout;
 
     private Intent notifyMeIntent;
     private TestNotifyMeService myService;
@@ -93,7 +102,8 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
             myService = binder.getService();
             bound = true;
             myService.registerCallBack(NotifyMeActivity.this); // register
-            details.setText(getResultData(myService.getAllwifiResults()));
+            //details.setText(getResultData(myService.getAllwifiResults()));
+            setUpList(myService.getAllwifiResults());
         }
 
         @Override
@@ -111,7 +121,8 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     @Override
     public void notifyResults(List<WifiResult> results) {
         Log.d("NOTIFY_USER_TRACK", "NOTIFY USER ");
-        getDetails(results);
+        //getDetails(results);
+        setUpList(results);
     }
 
 
@@ -126,10 +137,8 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
         if(results.size()!=0)
         {
             Log.d(TAG, "Setting up text" +(results.toString()));
-
-
-
-            details.setText(getResultData(results));
+            details.setVisibility(View.GONE);
+            setUpList(results);
         }
         else {
             details.setText("No result Found");
@@ -204,6 +213,8 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     private void trySetUpUI()
     {
 
+        mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
+        mainLayout.setPadding(0,AppUtility.getStatusBarHeight(),0,0);
         details = (TextView)findViewById(R.id.detail);
         toggle = (SwitchCompat) findViewById(R.id.chkState);
         Log.d("SERVICE_STATUS", "trySetUpUI: "+AppUtility.getToggleState());
@@ -225,23 +236,10 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
             }
         });
 
+        llm = new LinearLayoutManager(this);
+        notifyMeList = (RecyclerView)findViewById(R.id.notifymeList);
+        notifyMeList.setLayoutManager(llm);
 
-        /*
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                  startService(notifyMeIntent);
-            }
-        });
-
-        stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                   myService.stopScan();
-                   stopService(notifyMeIntent);
-            }
-        });
-        */
 
     }
 
@@ -262,6 +260,13 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
           {
               //addIntroView(R.id.chkState, "Notify Me", "Get notified when a new open network is detected", android.R.color.holo_purple, getResources().getDrawable( R.drawable.scan_now));
           }
+    }
+
+    private void setUpList(List<WifiResult> wifiResults)
+    {
+        Log.d("SettingUPLIST", "setUpList: "+wifiResults.toString());
+        adapter = new NotifyMeListAdapter(this, wifiResults);
+        notifyMeList.setAdapter(adapter);
     }
 
     private void addIntroView(int targetId, String msg, String desc, int color, Drawable drawable)
@@ -293,25 +298,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     }
 
 
-    /**
-     *    Temp methods, it will be removed once layout is decided
-     *
-     */
 
-    public String getResultData(List<WifiResult> wifiResults)
-    {
-
-        String result="";
-        Log.d(TAG, "getResultData: ");
-
-        for(WifiResult wifiResult: wifiResults)
-        {
-            result = result +"\n"+wifiResult.toString();
-        }
-
-        return result;
-
-    }
 
 
 }
