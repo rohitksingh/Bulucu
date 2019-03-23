@@ -16,7 +16,7 @@
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="I will notify you when I find open network. You can go back to your work. Woooooo..."
+        android:text="I will notify you when I find open networks. You can go back to your work. Woooooo..."
         android:layout_below="@id/image"
         android:gravity="center"
         android:textColor="#000000"

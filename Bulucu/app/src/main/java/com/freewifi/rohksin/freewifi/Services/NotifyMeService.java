@@ -9,6 +9,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -92,7 +94,7 @@ public class NotifyMeService extends Service implements WifiScanInterface{
         registerReceiver(wifiScanReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         wifiManager = WifiUtility.getSingletonWifiManager(this);
         wifiManager.startScan();
-        createNotification("Notify Me is Running");
+        createNotification("I will inform you when I find open networks");
 
     }
 
@@ -161,9 +163,8 @@ public class NotifyMeService extends Service implements WifiScanInterface{
     {
         Log.d(TAG, "notifyUser: "+newResultsFound + ": "+allScanNames.toString());
         if(newResultsFound) {
-            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-            r.play();
+
+            playSound();
 
             if(notifyMeCallback !=null) {
                 Log.d("NOTIFY_USER_TRACK", "inside service notify user: ");
@@ -229,9 +230,10 @@ public class NotifyMeService extends Service implements WifiScanInterface{
 
 
         Notification notification = notificationBuilder.setOngoing(false)
-                .setSmallIcon(R.drawable.bulucu_logo)
+                .setSmallIcon(R.drawable.wolf)
                 .setPriority(PRIORITY_MIN)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                .setContentTitle("Bulucu: Notify Me is running")
                 .setContentText(msg)
                 .setContentIntent(pendingIntentYes)
                 .build();
@@ -251,6 +253,14 @@ public class NotifyMeService extends Service implements WifiScanInterface{
         channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
         notificationManager.createNotificationChannel(channel);
         return channelId;
+    }
+
+
+    public void playSound()
+    {
+        MediaPlayer mMediaPlayer = MediaPlayer.create(this, R.raw.wolf);
+        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mMediaPlayer.start();
     }
 
 

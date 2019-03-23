@@ -18,6 +18,16 @@ import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 public class SplashActivity extends AppCompatActivity {
 
 
+    /**
+     *
+     *    Hotspot Check
+     *    Location off then it will not work
+     *    Add vibration
+     *
+     */
+
+
+
     private LottieAnimationView into;
 
     private NotifyMeService notifyMeService;

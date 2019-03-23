@@ -14,7 +14,7 @@ public class AppUtility {
 
     private static SharedPreferences sharedPreferences;
     private static String PRIVACY_POLICY_URL = "https://r4rohit002.wixsite.com/bulucu";
-    private static String DATE_FORMAT = "yyyy-MM-dd";
+    private static String DATE_FORMAT = "hh:MM:SS";
 
 
     private static Context context;

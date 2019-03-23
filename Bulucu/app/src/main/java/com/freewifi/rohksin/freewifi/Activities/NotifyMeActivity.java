@@ -49,7 +49,6 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     private RecyclerView notifyMeList;
     private LinearLayoutManager llm;
     private NotifyMeListAdapter adapter;
-    private ActionBar actionBar;
 
     private Intent notifyMeIntent;
     private NotifyMeService myService;
@@ -57,6 +56,8 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
 
     private static final String TAG = "NotifyMeActivity";
 
+
+    private FrameLayout mainLayout;
 
 
     /*************************************************************************************************
@@ -177,8 +178,10 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
 
         details = (TextView)findViewById(R.id.detail);
         toggle = (SwitchCompat) findViewById(R.id.chkState);
+        mainLayout = (FrameLayout)findViewById(R.id.mainLayout);
+        mainLayout.setPadding(0,AppUtility.getStatusBarHeight(),0,0);
 
-        actionBar = getSupportActionBar();
+
 
         syncUI();    //<-- Synv UI with background service
 
