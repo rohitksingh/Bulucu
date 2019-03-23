@@ -19,6 +19,8 @@ import android.net.wifi.WifiManager;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
@@ -165,6 +167,7 @@ public class NotifyMeService extends Service implements WifiScanInterface{
         if(newResultsFound) {
 
             playSound();
+            vibrate();
 
             if(notifyMeCallback !=null) {
                 Log.d("NOTIFY_USER_TRACK", "inside service notify user: ");
@@ -256,11 +259,20 @@ public class NotifyMeService extends Service implements WifiScanInterface{
     }
 
 
-    public void playSound()
+    private void playSound()
     {
         MediaPlayer mMediaPlayer = MediaPlayer.create(this, R.raw.wolf);
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mMediaPlayer.start();
+    }
+
+    private void vibrate()
+    {
+        if (Build.VERSION.SDK_INT >= 26) {
+            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(150);
+        }
     }
 
 

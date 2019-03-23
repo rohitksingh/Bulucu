@@ -23,6 +23,8 @@ public class SplashActivity extends AppCompatActivity {
      *    Hotspot Check
      *    Location off then it will not work
      *    Add vibration
+     *    Add Stealth mode
+     *    Customize Notification
      *
      */
 
