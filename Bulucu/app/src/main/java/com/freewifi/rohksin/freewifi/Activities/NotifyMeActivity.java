@@ -243,16 +243,6 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
 
     }
 
-    private void setupUI()
-    {
-
-        details = (TextView)findViewById(R.id.detail);
-        toggle = (SwitchCompat) findViewById(R.id.chkState);
-
-
-
-    }
-
 
     private void runIntro()
     {

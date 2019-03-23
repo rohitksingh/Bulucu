@@ -20,6 +20,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.freewifi.rohksin.freewifi.Activities.NotifyMeActivity;
@@ -215,7 +216,11 @@ public class TestNotifyMeService extends Service implements WifiScanInterface{
         Intent notifyMeIntent = new Intent(this, NotifyMeActivity.class);
         notifyMeIntent.putExtra("startedByNotification", true);
 
-        PendingIntent pendingIntentYes = PendingIntent.getActivity(this, 12345,notifyMeIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
+        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
+        taskStackBuilder.addNextIntentWithParentStack(notifyMeIntent);
+        PendingIntent pendingIntentYes = taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //PendingIntent pendingIntentYes = PendingIntent.getActivity(this, 12345,notifyMeIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
