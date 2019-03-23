@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
@@ -14,15 +13,26 @@ import android.util.Log;
 import com.airbnb.lottie.LottieAnimationView;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Services.NotifyMeService;
-import com.freewifi.rohksin.freewifi.Services.TestNotifyMeService;
 import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 
 public class SplashActivity extends AppCompatActivity {
 
 
+    /**
+     *
+     *    Hotspot Check
+     *    Location off then it will not work
+     *    Add vibration
+     *    Add Stealth mode
+     *    Customize Notification
+     *
+     */
+
+
+
     private LottieAnimationView into;
 
-    private TestNotifyMeService notifyMeService;
+    private NotifyMeService notifyMeService;
     private Intent checkServiceRunning;
     private boolean bound = false;
 
@@ -80,7 +90,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             bound = true;
-            TestNotifyMeService.NotifyMeBinder binder = (TestNotifyMeService.NotifyMeBinder)service;
+            NotifyMeService.NotifyMeBinder binder = (NotifyMeService.NotifyMeBinder)service;
             notifyMeService = binder.getService();
             int counter = notifyMeService.getServiceStartedCounter();
             boolean isSerRunning = AppUtility.isServiceRunning(counter);
@@ -98,7 +108,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void bindService()
     {
-        checkServiceRunning = new Intent(this, TestNotifyMeService.class);
+        checkServiceRunning = new Intent(this, NotifyMeService.class);
         bindService(checkServiceRunning, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
