@@ -13,18 +13,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.Adapters.NotifyMeListAdapter;
-import com.freewifi.rohksin.freewifi.Adapters.StringAdapter;
 import com.freewifi.rohksin.freewifi.Interfaces.NotifyMeCallback;
 import com.freewifi.rohksin.freewifi.Models.WifiResult;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Services.NotifyMeService;
-import com.freewifi.rohksin.freewifi.Services.TestNotifyMeService;
 import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
@@ -38,7 +35,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
          TODO Create a utility to sync status of all UI elements
          1) AppUtility.syncUIStatus();
          2) BroadcastReceiver stable unregister call
-         3) Notification
+
      */
 
     private TextView details;
@@ -49,7 +46,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     private RelativeLayout mainLayout;
 
     private Intent notifyMeIntent;
-    private TestNotifyMeService myService;
+    private NotifyMeService myService;
     private boolean bound = false;
 
     private static final String TAG = "NotifyMeActivity";
@@ -66,7 +63,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notify_me_activity);
 
-        notifyMeIntent = new Intent(this, TestNotifyMeService.class);
+        notifyMeIntent = new Intent(this, NotifyMeService.class);
 
         trySetUpUI();
 
@@ -98,7 +95,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             // cast the IBinder and get MyService instance
-            TestNotifyMeService.NotifyMeBinder binder = (TestNotifyMeService.NotifyMeBinder) service;
+            NotifyMeService.NotifyMeBinder binder = (NotifyMeService.NotifyMeBinder) service;
             myService = binder.getService();
             bound = true;
             myService.registerCallBack(NotifyMeActivity.this); // register
@@ -121,7 +118,6 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     @Override
     public void notifyResults(List<WifiResult> results) {
         Log.d("NOTIFY_USER_TRACK", "NOTIFY USER ");
-        //getDetails(results);
         setUpList(results);
     }
 
@@ -149,7 +145,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
 
     private void bindService()
     {
-        Log.d("TestNotifyMeService", "bindService: ");
+        Log.d("NotifyMeService", "bindService: ");
         bindService(notifyMeIntent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
@@ -157,52 +153,12 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     {
         if (bound) {
             myService.registerCallBack(null); // unregister
-            Log.d("TestNotifyMeService", "unbindService: ");
+            Log.d("NotifyMeService", "unbindService: ");
             unbindService(serviceConnection);
             bound = false;
         }
     }
 
-
-
-    private void getDetails()
-    {
-       // Log.d(TAG, "getDetails: "+bound);
-
-        /*
-        boolean result = AppUtility.getNotifyServiceStatus();
-        if(result) {
-            bindService();
-        }
-        */
-
-        /*
-        bindService();
-
-        if(myService!=null)
-            getDetails(myService.getAllwifiResults());
-            */
-
-
-    }
-
-
-
-
-    private void startNotifyMe()
-    {
-        //AppUtility.setNotifySericeStatus(true);
-        startService(notifyMeIntent);
-       // bindService();
-    }
-
-    private void stopNotifyMe()
-    {
-        // AppUtility.setNotifySericeStatus(false);
-        myService.stopScan();
-        stopService(notifyMeIntent);
-        //unbindService();
-    }
 
 
     /*************************************************************************************************
@@ -248,7 +204,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     {
           if(!AppUtility.getNotifyMeIntroStatus())
           {
-              //addIntroView(R.id.chkState, "Notify Me", "Get notified when a new open network is detected", android.R.color.holo_purple, getResources().getDrawable( R.drawable.scan_now));
+              addIntroView(R.id.chkState, "Notify Me", "Get notified when a new open network is detected", android.R.color.holo_purple, getResources().getDrawable( R.drawable.scan_now));
           }
     }
 
@@ -286,9 +242,6 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
                     }
                 });
     }
-
-
-
 
 
 }

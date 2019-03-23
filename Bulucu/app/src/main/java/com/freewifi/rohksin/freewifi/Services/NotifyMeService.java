@@ -20,6 +20,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.freewifi.rohksin.freewifi.Activities.NotifyMeActivity;
@@ -30,119 +31,76 @@ import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
 import static android.support.v4.app.NotificationCompat.PRIORITY_MIN;
 
-public class NotifyMeService extends Service implements WifiScanInterface {
-
-
-
-    private int FOREGROUND_ID = 2222;
-
-    private WifiManager wifiManager;
-    private WifiScanReceiver wifiScanReceiver;
+public class NotifyMeService extends Service implements WifiScanInterface{
 
     private static final String TAG = "NotifyMeService";
+    private IBinder serviceBinder = new NotifyMeBinder();
+    private NotifyMeCallback notifyMeCallback;
+    private WifiManager wifiManager;
+    private WifiScanReceiver wifiScanReceiver;
 
     private Set<String> allScanNames;
     private List<WifiResult> allwifiResults;
 
-    private NotifyMeCallback notifyMeCallback;;
-    public IBinder localBinder = new LocalBinder();
+    private int SERVICE_STARTED_COUNTER=0;
 
-    public int counter =0;
-
-
-    /*************************************************************************************************
-     *                      Service Lifecycle methods
-     ************************************************************************************************/
-
+    private int FOREGROUND_ID = 2222;
+    
     @Override
     public void onCreate()
     {
+        Log.d(TAG, "onCreate: ");
         allScanNames = new TreeSet<String>();
         allwifiResults = new ArrayList<WifiResult>();
-
-
-        Log.d("Lifecycle", "onCreate"+ counter);
-
     }
-
-
+    
     @Override
     public int onStartCommand(Intent intent, int flag, int flagId)
     {
-        counter++;
-        Log.d("Lifecycle", "onStartCommand: "+ counter);
+        SERVICE_STARTED_COUNTER++;
+        Log.d(TAG, "onStartCommand: ");
         startScan();
-        createNotification("Notify Me is Running");  //<-- Makes Foreground
         return START_STICKY;
     }
-
-
+    
     @Nullable
     @Override
-    public IBinder onBind(Intent intent) {
-        Log.d("Lifecycle", "onBind: "+ counter);
-        return localBinder;
+    public IBinder onBind(Intent intent)
+    {
+        Log.d(TAG, "onBind: ");
+         return serviceBinder;
     }
-
+    
     @Override
     public void onDestroy()
     {
-        super.onDestroy();
-        Log.d("Lifecycle", "onDestroy: "+ counter);
         Log.d(TAG, "onDestroy: ");
     }
 
-
-
-    /*************************************************************************************************
-     *                      Service Binder & Callback Registration
-     ************************************************************************************************/
-
-    public class LocalBinder extends Binder {
-        public NotifyMeService getService() {
-            return NotifyMeService.this;
-        }
-    }
-
-    public void registerCallBack(NotifyMeCallback notifyMeCallback)
-    {
-        this.notifyMeCallback = notifyMeCallback;
-    }
-
-    public List<WifiResult> getAllwifiResults()
-    {
-        return allwifiResults;
-    }
-
-
-    /*************************************************************************************************
-     *                      Interface methods
-     ************************************************************************************************/
-
     @Override
     public void startScan() {
+        Log.d(TAG, "startScan: ");
 
         wifiScanReceiver = new WifiScanReceiver();
         registerReceiver(wifiScanReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         wifiManager = WifiUtility.getSingletonWifiManager(this);
         wifiManager.startScan();
+        createNotification("Notify Me is Running");
 
     }
 
     @Override
     public void stopScan() {
-
+        Log.d(TAG, "stopScan: ");
         stopForeground(true);
+        if(AppUtility.isServiceRunning(SERVICE_STARTED_COUNTER))
         unregisterReceiver(wifiScanReceiver);
     }
 
@@ -151,10 +109,53 @@ public class NotifyMeService extends Service implements WifiScanInterface {
 
     }
 
+    public class NotifyMeBinder extends Binder{
+        
+        public NotifyMeService getService()
+        {
+            return NotifyMeService.this;
+        }
+    }
 
-    /*************************************************************************************************
-     *                      Private Helper methods
-     ************************************************************************************************/
+
+    public List<WifiResult> getAllwifiResults()
+    {
+        return allwifiResults;
+    }
+
+    public int getServiceStartedCounter()
+    {
+        return SERVICE_STARTED_COUNTER;
+    }
+
+    public void registerCallBack(NotifyMeCallback notifyMeCallback)
+    {
+        this.notifyMeCallback = notifyMeCallback;
+    }
+
+
+    private class WifiScanReceiver extends BroadcastReceiver {
+
+
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if(intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
+            {
+
+                Log.d(TAG, "onReceive: ");
+                WifiUtility.updateWifiResult(wifiManager.getScanResults());
+                wifiManager.startScan();                                                  // Contineous scan
+
+                notifyUser(newResultFound(WifiUtility.getOpenScanResult()));
+
+            }
+
+        }
+    }
+
+
 
     private void notifyUser(boolean newResultsFound)
     {
@@ -164,8 +165,11 @@ public class NotifyMeService extends Service implements WifiScanInterface {
             Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
             r.play();
 
-            if(notifyMeCallback !=null)
+            if(notifyMeCallback !=null) {
+                Log.d("NOTIFY_USER_TRACK", "inside service notify user: ");
                 notifyMeCallback.notifyResults(allwifiResults);
+
+            }
 
         }
     }
@@ -192,41 +196,15 @@ public class NotifyMeService extends Service implements WifiScanInterface {
 
     }
 
-    public int getCounter()
+    private WifiResult createWifiResult(ScanResult scanResult)
     {
-        return counter;
+
+        WifiResult wifiResult = new WifiResult();
+        wifiResult.setScanResult(scanResult);
+        wifiResult.setDate(AppUtility.getCurrentDate());
+
+        return wifiResult;
     }
-
-
-    /*************************************************************************************************
-     *                      BroadcastReceiver for listening SCAN Result
-     ************************************************************************************************/
-
-    private class WifiScanReceiver extends BroadcastReceiver {
-
-
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            if(intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
-            {
-
-                Log.d(TAG, "onReceive: ");
-                WifiUtility.updateWifiResult(wifiManager.getScanResults());
-                wifiManager.startScan();                                                  // Contineous scan
-
-                notifyUser(newResultFound(WifiUtility.getOpenScanResult()));
-
-            }
-
-        }
-    }
-
-
-    /*************************************************************************************************
-     *                      Notification Related methods  (Remove it from here)
-     ************************************************************************************************/
 
 
     private void createNotification(String msg)
@@ -238,7 +216,11 @@ public class NotifyMeService extends Service implements WifiScanInterface {
         Intent notifyMeIntent = new Intent(this, NotifyMeActivity.class);
         notifyMeIntent.putExtra("startedByNotification", true);
 
-        PendingIntent pendingIntentYes = PendingIntent.getActivity(this, 12345,notifyMeIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
+        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
+        taskStackBuilder.addNextIntentWithParentStack(notifyMeIntent);
+        PendingIntent pendingIntentYes = taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //PendingIntent pendingIntentYes = PendingIntent.getActivity(this, 12345,notifyMeIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -255,6 +237,7 @@ public class NotifyMeService extends Service implements WifiScanInterface {
                 .build();
 
         startForeground(FOREGROUND_ID,notification);
+
     }
 
 
@@ -269,18 +252,6 @@ public class NotifyMeService extends Service implements WifiScanInterface {
         notificationManager.createNotificationChannel(channel);
         return channelId;
     }
-
-    private WifiResult createWifiResult(ScanResult scanResult)
-    {
-
-        WifiResult wifiResult = new WifiResult();
-        wifiResult.setScanResult(scanResult);
-        wifiResult.setDate(AppUtility.getCurrentDate());
-
-        return wifiResult;
-    }
-
-
 
 
 }
