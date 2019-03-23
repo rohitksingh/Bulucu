@@ -96,7 +96,7 @@ public class NotifyMeService extends Service implements WifiScanInterface{
         registerReceiver(wifiScanReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         wifiManager = WifiUtility.getSingletonWifiManager(this);
         wifiManager.startScan();
-        createNotification("I will inform you when I find open networks");
+        createNotification(AppUtility.getString(R.string.i_will_inform));
 
     }
 
@@ -236,7 +236,7 @@ public class NotifyMeService extends Service implements WifiScanInterface{
                 .setSmallIcon(R.drawable.wolf)
                 .setPriority(PRIORITY_MIN)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                .setContentTitle("Bulucu: Notify Me is running")
+                .setContentTitle(AppUtility.getString(R.string.bulucu_notify_me))
                 .setContentText(msg)
                 .setContentIntent(pendingIntentYes)
                 .build();
