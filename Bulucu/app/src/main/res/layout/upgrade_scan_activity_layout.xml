@@ -12,6 +12,15 @@
         android:padding="20dp"
         >
         <ImageView
+            android:id="@+id/notifyMe"
+            android:layout_marginTop="6dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/wolf_icon"
+            />
+        <ImageView
             android:id="@+id/privacyPolicy"
             android:layout_marginTop="6dp"
             android:layout_width="30dp"

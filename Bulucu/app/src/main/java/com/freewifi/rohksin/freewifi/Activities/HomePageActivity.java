@@ -68,6 +68,8 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
     // Privact policy update
     private ImageView privacyPolicy;
 
+    private ImageView notifyMe;
+
     private WifiScanReceiver wifiScanReceiver;
 
 
@@ -104,11 +106,19 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
         mainLayout.setPadding(0, AppUtility.getStatusBarHeight(),0,0);
 
         privacyPolicy = (ImageView)findViewById(R.id.privacyPolicy);
+        notifyMe = (ImageView)findViewById(R.id.notifyMe);
+
+        notifyMe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openNotifyMe();
+            }
+        });
+
         privacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //openPrivacyPolicyDialog();
-                openNotifyMe();
+                openPrivacyPolicyDialog();
             }
         });
 
@@ -301,7 +311,7 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
                     break;
 
                 case 2:
-                    addIntroView(R.id.scan, AppUtility.getString(R.string.scan_now), AppUtility.getString(R.string.scan_your_surrounding), android.R.color.holo_blue_dark, scanNowLogo);
+                    addIntroView(R.id.scan, AppUtility.getString(R.string.scan_now), AppUtility.getString(R.string.scan_your_surrounding), android.R.color.holo_blue_dark, closeWifiLogo);
                     tapCounter++;
                     AppUtility.saveIntoComplete();
                     break;
