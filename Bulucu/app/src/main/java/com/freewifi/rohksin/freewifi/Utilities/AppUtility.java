@@ -92,6 +92,11 @@ public class AppUtility {
         return isIntroRunningFirstTime;
     }
 
+    public static boolean isServiceRunning(int serviceStartedCouner)
+    {
+        return serviceStartedCouner == 0 ? false : true;
+    }
+
 
 
 }

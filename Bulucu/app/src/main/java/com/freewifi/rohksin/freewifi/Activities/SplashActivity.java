@@ -67,21 +67,23 @@ public class SplashActivity extends AppCompatActivity {
 
 
     @Override
-    public void onDestroy()
+    public void onStop()
     {
-        super.onDestroy();
-        unbindService();
+        super.onStop();
     }
 
 
 
-    private ServiceConnection serviceConnection = new ServiceConnection() {
+    public ServiceConnection serviceConnection = new ServiceConnection() {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
+            bound = true;
             TestNotifyMeService.NotifyMeBinder binder = (TestNotifyMeService.NotifyMeBinder)service;
             notifyMeService = binder.getService();
-            notifyMeService.getServiceStartedCounter();
+            int counter = notifyMeService.getServiceStartedCounter();
+            Log.d("SERVICE_STATUS", "onServiceConnected: "+AppUtility.isServiceRunning(counter));
+            unbindService();
 
         }
 
@@ -101,7 +103,9 @@ public class SplashActivity extends AppCompatActivity {
     {
         if (bound) {
             bound = false;
+            unbindService(serviceConnection);
         }
     }
+
 
 }
