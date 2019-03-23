@@ -42,7 +42,6 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
 
     private static final String TAG = "NotifyMeActivity";
 
-    private Button start,stop;
 
 
     /*************************************************************************************************
@@ -203,9 +202,28 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     {
 
         details = (TextView)findViewById(R.id.detail);
-        start = (Button)findViewById(R.id.startScan);
-        stop = (Button)findViewById(R.id.stopScan);
+        toggle = (SwitchCompat) findViewById(R.id.chkState);
+        Log.d("SERVICE_STATUS", "trySetUpUI: "+AppUtility.getToggleState());
+        toggle.setChecked(AppUtility.getToggleState());
+        runIntro();
 
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    startService(notifyMeIntent);
+                    AppUtility.setToggleState(true);
+
+                } else {
+                    myService.stopScan();
+                    stopService(notifyMeIntent);
+                    AppUtility.setToggleState(false);
+
+                }
+            }
+        });
+
+
+        /*
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,6 +238,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
                    stopService(notifyMeIntent);
             }
         });
+        */
 
     }
 
@@ -227,10 +246,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     {
 
         details = (TextView)findViewById(R.id.detail);
-        //toggle = (SwitchCompat) findViewById(R.id.chkState);
-
-        runIntro();
-
+        toggle = (SwitchCompat) findViewById(R.id.chkState);
 
 
 

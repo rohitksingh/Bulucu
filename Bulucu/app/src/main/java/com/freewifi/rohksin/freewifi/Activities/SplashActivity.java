@@ -70,6 +70,7 @@ public class SplashActivity extends AppCompatActivity {
     public void onStop()
     {
         super.onStop();
+        unbindService();
     }
 
 
@@ -82,8 +83,10 @@ public class SplashActivity extends AppCompatActivity {
             TestNotifyMeService.NotifyMeBinder binder = (TestNotifyMeService.NotifyMeBinder)service;
             notifyMeService = binder.getService();
             int counter = notifyMeService.getServiceStartedCounter();
-            Log.d("SERVICE_STATUS", "onServiceConnected: "+AppUtility.isServiceRunning(counter));
-            unbindService();
+            boolean isSerRunning = AppUtility.isServiceRunning(counter);
+            Log.d("SERVICE_STATUS", "onServiceConnected: "+isSerRunning);
+            AppUtility.setToggleState(isSerRunning);
+           // unbindService();
 
         }
 

@@ -84,6 +84,7 @@ public class TestNotifyMeService extends Service implements WifiScanInterface{
     @Override
     public void stopScan() {
         Log.d(TAG, "stopScan: ");
+        if(AppUtility.isServiceRunning(SERVICE_STARTED_COUNTER))
         unregisterReceiver(wifiScanReceiver);
     }
 

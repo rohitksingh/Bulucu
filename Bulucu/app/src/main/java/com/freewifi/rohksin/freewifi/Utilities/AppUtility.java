@@ -19,6 +19,8 @@ public class AppUtility {
 
     private static Context context;
 
+    private static boolean toggleState;
+
     public static void loadAppUtility(Context _context)
     {
         context = _context;
@@ -97,6 +99,14 @@ public class AppUtility {
         return serviceStartedCouner == 0 ? false : true;
     }
 
+    public static void setToggleState(boolean _toggleState)
+    {
+        toggleState = _toggleState;
+    }
 
+    public static boolean getToggleState()
+    {
+        return toggleState;
+    }
 
 }
