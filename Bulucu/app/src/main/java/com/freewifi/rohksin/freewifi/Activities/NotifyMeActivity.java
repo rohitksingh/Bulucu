@@ -215,7 +215,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     {
           if(!AppUtility.getNotifyMeIntroStatus())
           {
-              addIntroView(R.id.chkState, "Notify Me", "Get notified when a new open network is detected", android.R.color.holo_purple, getResources().getDrawable( R.drawable.scan_now));
+              addIntroView(R.id.chkState, AppUtility.getString(R.string.notify_me), AppUtility.getString(R.string.get_notified_when), android.R.color.holo_purple, getResources().getDrawable( R.drawable.scan_now));
           }
     }
 

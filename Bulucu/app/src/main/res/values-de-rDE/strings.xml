@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- GERMAN  -->
+
     <string name="app_name">Bulucu</string>
     <string name="action_settings">Settings</string>
 
@@ -27,4 +30,12 @@
     <string name="detail">Detail</string>
     <string name="connecting">Anschließen</string>
     <string name="connect">Verbinden</string>
+
+    <string name="i_will_inform">Ich werde Sie informieren, wenn ich offene Netzwerke finde</string>
+    <string name="bulucu_notify_me">Bulucu: Benachrichtigt mich läuft</string>
+    <string name="notify_me">Benachrichtige mich</string>
+    <string name="get_notified_when">Erhalten Sie eine Benachrichtigung, wenn ein neues offenes Netzwerk erkannt wird</string>
+    <string name="woooo">Ich werde Sie benachrichtigen, wenn ich offene Netzwerke finde. Sie können zu Ihrer Arbeit zurückkehren. Woooooo ...</string>
+    <string name="got_it">Ich habs</string>
+
 </resources>

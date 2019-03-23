@@ -27,4 +27,11 @@
     <string name="connecting">Bağlanıyor</string>
     <string name="connect">bağlamak</string>
 
+    <string name="i_will_inform">Açık ağlar bulduğumda sizi bilgilendireceğim</string>
+    <string name="bulucu_notify_me">Bulucu: Beni haberdar et çalışıyor</string>
+    <string name="notify_me">Bana bildir</string>
+    <string name="get_notified_when">Yeni bir açık ağ algılandığında haberdar olun</string>
+    <string name="woooo">Açık ağlar bulduğumda sizi bilgilendireceğim. İşine geri dönebilirsin. Woooooo ...</string>
+    <string name="got_it">Anladım</string>
+
 </resources>
