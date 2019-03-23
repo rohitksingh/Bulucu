@@ -27,4 +27,11 @@
     <string name="detail">Detalle</string>
     <string name="connecting">Conectando</string>
     <string name="connect">Conectar</string>
+
+    <string name="i_will_inform">Te informaré cuando encuentre redes abiertas.</string>
+    <string name="bulucu_notify_me">Bulucu: Notificarme se está ejecutando</string>
+    <string name="notify_me">Notificarme</string>
+    <string name="get_notified_when">Recibe notificaciones cuando se detecte una nueva red abierta</string>
+    <string name="woooo">Te avisaré cuando encuentre redes abiertas. Puedes volver a tu trabajo. Woooooo ...</string>
+    <string name="got_it">Lo tengo</string>
 </resources>
