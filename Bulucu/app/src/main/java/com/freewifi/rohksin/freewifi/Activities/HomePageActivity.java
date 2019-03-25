@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -48,8 +49,10 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
     private TextView closeNum;
     private TextView scanNow;
     private FrameLayout scan;
-    private FrameLayout openWifiContainer;
-    private FrameLayout closeWifiContainer;
+    //private FrameLayout openWifiContainer;
+    //private FrameLayout closeWifiContainer;
+
+    private LinearLayout openTouch,closeTouch;
 
     private WifiManager manager;
     private List<ScanResult> allScanResults;
@@ -83,10 +86,14 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
         setUpUI();
 
 
+        /*
+
         if(!AppUtility.hasCompletedIntro)
         {
             new DrawableLoader().execute();
         }
+
+        */
 
 
     }
@@ -99,8 +106,10 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
         closedNetwork = (TextView)findViewById(R.id.close);
         openNum = (TextView)findViewById(R.id.openNum);
         closeNum = (TextView)findViewById(R.id.closeNum);
-        openWifiContainer = (FrameLayout)findViewById(R.id.openContainer);
-        closeWifiContainer = (FrameLayout)findViewById(R.id.closeContainer);
+        openTouch = (LinearLayout) findViewById(R.id.openTouch);
+        closeTouch = (LinearLayout) findViewById(R.id.closeTouch);
+
+
         scanNow = (TextView)findViewById(R.id.scanNow);
 
         mainLayout.setPadding(0, AppUtility.getStatusBarHeight(),0,0);
@@ -126,7 +135,7 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
         scan = (FrameLayout)findViewById(R.id.scan);
 
 
-        openWifiContainer.setOnClickListener(new View.OnClickListener() {
+        openTouch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -139,7 +148,7 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
         });
 
 
-        closeWifiContainer.setOnClickListener(new View.OnClickListener() {
+        closeTouch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -159,7 +168,10 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
                 startActivity(new Intent(HomePageActivity.this, ScanSurroundingActivity.class));
             }
         });
+
+
     }
+
 
 
     /***********************************************************************************************************
@@ -293,6 +305,7 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
                 });
 
     }
+
 
 
     private void setUpIntroView()
