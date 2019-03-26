@@ -45,7 +45,7 @@ public class SplashActivity extends AppCompatActivity {
         AppUtility.loadAppUtility(this);
 
 
-        bindService();
+        //bindService();
 
         into = (LottieAnimationView)findViewById(R.id.bulucu_into);
 
@@ -57,7 +57,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                startActivity(new Intent(SplashActivity.this, HomePageActivity.class));
+                startActivity(new Intent(SplashActivity.this, CreateHotspotActivity.class));
                 finish();
             }
 
@@ -75,6 +75,7 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
+    /*
 
     @Override
     public void onStop()
@@ -82,6 +83,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onStop();
         unbindService();
     }
+
+    */
 
 
 
