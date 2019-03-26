@@ -42,6 +42,7 @@
                android:name="android.support.PARENT_ACTIVITY"
                android:value=".Activities.HomePageActivity" />
         </activity>
+        <activity android:name=".Activities.CreateHotspotActivity"/>
 
         <!--
         <activity android:name=".Activities.TrackWifiActivity"
