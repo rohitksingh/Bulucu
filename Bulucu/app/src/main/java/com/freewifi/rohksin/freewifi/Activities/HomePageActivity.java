@@ -49,8 +49,6 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
     private TextView closeNum;
     private TextView scanNow;
     private FrameLayout scan;
-    //private FrameLayout openWifiContainer;
-    //private FrameLayout closeWifiContainer;
 
     private LinearLayout openTouch,closeTouch;
 
@@ -82,19 +80,12 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upgrade_scan_activity_layout);
 
-
         setUpUI();
-
-
-        /*
 
         if(!AppUtility.hasCompletedIntro)
         {
             new DrawableLoader().execute();
         }
-
-        */
-
 
     }
 
