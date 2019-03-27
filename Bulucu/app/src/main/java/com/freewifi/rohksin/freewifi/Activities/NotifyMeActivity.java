@@ -32,14 +32,14 @@ import java.util.List;
 public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallback {
 
 
-    /***************************************************************************************************
+    /***********************************************************************************************
      *                                          TODO
      *    Create a utility to sync status of all UI elements
      *    AppUtility.syncUIStatus();
      *    roadcastReceiver stable unregister call
      *    Create a utility for RunInto AppUtility.ShowIntro("Msg", Key, etc)
      *
-     **************************************************************************************************/
+     ***********************************************************************************************/
 
     private FrameLayout mainLayout;
     private TextView details;
