@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.R;
 
 public class NotifyMeDialog extends Dialog {
-
 
     private Context context;
     private Button button;
@@ -21,12 +19,11 @@ public class NotifyMeDialog extends Dialog {
         this.context = context;
     }
 
-
     @Override
     public void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
-        setContentView(R.layout.notifyme_dialog);
+        setContentView(R.layout.dialog_notify_layout);
         button = (Button) findViewById(R.id.gotIt);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,6 +32,5 @@ public class NotifyMeDialog extends Dialog {
             }
         });
     }
-
 
 }

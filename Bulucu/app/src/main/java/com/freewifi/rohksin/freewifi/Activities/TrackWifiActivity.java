@@ -25,61 +25,30 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 public class TrackWifiActivity extends AppCompatActivity {
 
-    public static String TARGET_WIFI = "com.freewifi.rohksin.freewifi.Activities.TARGET_WIFI";
-
     private TextView wifiLevel;
     private ScanResult targetWifi;
     private TextView wifiName;
-
     private GraphView graphView;
-    LineGraphSeries<DataPoint> series;
-
-    int count =0;
+    private LineGraphSeries<DataPoint> series;
 
     private WifiManager manager;
 
-
     private WifiLevelReceiver receiver;
     private Intent startTrackService;
+
+    private int count =0;
+    public static String TARGET_WIFI = "com.freewifi.rohksin.freewifi.Activities.TARGET_WIFI";
+
+    /***********************************************************************************************
+     *                               Activity Life cycle methods                                   *
+     /*********************************************************************************************/
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.track_wifi_activity_layout);
-        wifiLevel = (TextView)findViewById(R.id.wifiLevel);
-        wifiName = (TextView)findViewById(R.id.wifiName);
-
-        graphView = (GraphView)findViewById(R.id.graph);
-
-
-        manager = WifiUtility.getSingletonWifiManager(TrackWifiActivity.this);
-
-
-        series = new LineGraphSeries<DataPoint>();
-        series.setColor(Color.WHITE);
-        series.setTitle("WifiStatud");
-
-
-        graphView.addSeries(series);
-        graphView.getViewport().setXAxisBoundsManual(true);
-        graphView.getViewport().setYAxisBoundsManual(true);
-        graphView.getViewport().setMinX(0);
-        graphView.getViewport().setMaxX(10);
-        graphView.getViewport().setMinY(0);
-        graphView.getViewport().setMaxY(20);
-
-        targetWifi = getIntent().getParcelableExtra(TARGET_WIFI);
-
-        wifiName.setText(AppUtility.getString(R.string.tracking)+" "+targetWifi.SSID);
-
-        startTrackService = new Intent(this, TrackWifiService.class);
-        startTrackService.putExtra("SCAN_RESULT", targetWifi);
-        startService(startTrackService);
-
-        receiver = new WifiLevelReceiver();
-        registerReceiver(receiver, new IntentFilter("LEVEL"));
-
+        setContentView(R.layout.activity_trackwifi_layout);
+        setUpUI();
     }
 
 
@@ -92,11 +61,11 @@ public class TrackWifiActivity extends AppCompatActivity {
     }
 
 
-    /***************************************************************************************************
-     *                                     BroadcastReceiver                                           *
-     ***************************************************************************************************/
+    /***********************************************************************************************
+     *                                    BroadcastReceiver                                        *
+     ***********************************************************************************************/
 
-    class WifiLevelReceiver extends BroadcastReceiver {
+    private class WifiLevelReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -112,8 +81,6 @@ public class TrackWifiActivity extends AppCompatActivity {
                 series.appendData(newData, true, 12);
 
                 wifiLevel.setText(WifiUtility.getWifiStrengthStatus(relativeLevel));
-
-
 
             }
         }
@@ -131,6 +98,38 @@ public class TrackWifiActivity extends AppCompatActivity {
         else {
             return (manager.calculateSignalLevel(level, 20));
         }
+    }
+
+
+    private void setUpUI(){
+
+        manager = WifiUtility.getSingletonWifiManager(TrackWifiActivity.this);
+        targetWifi = getIntent().getParcelableExtra(TARGET_WIFI);
+        receiver = new WifiLevelReceiver();
+        registerReceiver(receiver, new IntentFilter("LEVEL"));
+
+        wifiLevel = (TextView)findViewById(R.id.wifiLevel);
+        wifiName = (TextView)findViewById(R.id.wifiName);
+        graphView = (GraphView)findViewById(R.id.graph);
+
+        series = new LineGraphSeries<DataPoint>();
+        series.setColor(Color.WHITE);
+        series.setTitle("WifiStatud");
+
+        graphView.addSeries(series);
+        graphView.getViewport().setXAxisBoundsManual(true);
+        graphView.getViewport().setYAxisBoundsManual(true);
+        graphView.getViewport().setMinX(0);
+        graphView.getViewport().setMaxX(10);
+        graphView.getViewport().setMinY(0);
+        graphView.getViewport().setMaxY(20);
+
+        wifiName.setText(AppUtility.getString(R.string.tracking)+" "+targetWifi.SSID);
+
+        startTrackService = new Intent(this, TrackWifiService.class);
+        startTrackService.putExtra("SCAN_RESULT", targetWifi);
+        startService(startTrackService);
+
     }
 
 }

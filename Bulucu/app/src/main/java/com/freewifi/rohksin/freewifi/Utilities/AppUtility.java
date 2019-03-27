@@ -2,7 +2,6 @@ package com.freewifi.rohksin.freewifi.Utilities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,24 +9,23 @@ import java.util.Locale;
 
 public class AppUtility {
 
-    public static boolean hasCompletedIntro ;
-
+    private static Context context;
     private static SharedPreferences sharedPreferences;
     private static String PRIVACY_POLICY_URL = "https://r4rohit002.wixsite.com/bulucu";
     private static String DATE_FORMAT = "hh:MM:SS";
-
-
-    private static Context context;
-
     private static boolean toggleState;
+
+    public static boolean hasCompletedIntro ;
+
+    /***********************************************************************************************
+     *                                    Public Methods                                           *
+     **********************************************************************************************/
 
     public static void loadAppUtility(Context _context)
     {
         context = _context;
         sharedPreferences = _context.getSharedPreferences("AppSharedPreference", Context.MODE_PRIVATE);
         loadUserData();
-
-        Log.d("User Complete", hasCompletedIntro+"");
     }
 
 
@@ -41,8 +39,6 @@ public class AppUtility {
         editor.putBoolean("INTRO_COMPLETED", true);
         editor.commit();
         hasCompletedIntro = sharedPreferences.getBoolean("INTRO_COMPLETED", false);
-
-        Log.d("User Complete", hasCompletedIntro+"");
     }
 
     public static String getPrivacyPolicyUrl()
@@ -64,18 +60,6 @@ public class AppUtility {
         return result;
     }
 
-
-    public static void setNotifySericeStatus(boolean status)
-    {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("NOTIFY_ME_STATUS", status);
-        editor.commit();
-    }
-
-    public static boolean getNotifyServiceStatus()
-    {
-        return sharedPreferences.getBoolean("NOTIFY_ME_STATUS", false);
-    }
 
     public static String getCurrentDate()
     {

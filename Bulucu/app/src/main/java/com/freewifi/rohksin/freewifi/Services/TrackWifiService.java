@@ -18,8 +18,15 @@ import java.util.List;
  * Created by RohitKsingh on 3/3/2018.
  */
 
-public class TrackWifiService extends IntentService {
+/***************************************************************************************************
+ *                                          TODO
+ *    Redesign this service
+ *    Move Inner common BroadcastReceiver to a seperate class
+ *    Resource Leak Handle
+ *
+ **************************************************************************************************/
 
+public class TrackWifiService extends IntentService {
 
     private WifiManager wifiManager;
     private ScanResult targetScan;
@@ -28,15 +35,15 @@ public class TrackWifiService extends IntentService {
     {
         super("estService");
         wifiManager = WifiUtility.getSingletonWifiManager(TrackWifiService.this);
-
-        Log.d("NAME", "service started");
     }
 
 
+    /***********************************************************************************************
+     *                                Service Life cycle methods                                   *
+     /*********************************************************************************************/
+
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-
-        //ScanResult scanResult
 
         targetScan = intent.getParcelableExtra("SCAN_RESULT");
 
@@ -49,11 +56,11 @@ public class TrackWifiService extends IntentService {
 
         }
 
-
     }
 
-
-
+    /***********************************************************************************************
+     *                                    BroadcastReceiver                                         *
+     ***********************************************************************************************/
 
     public class ScanResultReceiver extends BroadcastReceiver{
 
@@ -66,7 +73,6 @@ public class TrackWifiService extends IntentService {
                 List<ScanResult> scanResults = wifiManager.getScanResults();
 
                 ScanResult scanResult = WifiUtility.getThisWifi(targetScan, scanResults);
-
 
                 Intent sendLevel = new Intent();
                 sendLevel.setAction("LEVEL");

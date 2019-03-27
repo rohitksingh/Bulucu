@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.R;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 /**
@@ -28,11 +26,10 @@ public class StringAdapter extends RecyclerView.Adapter<StringAdapter.StingViewH
         this.scanList = scanList;
     }
 
-
     @Override
     public StingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.scan_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.adapter_simplestring_layout, parent, false);
         return new StingViewHolder(view);
     }
 
@@ -41,7 +38,6 @@ public class StringAdapter extends RecyclerView.Adapter<StringAdapter.StingViewH
         String scanName = scanList.get(position);
         holder.name.setText(scanName);
     }
-
 
     @Override
     public int getItemCount() {

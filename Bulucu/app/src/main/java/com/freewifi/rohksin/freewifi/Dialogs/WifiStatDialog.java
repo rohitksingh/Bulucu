@@ -35,7 +35,7 @@ public class WifiStatDialog extends Dialog {
     {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.wifi_detail_layout);
+        setContentView(R.layout.dialog_wifistat_layout);
 
         properties =(TextView)findViewById(R.id.property);
         wifiName = (TextView)findViewById(R.id.wifiName);

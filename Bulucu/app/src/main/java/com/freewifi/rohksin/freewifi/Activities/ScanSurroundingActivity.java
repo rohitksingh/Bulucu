@@ -30,6 +30,11 @@ import java.util.Set;
 
 public class ScanSurroundingActivity extends AppCompatActivity {
 
+    private TextView scanTime;
+    private LottieAnimationView scanLottieButton;
+    private TextView wifiNum;
+    private RelativeLayout scannerLayout;
+    private CollapsingToolbarLayout title;
 
     private WifiManager manager;
 
@@ -39,66 +44,24 @@ public class ScanSurroundingActivity extends AppCompatActivity {
     private List<String> scanResults;
     private Set<String> uniqueScanResult;
 
-    private TextView scanTime;
-    private LottieAnimationView scanLottieButton;
-    private TextView wifiNum;
-    private RelativeLayout scannerLayout;
-    private CollapsingToolbarLayout title;
-
-
     private ScanTask scanTask;
-
-
     private boolean SCAN_RUNNING = false;
     private int SCAN_NUM =0;
 
     private static final String TAG = "ScanSurroundingActivity";
 
 
+    /***********************************************************************************************
+     *                               Activity Life cycle methods                                   *
+     /*********************************************************************************************/
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.scan_surrounding_activity_layout);
-
-        scannerLayout = (RelativeLayout)findViewById(R.id.scannerLayout);
-        scannerLayout.setPadding(0,AppUtility.getStatusBarHeight(),0,0);
-
-        title= (CollapsingToolbarLayout)findViewById(R.id.title);
-        title.setExpandedTitleColor(Color.TRANSPARENT);
-        setUpCollapsingToolBar();
-
-
-
-        rv = (RecyclerView)findViewById(R.id.rv);
-
-        scanTime = (TextView)findViewById(R.id.scanTime);
-        scanLottieButton = (LottieAnimationView)findViewById(R.id.lottieButton);
-        scanLottieButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                    startScan();
-            }
-        });
-
-        wifiNum = (TextView)findViewById(R.id.wifiNum);
-        wifiNum.setPadding(0, AppUtility.getStatusBarHeight(),0,0);
-
-
-        llm = new LinearLayoutManager(this);
-        rv.setLayoutManager(llm);
-        scanResults = new ArrayList<String>();
-        adapter = new StringAdapter(this, scanResults);
-        rv.setAdapter(adapter);
-        //rv.setPadding(0, 120, 0, 0);
-
-        manager = WifiUtility.getSingletonWifiManager(this);
-        uniqueScanResult = new LinkedHashSet<String>();
-
+        setContentView(R.layout.activity_scansurrounding_layout);
+        setUpUI();
         startScan();
-
     }
 
 
@@ -111,24 +74,20 @@ public class ScanSurroundingActivity extends AppCompatActivity {
 
 
 
-    //*******************************************************************************************************//
-    //                                          AsncTask                                                     //
-    //*******************************************************************************************************//
+    /***********************************************************************************************
+     *                               AsyncTask for scanning surrounding                            *
+     /*********************************************************************************************/
 
     private class ScanTask extends AsyncTask<Void, String  , Void >{
-
-
 
         @Override
         public void onPreExecute()
         {
-
             Log.d(TAG, "onPreExecute: ");
             SCAN_RUNNING = true;
             scanLottieButton.playAnimation();
             Snackbar.make(scanLottieButton, R.string.scanning, Snackbar.LENGTH_SHORT)
                     .show();
-
         }
 
         @Override
@@ -200,11 +159,9 @@ public class ScanSurroundingActivity extends AppCompatActivity {
     }
 
 
-
-    //*******************************************************************************************************//
-    //                                     Private Helper methods                                            //
-    //*******************************************************************************************************//
-
+    /***********************************************************************************************
+     *                                 Private Helper methods                                      *
+     ***********************************************************************************************/
 
     private void startScan()
     {
@@ -229,6 +186,7 @@ public class ScanSurroundingActivity extends AppCompatActivity {
     {
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+
             boolean isShow = true;
             int scrollRange = -1;
 
@@ -249,5 +207,38 @@ public class ScanSurroundingActivity extends AppCompatActivity {
     }
 
 
+
+    public void setUpUI()
+    {
+        scannerLayout = (RelativeLayout)findViewById(R.id.scannerLayout);
+        scannerLayout.setPadding(0,AppUtility.getStatusBarHeight(),0,0);
+        title= (CollapsingToolbarLayout)findViewById(R.id.title);
+        scanTime = (TextView)findViewById(R.id.scanTime);
+        scanLottieButton = (LottieAnimationView)findViewById(R.id.lottieButton);
+        rv = (RecyclerView)findViewById(R.id.rv);
+        wifiNum = (TextView)findViewById(R.id.wifiNum);
+
+        title.setExpandedTitleColor(Color.TRANSPARENT);
+        wifiNum.setPadding(0, AppUtility.getStatusBarHeight(),0,0);
+        setUpCollapsingToolBar();
+
+        llm = new LinearLayoutManager(this);
+        rv.setLayoutManager(llm);
+        scanResults = new ArrayList<String>();
+        adapter = new StringAdapter(this, scanResults);
+        rv.setAdapter(adapter);
+
+        manager = WifiUtility.getSingletonWifiManager(this);
+        uniqueScanResult = new LinkedHashSet<String>();
+
+        scanLottieButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startScan();
+            }
+        });
+
+    }
 
 }

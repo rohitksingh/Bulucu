@@ -13,6 +13,13 @@ import java.util.List;
 /**
  * Created by RohitKsingh on 5/6/2017.
  */
+
+/***********************************************************************************************
+ *                                          TODO
+ *    Add load Utility and load it into SplashActivity
+ *
+ ***********************************************************************************************/
+
 public class WifiUtility {
 
     private static WifiConfiguration configuration;
@@ -39,7 +46,6 @@ public class WifiUtility {
     {
         allScanResults = _allScanResults;
     }
-
 
 
     public static void connect(Context context, ScanResult scanResult)

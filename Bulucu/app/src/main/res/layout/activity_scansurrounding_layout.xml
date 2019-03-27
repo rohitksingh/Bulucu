@@ -34,7 +34,7 @@
                 android:fitsSystemWindows="true"
                 android:background="#ffffff"
                 >
-               <include layout="@layout/scanner_layout"
+               <include layout="@layout/adapter_scanner_layout"
                    android:layout_alignParentLeft="true"
                    android:layout_height="match_parent"
                    android:layout_width="wrap_content"
