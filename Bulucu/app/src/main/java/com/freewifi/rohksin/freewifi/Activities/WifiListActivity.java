@@ -45,26 +45,74 @@ public class WifiListActivity extends AppCompatActivity implements WifiScanInter
 
     private static final String TAG = "WIFI_LIST_ACTIVITY_TAG";
 
+
+    /***********************************************************************************************
+     *                           Activity Life cycle methods                                       *
+     /*********************************************************************************************/
+
     @Override
     public void onCreate(Bundle savedInstanceBundle)
     {
         super.onCreate(savedInstanceBundle);
         setContentView(R.layout.wifi_list_activity_layout);
-        intent = getIntent();
-        setBackGroundColor(intent.getIntExtra("BG_COLOR",0));
+        setUpUI();
+    }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        startScan();
+    }
 
-        noNetworkFound = (TextView)findViewById(R.id.noNetworkAvailable);
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        stopScan();
+    }
 
-        rv = (RecyclerView)findViewById(R.id.rv);
-        llm = new LinearLayoutManager(this);
-        rv.setLayoutManager(llm);
-        rv.setPadding(0, AppUtility.getStatusBarHeight(),0,0);
-        setUpAdapters();
+    /***********************************************************************************************
+     *                                  Interface methods                                          *
+     **********************************************************************************************/
 
+    @Override
+    public void startScan() {
+
+        scanReceiver = new ScanReceiver();
+        registerReceiver(scanReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        manager = WifiUtility.getSingletonWifiManager(this);
+        manager.startScan();
+    }
+
+    @Override
+    public void stopScan() {
+        unregisterReceiver(scanReceiver);
+    }
+
+    @Override
+    public void updateScanUI() {
 
     }
 
+
+    /***********************************************************************************************
+     *                                    BroadcastReceiver                                         *
+     ***********************************************************************************************/
+
+    class ScanReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            if(intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
+            {
+                WifiUtility.updateWifiResult(manager.getScanResults());
+                setUpAdapters();
+                manager.startScan();
+            }
+        }
+    }
 
 
     /**************************************************************************************************
@@ -74,7 +122,6 @@ public class WifiListActivity extends AppCompatActivity implements WifiScanInter
 
     private void setUpAdapters()
     {
-
 
         if(intent.getAction().equals("OPEN_NETWORK"))
         {
@@ -112,7 +159,6 @@ public class WifiListActivity extends AppCompatActivity implements WifiScanInter
     }
 
 
-
     private void setBackGroundColor(int color)
     {
         Log.d("Color", color+"");
@@ -121,69 +167,18 @@ public class WifiListActivity extends AppCompatActivity implements WifiScanInter
     }
 
 
-    /***********************************************************************************************************
-     *                                  Interface methods                                                      *
-     ***********************************************************************************************************/
-
-    @Override
-    public void startScan() {
-
-        scanReceiver = new ScanReceiver();
-        registerReceiver(scanReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        manager = WifiUtility.getSingletonWifiManager(this);
-        manager.startScan();
-    }
-
-    @Override
-    public void stopScan() {
-       unregisterReceiver(scanReceiver);
-    }
-
-    @Override
-    public void updateScanUI() {
-
-    }
-
-
-    /***********************************************************************************************************
-     *                                  Activity Lifecycle methods                                             *
-     ***********************************************************************************************************/
-
-    @Override
-    public void onResume()
+    private void setUpUI()
     {
-        super.onResume();
-        startScan();
+        intent = getIntent();
+        setBackGroundColor(intent.getIntExtra("BG_COLOR",0));
+
+        noNetworkFound = (TextView)findViewById(R.id.noNetworkAvailable);
+        rv = (RecyclerView)findViewById(R.id.rv);
+        llm = new LinearLayoutManager(this);
+        rv.setLayoutManager(llm);
+        rv.setPadding(0, AppUtility.getStatusBarHeight(),0,0);
+        setUpAdapters();
     }
-
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-        stopScan();
-    }
-
-
-
-    /***********************************************************************************************************
-     *                                  BroadcastReceiver                                                      *
-     ************************************************************************************************************/
-
-    class ScanReceiver extends BroadcastReceiver{
-
-        @Override
-        public void onReceive(Context context, Intent intent)
-        {
-            if(intent.getAction().equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
-            {
-                WifiUtility.updateWifiResult(manager.getScanResults());
-                setUpAdapters();
-                manager.startScan();
-            }
-        }
-    }
-
-
 
 
 }
