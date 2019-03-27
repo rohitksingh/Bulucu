@@ -22,10 +22,8 @@ import java.util.List;
 
 public class CloseWifiListAdapter extends RecyclerView.Adapter<CloseWifiListAdapter.CloseWifiViewHolder> {
 
-
     private Context context;
     private List<ScanResult> scanResults;
-
 
     public CloseWifiListAdapter(Context context, List<ScanResult> scanResults)
     {
@@ -33,12 +31,12 @@ public class CloseWifiListAdapter extends RecyclerView.Adapter<CloseWifiListAdap
         this.scanResults = scanResults;
     }
 
-
     @Override
     public CloseWifiViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(context).inflate(R.layout.wifi_item, parent, false);
         return new CloseWifiViewHolder(view);
+
     }
 
     @Override
@@ -72,17 +70,18 @@ public class CloseWifiListAdapter extends RecyclerView.Adapter<CloseWifiListAdap
 
     public class CloseWifiViewHolder extends RecyclerView.ViewHolder{
 
-
         private TextView wifiName;
         private ImageView wifiImage;
         private TextView wifidetail;
 
         public CloseWifiViewHolder(View itemView) {
+
             super(itemView);
             wifiName = (TextView)itemView.findViewById(R.id.wifiName);
             wifiImage = (ImageView)itemView.findViewById(R.id.wifiImage);
             wifidetail = (TextView)itemView.findViewById(R.id.connect);
             wifidetail.setText(R.string.detail);
+
         }
     }
 }

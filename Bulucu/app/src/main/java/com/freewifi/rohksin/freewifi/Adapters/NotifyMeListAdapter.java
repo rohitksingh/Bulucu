@@ -24,15 +24,12 @@ public class NotifyMeListAdapter extends RecyclerView.Adapter<NotifyMeListAdapte
     {
         this.context = context;
         this.wifiResults = wifiResults;
-        Log.d("SettingUPLIST", "NotifyMeListAdapter: "+wifiResults.toString());
     }
-
 
     @NonNull
     @Override
     public NotifyMeItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        Log.d("SettingUPLIST", "onCreateViewHolder: "+i);
         View view = LayoutInflater.from(context).inflate(R.layout.scan_item, viewGroup, false);
         return new NotifyMeItemViewHolder(view);
     }
@@ -41,7 +38,6 @@ public class NotifyMeListAdapter extends RecyclerView.Adapter<NotifyMeListAdapte
     public void onBindViewHolder(@NonNull NotifyMeItemViewHolder notifyMeItemViewHolder, int i) {
 
         WifiResult wifiResult = wifiResults.get(i);
-        Log.d("SettingUPLIST", "onBindViewHolder: "+wifiResult.toString());
         notifyMeItemViewHolder.wifiDetail.setText(wifiResult.toString());
 
     }
