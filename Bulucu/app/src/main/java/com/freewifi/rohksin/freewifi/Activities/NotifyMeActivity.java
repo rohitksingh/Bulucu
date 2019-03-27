@@ -64,7 +64,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.notify_me_activity);
+        setContentView(R.layout.activity_notifyme_layout);
 
         notifyMeIntent = new Intent(this, NotifyMeService.class);
 

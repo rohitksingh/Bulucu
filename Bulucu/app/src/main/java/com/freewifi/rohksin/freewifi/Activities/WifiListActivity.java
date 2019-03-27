@@ -54,7 +54,7 @@ public class WifiListActivity extends AppCompatActivity implements WifiScanInter
     public void onCreate(Bundle savedInstanceBundle)
     {
         super.onCreate(savedInstanceBundle);
-        setContentView(R.layout.wifi_list_activity_layout);
+        setContentView(R.layout.activity_wifilist_layout);
         setUpUI();
     }
 

@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.Dialogs.WifiStatDialog;
 import com.freewifi.rohksin.freewifi.R;
-import com.freewifi.rohksin.freewifi.Utilities.IntentUtility;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class CloseWifiListAdapter extends RecyclerView.Adapter<CloseWifiListAdap
     @Override
     public CloseWifiViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.wifi_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.adapter_wifilist_layout, parent, false);
         return new CloseWifiViewHolder(view);
 
     }

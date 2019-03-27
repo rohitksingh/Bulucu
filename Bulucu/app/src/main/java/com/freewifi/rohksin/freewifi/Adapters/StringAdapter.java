@@ -29,7 +29,7 @@ public class StringAdapter extends RecyclerView.Adapter<StringAdapter.StingViewH
     @Override
     public StingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.scan_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.adapter_simplestring_layout, parent, false);
         return new StingViewHolder(view);
     }
 

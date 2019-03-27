@@ -77,7 +77,7 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.upgrade_scan_activity_layout);
+        setContentView(R.layout.activity_homepage_layout);
 
         setUpUI();
 

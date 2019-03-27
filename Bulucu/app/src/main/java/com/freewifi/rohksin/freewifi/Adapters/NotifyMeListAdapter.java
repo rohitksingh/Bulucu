@@ -3,7 +3,6 @@ package com.freewifi.rohksin.freewifi.Adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,7 @@ public class NotifyMeListAdapter extends RecyclerView.Adapter<NotifyMeListAdapte
     @Override
     public NotifyMeItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.scan_item, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.adapter_simplestring_layout, viewGroup, false);
         return new NotifyMeItemViewHolder(view);
     }
 

@@ -44,7 +44,7 @@ public class SplashActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.splash_activity_layout);
+        setContentView(R.layout.activity_splash_layout);
         AppUtility.loadAppUtility(this);           //<-- App AppUtility should be called here
         bindService();
 

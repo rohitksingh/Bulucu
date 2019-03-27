@@ -23,7 +23,7 @@ public class NotifyMeDialog extends Dialog {
     public void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
-        setContentView(R.layout.notifyme_dialog);
+        setContentView(R.layout.dialog_notify_layout);
         button = (Button) findViewById(R.id.gotIt);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

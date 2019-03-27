@@ -33,7 +33,7 @@ public class OpenWifiListAdapter extends RecyclerView.Adapter<OpenWifiListAdapte
 
     @Override
     public OpenWifiViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.wifi_item,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.adapter_wifilist_layout,parent,false);
         return new OpenWifiViewHolder(view);
     }
 

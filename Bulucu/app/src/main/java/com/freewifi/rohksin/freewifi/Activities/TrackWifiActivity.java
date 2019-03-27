@@ -47,7 +47,7 @@ public class TrackWifiActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.track_wifi_activity_layout);
+        setContentView(R.layout.activity_trackwifi_layout);
         setUpUI();
     }
 
