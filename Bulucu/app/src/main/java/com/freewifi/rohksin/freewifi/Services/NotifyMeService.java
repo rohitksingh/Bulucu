@@ -11,9 +11,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Binder;
@@ -42,15 +39,16 @@ import java.util.TreeSet;
 
 import static android.support.v4.app.NotificationCompat.PRIORITY_MIN;
 
+/***********************************************************************************************
+ *                                          TODO
+ *    Move Notification Methods in utility
+ *    Move Vibration to Utility
+ *    Make Checking Service state status more staable
+ *
+ ***********************************************************************************************/
+
 public class NotifyMeService extends Service implements WifiScanInterface{
 
-    /***********************************************************************************************
-     *                                          TODO
-     *    Move Notification Methods in utility
-     *    Move Vibration to Utility
-     *    Make Checking Service state status more staable
-     *
-     ***********************************************************************************************/
 
     private int FOREGROUND_ID = 2222;
 
