@@ -8,22 +8,17 @@ import android.content.ServiceConnection;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
-import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.freewifi.rohksin.freewifi.Adapters.NotifyMeListAdapter;
 import com.freewifi.rohksin.freewifi.Dialogs.NotifyMeDialog;
-import com.freewifi.rohksin.freewifi.Dialogs.WifiStatDialog;
 import com.freewifi.rohksin.freewifi.Interfaces.NotifyMeCallback;
 import com.freewifi.rohksin.freewifi.Models.WifiResult;
 import com.freewifi.rohksin.freewifi.R;
@@ -37,15 +32,19 @@ import java.util.List;
 public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallback {
 
 
-    /**
-         TODO Create a utility to sync status of all UI elements
-         1) AppUtility.syncUIStatus();
-         2) BroadcastReceiver stable unregister call
+    /***************************************************************************************************
+     *                                          TODO
+     *    Create a utility to sync status of all UI elements
+     *    AppUtility.syncUIStatus();
+     *    roadcastReceiver stable unregister call
+     *    Create a utility for RunInto AppUtility.ShowIntro("Msg", Key, etc)
+     *
+     **************************************************************************************************/
 
-     */
-
+    private FrameLayout mainLayout;
     private TextView details;
     private SwitchCompat toggle;
+
     private RecyclerView notifyMeList;
     private LinearLayoutManager llm;
     private NotifyMeListAdapter adapter;
@@ -57,12 +56,9 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     private static final String TAG = "NotifyMeActivity";
 
 
-    private FrameLayout mainLayout;
-
-
-    /*************************************************************************************************
-     *                      Activity Lifecycle methods
-     ************************************************************************************************/
+    /***********************************************************************************************
+     *                               Activity Life cycle methods                                   *
+     /*********************************************************************************************/
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -72,9 +68,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
 
         notifyMeIntent = new Intent(this, NotifyMeService.class);
 
-        trySetUpUI();
-
-      //  getDetails();
+        setUpUI();
 
     }
 
@@ -93,61 +87,44 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     }
 
 
-    /*************************************************************************************************
-     *                         Service Connection
-     ************************************************************************************************/
+    /***********************************************************************************************
+     *                                  Interface methods                                          *
+     **********************************************************************************************/
+
+    @Override
+    public void notifyResults(List<WifiResult> results) {
+        Log.d(TAG, "NOTIFY USER ");
+        setUpList(results);
+    }
+
+
+    /***********************************************************************************************
+     *                                 Service Connection                                          *
+     **********************************************************************************************/
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
 
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
-            // cast the IBinder and get MyService instance
+
             NotifyMeService.NotifyMeBinder binder = (NotifyMeService.NotifyMeBinder) service;
             myService = binder.getService();
             bound = true;
             myService.registerCallBack(NotifyMeActivity.this); // register
-            //details.setText(getResultData(myService.getAllwifiResults()));
             setUpList(myService.getAllwifiResults());
         }
 
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
             bound = false;
-            Log.d("Lifecycle", "onServiceDisConnected: ");
         }
     };
 
 
-    /*************************************************************************************************
-     *                         Callback method
-     ************************************************************************************************/
 
-    @Override
-    public void notifyResults(List<WifiResult> results) {
-        Log.d("NOTIFY_USER_TRACK", "NOTIFY USER ");
-        setUpList(results);
-    }
-
-
-    /*************************************************************************************************
-     *                         Private Helper methods
-     ************************************************************************************************/
-
-
-    private void getDetails(List<WifiResult> results)
-    {
-
-        if(results.size()!=0)
-        {
-            Log.d(TAG, "Setting up text" +(results.toString()));
-            details.setVisibility(View.GONE);
-            setUpList(results);
-        }
-        else {
-            details.setText("No result Found");
-        }
-    }
-
+    /***********************************************************************************************
+     *                                 Private Helper methods                                      *
+     ***********************************************************************************************/
 
 
     private void bindService()
@@ -166,48 +143,15 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
         }
     }
 
-
-
-    /*************************************************************************************************
-     *                         Setup UI
-     ************************************************************************************************/
-
-
-    private void trySetUpUI()
+    private void syncUI()
     {
+        toggle.setChecked(AppUtility.getToggleState());
+    }
 
-        details = (TextView)findViewById(R.id.detail);
-        toggle = (SwitchCompat) findViewById(R.id.chkState);
-        mainLayout = (FrameLayout)findViewById(R.id.mainLayout);
-        mainLayout.setPadding(0,AppUtility.getStatusBarHeight(),0,0);
-
-
-
-        syncUI();    //<-- Synv UI with background service
-
-        runIntro();
-
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    startService(notifyMeIntent);
-                    AppUtility.setToggleState(true);
-                    createInfoDialog();
-
-                } else {
-                    myService.stopScan();
-                    stopService(notifyMeIntent);
-                    AppUtility.setToggleState(false);
-
-                }
-            }
-        });
-
-        llm = new LinearLayoutManager(this);
-        notifyMeList = (RecyclerView)findViewById(R.id.notifymeList);
-        notifyMeList.setLayoutManager(llm);
-
-
+    private void createInfoDialog()
+    {
+        Dialog dialog = new NotifyMeDialog(this);
+        dialog.show();
     }
 
 
@@ -249,22 +193,42 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
                 new TapTargetView.Listener() {
                     public void onTargetClick(TapTargetView view) {
                         super.onTargetClick(view);      // This call is optional
-                        // doSomething();
                     }
                 });
     }
 
-
-    private void syncUI()
+    private void setUpUI()
     {
-        toggle.setChecked(AppUtility.getToggleState());
-    }
 
-    private void createInfoDialog()
-    {
-        Dialog dialog = new NotifyMeDialog(this);
-        dialog.show();
-    }
+        details = (TextView)findViewById(R.id.detail);
+        toggle = (SwitchCompat) findViewById(R.id.chkState);
+        mainLayout = (FrameLayout)findViewById(R.id.mainLayout);
+        mainLayout.setPadding(0,AppUtility.getStatusBarHeight(),0,0);
+        notifyMeList = (RecyclerView)findViewById(R.id.notifymeList);
+        llm = new LinearLayoutManager(this);
+        notifyMeList.setLayoutManager(llm);
 
+        syncUI();    //<-- Synv UI with background service
+
+        runIntro();
+
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    startService(notifyMeIntent);
+                    AppUtility.setToggleState(true);
+                    createInfoDialog();
+
+                } else {
+                    myService.stopScan();
+                    stopService(notifyMeIntent);
+                    AppUtility.setToggleState(false);
+
+                }
+            }
+        });
+
+    }
 
 }
