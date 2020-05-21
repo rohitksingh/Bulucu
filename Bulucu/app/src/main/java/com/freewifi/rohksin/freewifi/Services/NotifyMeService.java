@@ -18,10 +18,10 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.freewifi.rohksin.freewifi.Activities.NotifyMeActivity;
@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static android.support.v4.app.NotificationCompat.PRIORITY_MIN;
+import static androidx.core.app.NotificationCompat.PRIORITY_MIN;
 
 /***********************************************************************************************
  *                                          TODO
