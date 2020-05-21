@@ -28,8 +28,6 @@ public class SplashActivity extends AppCompatActivity {
      ***********************************************************************************************/
 
 
-
-
     private LottieAnimationView into;
 
     private NotifyMeService notifyMeService;

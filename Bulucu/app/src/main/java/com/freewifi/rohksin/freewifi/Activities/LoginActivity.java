@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.freewifi.rohksin.freewifi.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -133,6 +134,9 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             //updateUI(user);
+
+                            startSplashActivity();
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d(TAG, "signInWithCredential:failure", task.getException());
@@ -148,9 +152,22 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void signOut(){
-        mAuth.signOut();
-        revokeAccess();
+
+        mGoogleSignInClient.signOut().addOnCompleteListener(this,
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(LoginActivity.this, "Sign out", Toast.LENGTH_SHORT).show();
+                        revokeAccess();
+                    }
+                });
+
     }
 
+
+    private void startSplashActivity(){
+        Intent intent = new Intent(this, SplashActivity.class);
+        startActivity(intent);
+    }
 
 }
