@@ -3,18 +3,19 @@ package com.freewifi.rohksin.freewifi.Dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 
 import com.freewifi.rohksin.freewifi.R;
 
-public class NotifyMeDialog extends Dialog {
+import androidx.annotation.NonNull;
+
+public class FeatureUnavailableDialog extends Dialog {
 
     private Context context;
     private Button button;
 
-    public NotifyMeDialog(@NonNull Context context) {
+    public FeatureUnavailableDialog(@NonNull Context context) {
         super(context);
         this.context = context;
     }
@@ -23,8 +24,8 @@ public class NotifyMeDialog extends Dialog {
     public void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
-        setContentView(R.layout.dialog_notify_layout);
-        button = (Button) findViewById(R.id.gotIt);
+        setContentView(R.layout.dialog_feature_unvaileble_layout);
+        button = findViewById(R.id.ok);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

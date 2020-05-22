@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "98168700852",
+    "firebase_url": "https://bulucu-76868.firebaseio.com",
+    "project_id": "bulucu-76868",
+    "storage_bucket": "bulucu-76868.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:98168700852:android:d5fa1e17b8df9cc2043ce1",
+        "android_client_info": {
+          "package_name": "com.freewifi.rohksin.freewifi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "98168700852-chmieejvpclp4mikiap3q4hmbimma65f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.freewifi.rohksin.freewifi",
+            "certificate_hash": "afef0eedadead9c0ea2a1160f40d0a05922584ed"
+          }
+        },
+        {
+          "client_id": "98168700852-dm7g8l4280rvqi6pg5dc9n44is28u0r8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBy8bw4q6vvimNMvmkdC8I79Pds9nW7Ar8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "98168700852-dm7g8l4280rvqi6pg5dc9n44is28u0r8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

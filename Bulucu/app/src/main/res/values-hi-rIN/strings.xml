@@ -35,5 +35,6 @@
     <string name="get_notified_when">एक नया खुला नेटवर्क का पता चलने पर सूचित करें</string>
     <string name="woooo">जब मुझे खुले नेटवर्क मिलेंगे तो मैं आपको सूचित करूंगा। आप अपने काम पर वापस जा सकते हैं। Woooooo ...</string>
     <string name="got_it">समझ गया</string>
+    <string name="feature_unavailbe">यह सुविधा वर्तमान में केवल Android Orea और पुराने संस्करणों के लिए उपलब्ध है</string>
 
 </resources>
