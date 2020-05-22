@@ -14,21 +14,35 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.freewifi.rohksin.freewifi.Dialogs.FeatureUnavailableDialog;
 import com.freewifi.rohksin.freewifi.Interfaces.WifiScanInterface;
 import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -69,6 +83,8 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
     private Drawable scanNowLogo;
     private int tapCounter=0;
 
+    private GoogleSignInClient mGoogleSignInClient;
+
     /***********************************************************************************************
      *                     Activity Life cycle methods   && Runtime Permission                     *
      /*********************************************************************************************/
@@ -78,9 +94,8 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage_layout);
-
+        setupGoogleSignInClient();
         setUpUI();
-
         if(!AppUtility.hasCompletedIntro)
         {
             new DrawableLoader().execute();
@@ -100,6 +115,29 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
             {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 87);
             }
+        }
+    }
+
+
+    /***********************************************************************************************
+     *                     Menu Related                                                            *
+     /*********************************************************************************************/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.signout:
+                signOut();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -186,8 +224,15 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
 
     private void openNotifyMe()
     {
-        Intent i = new Intent(this, NotifyMeActivity.class);
-        startActivity(i);
+
+
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.P){
+            new FeatureUnavailableDialog(this).show();
+        }else{
+            Intent i = new Intent(this, NotifyMeActivity.class);
+            startActivity(i);
+        }
+
     }
 
 
@@ -367,7 +412,6 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
             openWifiLogo = getResources().getDrawable( R.drawable.open_network);
             closeWifiLogo = getResources().getDrawable( R.drawable.closed_network);
             scanNowLogo = getResources().getDrawable( R.drawable.scan_now);
-
             return null;
         }
 
@@ -379,7 +423,44 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
 
     }
 
+    public void signOut(){
+
+        FirebaseAuth.getInstance().signOut();
+        mGoogleSignInClient.signOut().addOnCompleteListener(this,
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(HomePageActivity.this, "Sign out", Toast.LENGTH_SHORT).show();
+                        revokeAccess();
+                    }
+                });
+
+    }
 
 
+    private void revokeAccess() {
+
+        mGoogleSignInClient.revokeAccess()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        Toast.makeText(HomePageActivity.this, "Sign out successfully", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(HomePageActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                    }});
+    }
+
+
+    private void setupGoogleSignInClient(){
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+    }
 
 }

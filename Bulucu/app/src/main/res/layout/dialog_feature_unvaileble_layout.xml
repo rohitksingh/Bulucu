@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="350dp"
+    android:background="#ffffff"
+    >
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/feature_unavailbe"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:layout_margin="10dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/text"
+        android:layout_centerHorizontal="true"
+        android:text=":("
+        android:gravity="center"
+        android:textSize="60sp"
+        />
+    <Button
+        android:id="@+id/ok"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/text"
+        android:layout_centerHorizontal="true"
+        android:text="@string/got_it"
+        android:background="@color/design_default_color_primary_dark"
+        android:textColor="#ffffff"
+        />
+</RelativeLayout>
