@@ -173,4 +173,19 @@
 
         </LinearLayout>
     </FrameLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:background="@color/design_default_color_primary_dark"
+        android:layout_alignParentBottom="true"
+        >
+        <TextView
+            android:id="@+id/adText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Download this app"
+            android:textColor="#ffffff"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
 </RelativeLayout>

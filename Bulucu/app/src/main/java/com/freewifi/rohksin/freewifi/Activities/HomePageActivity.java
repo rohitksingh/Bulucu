@@ -43,6 +43,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 import java.util.List;
 
@@ -85,6 +87,8 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
 
     private GoogleSignInClient mGoogleSignInClient;
 
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
+
     /***********************************************************************************************
      *                     Activity Life cycle methods   && Runtime Permission                     *
      /*********************************************************************************************/
@@ -95,6 +99,7 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage_layout);
         setupGoogleSignInClient();
+        setUpRemoteConfig();
         setUpUI();
         if(!AppUtility.hasCompletedIntro)
         {
@@ -461,6 +466,20 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+    }
+
+    private void setUpRemoteConfig(){
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        // [END get_remote_config_instance]
+
+        // Create a Remote Config Setting to enable developer mode, which you can use to increase
+        // the number of fetches available per hour during development. Also use Remote Config
+        // Setting to set the minimum fetch interval.
+        // [START enable_dev_mode]
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setMinimumFetchIntervalInSeconds(3600)
+                .build();
+        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
     }
 
 }
