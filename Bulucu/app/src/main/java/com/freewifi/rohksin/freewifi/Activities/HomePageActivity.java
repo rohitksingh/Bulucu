@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -73,7 +74,10 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
     private ImageView privacyPolicy;
     private ImageView notifyMe;
 
+    //Banner
+    private RelativeLayout banner;
     private TextView bannerText;
+    private Button bannerButton;
 
     private WifiScanReceiver wifiScanReceiver;
 
@@ -354,7 +358,9 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
         notifyMe = (ImageView)findViewById(R.id.notifyMe);
         scan = (FrameLayout)findViewById(R.id.scan);
 
-        bannerText = (TextView)findViewById(R.id.adText);
+        banner = findViewById(R.id.banner);
+        bannerText = (TextView)findViewById(R.id.banner_Text);
+        bannerButton = findViewById(R.id.banner_button);
 
         notifyMe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -474,20 +480,14 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
 
     private void setUpRemoteConfig(){
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-        // [END get_remote_config_instance]
 
-        // Create a Remote Config Setting to enable developer mode, which you can use to increase
-        // the number of fetches available per hour during development. Also use Remote Config
-        // Setting to set the minimum fetch interval.
-        // [START enable_dev_mode]
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setMinimumFetchIntervalInSeconds(3600)
+                .setMinimumFetchIntervalInSeconds(10)
                 .build();
         mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
 
 
         mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults);
-
 
         mFirebaseRemoteConfig.fetchAndActivate()
                 .addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
@@ -503,10 +503,25 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
                             Toast.makeText(HomePageActivity.this, "Fetch failed",
                                     Toast.LENGTH_SHORT).show();
                         }
-//
 
-                        String text = mFirebaseRemoteConfig.getString("banner_text");
-                        bannerText.setText(text);
+
+                        boolean show_ad = mFirebaseRemoteConfig.getBoolean("show_ad");
+                        String banner_text = mFirebaseRemoteConfig.getString("banner_text");
+                        String button_text = mFirebaseRemoteConfig.getString("banner_button_text");
+                        final String banner_url = mFirebaseRemoteConfig.getString("banner_url");
+
+
+                        banner.setVisibility((show_ad) ? View.VISIBLE : View.GONE);
+                        bannerText.setText(banner_text);
+                        bannerButton.setText(button_text);
+                        bannerButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent i = new Intent(Intent.ACTION_VIEW);
+                                i.setData(Uri.parse(banner_url));
+                                startActivity(i);
+                            }
+                        });
 
                     }
                 });

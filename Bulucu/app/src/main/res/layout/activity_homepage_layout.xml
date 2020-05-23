@@ -173,18 +173,52 @@
 
         </LinearLayout>
     </FrameLayout>
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="100sp"
-        android:background="@color/design_default_color_primary_dark"
+        android:clickable="false"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="10dp"
+        android:innerRadius="0dp"
+        android:shape="ring"
+        android:thicknessRatio="1.9"
+        android:layout_margin="16sp"
         android:layout_alignParentBottom="true"
+        android:elevation="20sp"
         >
-        <TextView
-            android:id="@+id/adText"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff"
-            android:layout_centerInParent="true"
-            />
-    </RelativeLayout>
+            android:visibility="gone"
+            android:padding="10sp"
+            >
+            <Button
+                android:id="@+id/banner_button"
+                android:layout_width="70sp"
+                android:layout_height="30sp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10sp"
+                android:background="@color/colorPrimary"
+                android:textColor="#ffffff"
+                android:text="View"
+                android:textSize="10sp"
+                />
+            <TextView
+                android:id="@+id/banner_Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:layout_toLeftOf="@id/banner_button"
+                android:text="Lorem ipsum Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsum"
+                android:gravity="center"
+                />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>
