@@ -35,4 +35,16 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="36sp"
         />
+    <TextView
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in_progress"
+        android:layout_above="@id/signInButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8sp"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:visibility="gone"
+        />
 </RelativeLayout>

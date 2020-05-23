@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.freewifi.rohksin.freewifi.R;
@@ -33,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "GoogleActivity";
     private FirebaseAuth mAuth;
     private SignInButton signInButton;
+    private TextView progress;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -55,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
                 firebaseAuthWithGoogle(account.getIdToken());
@@ -94,6 +95,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogle(String idToken) {
+
+        progress.setVisibility(View.VISIBLE);
+
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -103,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             startSplashActivity();
+                            progress.setVisibility(View.GONE);
                         } else {
 
                             Log.d(TAG, "signInWithCredential:failure", task.getException());
@@ -125,6 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                 signIn();
             }
         });
+        progress = findViewById(R.id.progress);
     }
 
 }

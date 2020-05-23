@@ -34,5 +34,6 @@
     <string name="woooo">Açık ağlar bulduğumda sizi bilgilendireceğim. İşine geri dönebilirsin. Woooooo ...</string>
     <string name="got_it">Anladım</string>
     <string name="feature_unavailbe">Bu özellik şu anda yalnızca Android Orea ve daha eski sürümleri için kullanılabilir</string>
+    <string name="sign_in_progress">İmzalanıyor ... Lütfen bekleyin</string>
 
 </resources>

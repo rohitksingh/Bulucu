@@ -38,5 +38,6 @@
     <string name="woooo">Ich werde Sie benachrichtigen, wenn ich offene Netzwerke finde. Sie können zu Ihrer Arbeit zurückkehren. Woooooo ...</string>
     <string name="got_it">Ich habs</string>
     <string name="feature_unavailbe">Diese Funktion ist derzeit nur für Android Orea und ältere Versionen verfügbar</string>
+    <string name="sign_in_progress">Unterschreiben ... Bitte warten</string>
 
 </resources>

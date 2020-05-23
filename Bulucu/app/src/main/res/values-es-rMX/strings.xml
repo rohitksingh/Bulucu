@@ -34,4 +34,5 @@
     <string name="woooo">Te avisaré cuando encuentre redes abiertas. Puedes volver a tu trabajo. Woooooo ...</string>
     <string name="got_it">Lo tengo</string>
     <string name="feature_unavailbe">Actualmente, esta función solo está disponible para Android Orea y versiones anteriores</string>
+    <string name="sign_in_progress">Firmando ... por favor espere</string>
 </resources>

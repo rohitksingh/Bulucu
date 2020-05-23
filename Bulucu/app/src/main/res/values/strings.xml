@@ -34,5 +34,6 @@
     <string name="woooo">I will notify you when I find open networks. You can go back to your work. Woooooo...</string>
     <string name="got_it">Got it</string>
     <string name="feature_unavailbe">This feature is currently available for Android Orea and older versions only</string>
+    <string name="sign_in_progress">Signing... Please wait</string>
 
 </resources>

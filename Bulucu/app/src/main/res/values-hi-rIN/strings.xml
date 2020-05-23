@@ -36,5 +36,6 @@
     <string name="woooo">जब मुझे खुले नेटवर्क मिलेंगे तो मैं आपको सूचित करूंगा। आप अपने काम पर वापस जा सकते हैं। Woooooo ...</string>
     <string name="got_it">समझ गया</string>
     <string name="feature_unavailbe">यह सुविधा वर्तमान में केवल Android Orea और पुराने संस्करणों के लिए उपलब्ध है</string>
+    <string name="sign_in_progress">हस्ताक्षर ... कृपया प्रतीक्षा करें</string>
 
 </resources>
