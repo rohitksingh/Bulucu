@@ -494,16 +494,10 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
                     @Override
                     public void onComplete(@NonNull Task<Boolean> task) {
                         if (task.isSuccessful()) {
-                            boolean updated = task.getResult();
-
-                            Toast.makeText(HomePageActivity.this, "Fetch and activate succeeded",
-                                    Toast.LENGTH_SHORT).show();
 
                         } else {
-                            Toast.makeText(HomePageActivity.this, "Fetch failed",
-                                    Toast.LENGTH_SHORT).show();
-                        }
 
+                        }
 
                         boolean show_ad = mFirebaseRemoteConfig.getBoolean("show_ad");
                         String banner_text = mFirebaseRemoteConfig.getString("banner_text");
