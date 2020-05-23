@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- START xml_defaults -->
+<defaultsMap>
+    <entry>
+        <key>show_ad</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>banner_text</key>
+        <value>See mpre apps</value>
+    </entry>
+    <entry>
+        <key>banner_button_text</key>
+        <value>View</value>
+    </entry>
+    <entry>
+        <key>banner_url</key>
+        <value>https://play.google.com/store/apps/developer?id=Rohit+Singh</value>
+    </entry>
+</defaultsMap>
+    <!-- END xml_defaults -->

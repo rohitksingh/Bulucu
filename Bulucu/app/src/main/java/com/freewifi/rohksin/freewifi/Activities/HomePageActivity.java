@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,6 +44,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 import java.util.List;
 
@@ -71,6 +74,11 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
     private ImageView privacyPolicy;
     private ImageView notifyMe;
 
+    //Banner
+    private RelativeLayout banner;
+    private TextView bannerText;
+    private Button bannerButton;
+
     private WifiScanReceiver wifiScanReceiver;
 
     private WifiManager manager;
@@ -85,6 +93,8 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
 
     private GoogleSignInClient mGoogleSignInClient;
 
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
+
     /***********************************************************************************************
      *                     Activity Life cycle methods   && Runtime Permission                     *
      /*********************************************************************************************/
@@ -95,6 +105,7 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage_layout);
         setupGoogleSignInClient();
+        setUpRemoteConfig();
         setUpUI();
         if(!AppUtility.hasCompletedIntro)
         {
@@ -347,6 +358,10 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
         notifyMe = (ImageView)findViewById(R.id.notifyMe);
         scan = (FrameLayout)findViewById(R.id.scan);
 
+        banner = findViewById(R.id.banner);
+        bannerText = (TextView)findViewById(R.id.banner_Text);
+        bannerButton = findViewById(R.id.banner_button);
+
         notifyMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -461,6 +476,52 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+    }
+
+    private void setUpRemoteConfig(){
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setMinimumFetchIntervalInSeconds(10)
+                .build();
+        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
+
+
+        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults);
+
+        mFirebaseRemoteConfig.fetchAndActivate()
+                .addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Boolean> task) {
+                        if (task.isSuccessful()) {
+
+                        } else {
+
+                        }
+
+                        boolean show_ad = mFirebaseRemoteConfig.getBoolean("show_ad");
+                        String banner_text = mFirebaseRemoteConfig.getString("banner_text");
+                        String button_text = mFirebaseRemoteConfig.getString("banner_button_text");
+                        final String banner_url = mFirebaseRemoteConfig.getString("banner_url");
+
+
+                        banner.setVisibility((show_ad) ? View.VISIBLE : View.GONE);
+                        bannerText.setText(banner_text);
+                        bannerButton.setText(button_text);
+                        bannerButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent i = new Intent(Intent.ACTION_VIEW);
+                                i.setData(Uri.parse(banner_url));
+                                startActivity(i);
+                            }
+                        });
+
+                    }
+                });
+
+
+
     }
 
 }
