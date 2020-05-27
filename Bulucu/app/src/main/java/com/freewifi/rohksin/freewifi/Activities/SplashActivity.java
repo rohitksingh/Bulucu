@@ -103,7 +103,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void setUpUI()
     {
-        into = (LottieAnimationView)findViewById(R.id.bulucu_into);
+        into = findViewById(R.id.bulucu_into);
 
         into.addAnimatorListener(new Animator.AnimatorListener() {
             @Override

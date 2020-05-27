@@ -108,9 +108,9 @@ public class TrackWifiActivity extends AppCompatActivity {
         receiver = new WifiLevelReceiver();
         registerReceiver(receiver, new IntentFilter("LEVEL"));
 
-        wifiLevel = (TextView)findViewById(R.id.wifiLevel);
-        wifiName = (TextView)findViewById(R.id.wifiName);
-        graphView = (GraphView)findViewById(R.id.graph);
+        wifiLevel = findViewById(R.id.wifiLevel);
+        wifiName = findViewById(R.id.wifiName);
+        graphView = findViewById(R.id.graph);
 
         series = new LineGraphSeries<DataPoint>();
         series.setColor(Color.WHITE);

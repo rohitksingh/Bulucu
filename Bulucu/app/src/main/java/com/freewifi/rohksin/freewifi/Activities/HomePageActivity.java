@@ -345,21 +345,21 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
     private void setUpUI()
     {
 
-        mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
-        openNetwork = (TextView)findViewById(R.id.open);
-        closedNetwork = (TextView)findViewById(R.id.close);
-        openNum = (TextView)findViewById(R.id.openNum);
-        closeNum = (TextView)findViewById(R.id.closeNum);
-        openTouch = (LinearLayout) findViewById(R.id.openTouch);
-        closeTouch = (LinearLayout) findViewById(R.id.closeTouch);
-        scanNow = (TextView)findViewById(R.id.scanNow);
+        mainLayout = findViewById(R.id.mainLayout);
+        openNetwork = findViewById(R.id.open);
+        closedNetwork = findViewById(R.id.close);
+        openNum = findViewById(R.id.openNum);
+        closeNum = findViewById(R.id.closeNum);
+        openTouch = findViewById(R.id.openTouch);
+        closeTouch = findViewById(R.id.closeTouch);
+        scanNow = findViewById(R.id.scanNow);
         mainLayout.setPadding(0, AppUtility.getStatusBarHeight(),0,0);
-        privacyPolicy = (ImageView)findViewById(R.id.privacyPolicy);
-        notifyMe = (ImageView)findViewById(R.id.notifyMe);
-        scan = (FrameLayout)findViewById(R.id.scan);
+        privacyPolicy = findViewById(R.id.privacyPolicy);
+        notifyMe = findViewById(R.id.notifyMe);
+        scan = findViewById(R.id.scan);
 
         banner = findViewById(R.id.banner);
-        bannerText = (TextView)findViewById(R.id.banner_Text);
+        bannerText = findViewById(R.id.banner_Text);
         bannerButton = findViewById(R.id.banner_button);
 
         notifyMe.setOnClickListener(new View.OnClickListener() {
@@ -519,9 +519,6 @@ public class HomePageActivity extends AppCompatActivity implements WifiScanInter
 
                     }
                 });
-
-
-
     }
 
 }

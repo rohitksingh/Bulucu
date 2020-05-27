@@ -37,9 +37,9 @@ public class WifiStatDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_wifistat_layout);
 
-        properties =(TextView)findViewById(R.id.property);
-        wifiName = (TextView)findViewById(R.id.wifiName);
-        securityType = (TextView)findViewById(R.id.securityType);
+        properties =findViewById(R.id.property);
+        wifiName = findViewById(R.id.wifiName);
+        securityType = findViewById(R.id.securityType);
         securityType.setText(scanResult.capabilities);
         wifiName.setText(scanResult.SSID+"");
         properties.setText("BSSID: "+scanResult.BSSID);

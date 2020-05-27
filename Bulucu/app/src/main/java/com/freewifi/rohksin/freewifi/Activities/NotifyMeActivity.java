@@ -65,9 +65,7 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifyme_layout);
-
         notifyMeIntent = new Intent(this, NotifyMeService.class);
-
         setUpUI();
 
     }
@@ -200,11 +198,11 @@ public class NotifyMeActivity extends AppCompatActivity implements NotifyMeCallb
     private void setUpUI()
     {
 
-        details = (TextView)findViewById(R.id.detail);
-        toggle = (SwitchCompat) findViewById(R.id.chkState);
-        mainLayout = (FrameLayout)findViewById(R.id.mainLayout);
+        details = findViewById(R.id.detail);
+        toggle = findViewById(R.id.chkState);
+        mainLayout = findViewById(R.id.mainLayout);
         mainLayout.setPadding(0,AppUtility.getStatusBarHeight(),0,0);
-        notifyMeList = (RecyclerView)findViewById(R.id.notifymeList);
+        notifyMeList = findViewById(R.id.notifymeList);
         llm = new LinearLayoutManager(this);
         notifyMeList.setLayoutManager(llm);
 

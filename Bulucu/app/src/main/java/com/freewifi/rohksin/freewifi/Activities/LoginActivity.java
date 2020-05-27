@@ -81,8 +81,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
-
     private void setupGoogleSignInClient(){
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
