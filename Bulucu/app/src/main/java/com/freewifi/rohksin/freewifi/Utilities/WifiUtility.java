@@ -25,9 +25,9 @@ public class WifiUtility {
     private static WifiConfiguration configuration;
     private static WifiManager singletonWifiManager;
 
-    private static List<ScanResult> allScanResults;
-    private static List<ScanResult> openScans;
-    private static List<ScanResult> closeScans;
+    private static List<ScanResult> allScanResults = new ArrayList<>();
+    private static List<ScanResult> openScans = new ArrayList<>();
+    private static List<ScanResult> closeScans = new ArrayList<>();
 
 
     public static WifiManager getSingletonWifiManager(Context context)
@@ -87,9 +87,6 @@ public class WifiUtility {
                 "BSSD :" + scanResult.BSSID +"\n"+
                 "capability :" + scanResult.capabilities +"\n"+
                 "Freq :"+scanResult.frequency+"\n"+
-                "Freq0 :"+scanResult.centerFreq0+"\n"+
-                "Freq1 :"+scanResult.centerFreq1+"\n"+
-                "Channel Width :"+scanResult.channelWidth+"\n"+
                 "Desc Content :"+scanResult.describeContents()+"\n"+
                 "Level :"+scanResult.level+"\n"
                 ;

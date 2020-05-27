@@ -93,4 +93,9 @@ public class AppUtility {
         return toggleState;
     }
 
+
+    public static boolean ifSame(String s1, String s2){
+        return s1.equals(s2);
+    }
+
 }

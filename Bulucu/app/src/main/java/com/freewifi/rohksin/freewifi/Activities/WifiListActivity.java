@@ -23,6 +23,7 @@ import com.freewifi.rohksin.freewifi.R;
 import com.freewifi.rohksin.freewifi.Utilities.AppUtility;
 import com.freewifi.rohksin.freewifi.Utilities.WifiUtility;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,6 +41,8 @@ public class WifiListActivity extends AppCompatActivity implements WifiScanInter
     private WifiManager manager;
     private ScanReceiver scanReceiver;
     private List<ScanResult> scanResults;
+
+    private List<ScanResult> oldResults = new ArrayList<>();
 
     private Intent intent;
 
@@ -120,33 +123,64 @@ public class WifiListActivity extends AppCompatActivity implements WifiScanInter
     //************************************************************************************************/
 
 
+
+    private List<ScanResult> getResult(){
+
+        List<ScanResult> scanResults;
+
+        if(intent.getAction().equals("OPEN_NETWORK")){
+            scanResults = WifiUtility.getOpenScanResult();
+        }else{
+            scanResults = WifiUtility.getCloseScanResult();
+        }
+
+        return scanResults;
+
+    }
+
     private void setUpAdapters()
     {
 
-        if(intent.getAction().equals("OPEN_NETWORK"))
-        {
+        Log.d("SETADAPTER", "1");
 
-            scanResults = WifiUtility.getOpenScanResult();
-            adapter = new OpenWifiListAdapter(this, scanResults);
+        scanResults = getResult();
 
-            Log.d(TAG, "OPEN: "+scanResults.size());
+        if(oldResults.size()==scanResults.size()){
+
+            boolean nochange = true;
+
+            for(int i=0;i<oldResults.size();i++){
+                if(! AppUtility.ifSame(oldResults.get(i).SSID, scanResults.get(i).SSID)){
+                    oldResults = scanResults;
+                    nochange = false;
+                    break;
+                }
+            }
+
+
+            Log.d("SETADAPTER", "NOCHANGE: "+ nochange);
+            if(!nochange){
+                manageListVisibility(scanResults);
+            }
+
+        }else {
+            Log.d("SETADAPTER1", "INSIDE:");
+            oldResults = scanResults;
+            manageListVisibility(scanResults);
         }
-        else if(intent.getAction().equals("CLOSE_NETWORK")){
-
-            scanResults = WifiUtility.getCloseScanResult();
-            adapter = new CloseWifiListAdapter(this, scanResults);
-
-            Log.d(TAG, "CLOSED: "+scanResults.size());
-        }
-
-        manageListVisibility(scanResults);
 
     }
 
     private void manageListVisibility(List<ScanResult> scanResults)
     {
-        if(scanResults.size()!=0) {
 
+        if(intent.getAction().equals("OPEN_NETWORK")){
+            adapter = new OpenWifiListAdapter(this, scanResults);
+        }else{
+            adapter = new CloseWifiListAdapter(this, scanResults);
+        }
+
+        if(scanResults.size()!=0) {
             noNetworkFound.setVisibility(View.GONE);
             rv.setVisibility(View.VISIBLE);
             rv.setAdapter(adapter);
@@ -154,7 +188,6 @@ public class WifiListActivity extends AppCompatActivity implements WifiScanInter
         else{
             rv.setVisibility(View.GONE);
             noNetworkFound.setVisibility(View.VISIBLE);
-            noNetworkFound.setText(R.string.no_network_available);
         }
     }
 
