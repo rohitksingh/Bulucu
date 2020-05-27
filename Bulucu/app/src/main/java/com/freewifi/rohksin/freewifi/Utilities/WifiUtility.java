@@ -87,9 +87,6 @@ public class WifiUtility {
                 "BSSD :" + scanResult.BSSID +"\n"+
                 "capability :" + scanResult.capabilities +"\n"+
                 "Freq :"+scanResult.frequency+"\n"+
-                "Freq0 :"+scanResult.centerFreq0+"\n"+
-                "Freq1 :"+scanResult.centerFreq1+"\n"+
-                "Channel Width :"+scanResult.channelWidth+"\n"+
                 "Desc Content :"+scanResult.describeContents()+"\n"+
                 "Level :"+scanResult.level+"\n"
                 ;
