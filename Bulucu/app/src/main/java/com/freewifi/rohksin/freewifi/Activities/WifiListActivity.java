@@ -32,7 +32,6 @@ import java.util.List;
 
 public class WifiListActivity extends AppCompatActivity implements WifiScanInterface{
 
-
     private TextView noNetworkFound;
     private RecyclerView rv;
     private LinearLayoutManager llm;
@@ -141,8 +140,6 @@ public class WifiListActivity extends AppCompatActivity implements WifiScanInter
     private void setUpAdapters()
     {
 
-        Log.d("SETADAPTER", "1");
-
         scanResults = getResult();
 
         if(oldResults.size()==scanResults.size()){
@@ -157,14 +154,11 @@ public class WifiListActivity extends AppCompatActivity implements WifiScanInter
                 }
             }
 
-
-            Log.d("SETADAPTER", "NOCHANGE: "+ nochange);
             if(!nochange){
                 manageListVisibility(scanResults);
             }
 
         }else {
-            Log.d("SETADAPTER1", "INSIDE:");
             oldResults = scanResults;
             manageListVisibility(scanResults);
         }
@@ -205,8 +199,8 @@ public class WifiListActivity extends AppCompatActivity implements WifiScanInter
         intent = getIntent();
         setBackGroundColor(intent.getIntExtra("BG_COLOR",0));
 
-        noNetworkFound = (TextView)findViewById(R.id.noNetworkAvailable);
-        rv = (RecyclerView)findViewById(R.id.rv);
+        noNetworkFound = findViewById(R.id.noNetworkAvailable);
+        rv = findViewById(R.id.rv);
         llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
         rv.setPadding(0, AppUtility.getStatusBarHeight(),0,0);

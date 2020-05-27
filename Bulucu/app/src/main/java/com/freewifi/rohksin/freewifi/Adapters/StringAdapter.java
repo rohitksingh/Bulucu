@@ -50,7 +50,7 @@ public class StringAdapter extends RecyclerView.Adapter<StringAdapter.StingViewH
 
         public StingViewHolder(View itemView) {
             super(itemView);
-            name = (TextView)itemView.findViewById(R.id.string);
+            name = itemView.findViewById(R.id.string);
         }
     }
 

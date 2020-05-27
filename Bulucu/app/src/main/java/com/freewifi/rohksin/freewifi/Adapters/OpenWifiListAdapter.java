@@ -74,9 +74,9 @@ public class OpenWifiListAdapter extends RecyclerView.Adapter<OpenWifiListAdapte
 
         public OpenWifiViewHolder(View itemView) {
             super(itemView);
-            wifiName = (TextView)itemView.findViewById(R.id.wifiName);
-            wifiImage = (ImageView)itemView.findViewById(R.id.wifiImage);
-            connect = (TextView)itemView.findViewById(R.id.connect);
+            wifiName = itemView.findViewById(R.id.wifiName);
+            wifiImage = itemView.findViewById(R.id.wifiImage);
+            connect = itemView.findViewById(R.id.connect);
         }
     }
 }

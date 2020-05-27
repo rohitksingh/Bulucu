@@ -53,7 +53,7 @@ public class NotifyMeListAdapter extends RecyclerView.Adapter<NotifyMeListAdapte
 
         public NotifyMeItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            wifiDetail = (TextView)itemView.findViewById(R.id.string);
+            wifiDetail = itemView.findViewById(R.id.string);
         }
     }
 

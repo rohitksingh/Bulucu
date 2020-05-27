@@ -76,9 +76,9 @@ public class CloseWifiListAdapter extends RecyclerView.Adapter<CloseWifiListAdap
         public CloseWifiViewHolder(View itemView) {
 
             super(itemView);
-            wifiName = (TextView)itemView.findViewById(R.id.wifiName);
-            wifiImage = (ImageView)itemView.findViewById(R.id.wifiImage);
-            wifidetail = (TextView)itemView.findViewById(R.id.connect);
+            wifiName = itemView.findViewById(R.id.wifiName);
+            wifiImage = itemView.findViewById(R.id.wifiImage);
+            wifidetail = itemView.findViewById(R.id.connect);
             wifidetail.setText(R.string.detail);
 
         }

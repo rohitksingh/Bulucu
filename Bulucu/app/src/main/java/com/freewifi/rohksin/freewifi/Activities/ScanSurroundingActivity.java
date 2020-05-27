@@ -210,13 +210,13 @@ public class ScanSurroundingActivity extends AppCompatActivity {
 
     public void setUpUI()
     {
-        scannerLayout = (RelativeLayout)findViewById(R.id.scannerLayout);
+        scannerLayout = findViewById(R.id.scannerLayout);
         scannerLayout.setPadding(0,AppUtility.getStatusBarHeight(),0,0);
-        title= (CollapsingToolbarLayout)findViewById(R.id.title);
-        scanTime = (TextView)findViewById(R.id.scanTime);
-        scanLottieButton = (LottieAnimationView)findViewById(R.id.lottieButton);
-        rv = (RecyclerView)findViewById(R.id.rv);
-        wifiNum = (TextView)findViewById(R.id.wifiNum);
+        title= findViewById(R.id.title);
+        scanTime = findViewById(R.id.scanTime);
+        scanLottieButton = findViewById(R.id.lottieButton);
+        rv = findViewById(R.id.rv);
+        wifiNum = findViewById(R.id.wifiNum);
 
         title.setExpandedTitleColor(Color.TRANSPARENT);
         wifiNum.setPadding(0, AppUtility.getStatusBarHeight(),0,0);
