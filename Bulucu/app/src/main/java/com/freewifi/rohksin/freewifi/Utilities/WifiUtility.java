@@ -25,9 +25,9 @@ public class WifiUtility {
     private static WifiConfiguration configuration;
     private static WifiManager singletonWifiManager;
 
-    private static List<ScanResult> allScanResults;
-    private static List<ScanResult> openScans;
-    private static List<ScanResult> closeScans;
+    private static List<ScanResult> allScanResults = new ArrayList<>();
+    private static List<ScanResult> openScans = new ArrayList<>();
+    private static List<ScanResult> closeScans = new ArrayList<>();
 
 
     public static WifiManager getSingletonWifiManager(Context context)
